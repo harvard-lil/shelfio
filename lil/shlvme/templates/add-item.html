@@ -1,0 +1,71 @@
+<!doctype html>
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+	
+	<link rel="stylesheet" type="text/css" media="all" href="/static/style/core.css" />
+	
+	
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	
+	<script type="text/javascript">
+	    $(function () { 
+			var user_name = '{{ user.username }}';
+			var user_url = 'http://localhost:8000/shlvme/api/user/' + user_name;			
+			
+			$.ajax({
+				type: 'GET',
+				url: user_url,
+			    success:function(resp) {
+				    var options = $("#avail_shelves");
+					$.each(resp.docs, function(index, value) {
+						options.append($("<option />").val(value.shelf_uuid).text(value.name));
+					});
+					
+
+			    	
+			    }
+			});
+			
+			$('#add_item_form_submit').click(function() {			
+				shelf_name = $("#avail_shelves option:selected").text()
+				title = $('#form_title').val();
+				creator = $('#form_creator').val();
+				isbn = $('#form_isbn').val();
+				
+				$.ajax({
+			        url: 'http://localhost:8000/shlvme/api/item/',
+				    type: 'POST',
+				    data: { "shelf-name": shelf_name, "title": title, "creator": creator, "isbn": isbn },
+				    success: function(data, status) {
+				        shelf_location = 'http://localhost:8000/shlvme/' + user_name + '/' + shelf_name + '/';
+						location = shelf_location;
+					},
+				    error: function(xhr, desc, err) {
+				        console.log('something exploderated');
+					}
+				});
+			});
+			
+
+		});
+	</script>
+</head>
+
+<body>
+{% include "topbar.html" %}
+
+<div id="container">
+	<h3>Add to Shelf</h3>
+	<!-- <form name="input" id="add_item_form_submit" action="" method="get"> -->
+		<p>Add to this shelf: <select id="avail_shelves"></select></p>
+		<p>Title: <input type="text" id="form_title" value="{{ title }}" size="100"/></p>
+		<p>Creator: <input type="text" id="form_creator" value="{{ creator }}" size="50"/></p>
+		<p>ISBN: <input type="text" id="form_isbn" value="{{ isbn }}" size="20"/></p>
+ 
+		<input id="add_item_form_submit" type="submit" value="Add item to shelf" />
+	<!-- </form> -->
+</div>
+</body>
+</html>

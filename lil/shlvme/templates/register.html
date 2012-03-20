@@ -1,0 +1,23 @@
+<!doctype html>
+
+<head>
+	<meta charset="UTF-8">
+	
+	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+
+	<link rel="stylesheet" type="text/css" media="all" href="/static/style/core.css" />
+</head>
+
+<body>
+{% include "topbar.html" %}
+
+<div id="container">
+	  <h1>Create an account</h1>
+
+	<form action="." method="post"> {% csrf_token %}
+		{{ form.as_p }}
+		<input type="submit" value="Create the account">
+	</form> 
+</div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<div id="topbar">
+	<div>
+		<span style="float:left">
+			<a href="{% url shlvme.views.welcome %}">Shlv.me</a>
+		</span>
+		<span id="content">
+		{% if user.is_authenticated %}
+			<a href="{% url shlvme.views.welcome %}{{ user.username }}/">{{ user.username }}</a> | <a href="{% url shlvme.views.process_logout %}">Logout</a>			
+		{% else %}
+  			<a href="{% url shlvme.views.process_login %}">log in</a> or <a href="{% url shlvme.views.process_register %}">register.</a>
+		{% endif %}
+		</span>
+	</div>
+</div>

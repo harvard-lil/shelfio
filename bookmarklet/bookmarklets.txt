@@ -1,0 +1,2 @@
+Create a new bookmark in your browser:
+javascript:window.location=%22http://localhost:8000/shlvme/services/incoming?loc=%22+encodeURIComponent(document.location)

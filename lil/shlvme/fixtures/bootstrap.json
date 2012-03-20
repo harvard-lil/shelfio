@@ -1,0 +1,75 @@
+[
+	{
+		"model": "auth.user",
+		"pk": 2,
+		"fields": {
+			"username": "willy",
+			"first_name": "William",
+			"last_name": "Burroughs",
+			"email": "william@burroughs.com",
+			"password": "sha1$bd59f$b8b1b6c915ff25a601d3c78dadadd7f182192491"
+    	}
+	},
+	{
+		"model": "shlvme.shelf",
+		"pk": 1,
+		"fields": {
+			"user": 2,
+			"shelf_uuid": "a4cdd340-722e-11e1-b0c4-0800200c9a66",
+			"name": "fav-movies",
+			"description": "These are the movies that I've watched over 20 times.",
+			"is_public": true
+    	}
+	},
+	{
+		"model": "shlvme.item",
+		"pk": 1,
+		"fields": {
+			"shelf": 1,
+			"item_uuid": "521c20b0-722f-11e1-b0c4-0800200c9a66",
+			"title": "Horns and Halos",
+			"isbn": "lk34kl53kl2j345",
+			"link": "http://www.imdb.com/title/tt0319514/",
+			"content_type": "dvd",
+			"pub_date": 2002
+    	}
+	},
+	{
+		"model": "shlvme.creator",
+		"pk": 1,
+		"fields": {
+			"item": 1,
+			"creator_uuid": "32c05e10-7230-11e1-b0c4-0800200c9a66",
+			"name": "Michael Galinsky"
+    	}
+	},
+	{
+		"model": "shlvme.creator",
+		"pk": 2,
+		"fields": {
+			"item": 1,
+			"creator_uuid": "5c0ce090-7230-11e1-b0c4-0800200c9a66",
+			"name": "Suki Hawley"
+    	}
+	},
+	{
+		"model": "shlvme.tag",
+		"pk": 1,
+		"fields": {
+			"item": 1,
+			"tag_uuid": "a849c8b0-7230-11e1-b0c4-0800200c9a66",
+			"key": "would-recommend",
+			"value": "hell, yes"
+    	}
+	},
+	{
+		"model": "shlvme.tag",
+		"pk": 2,
+		"fields": {
+			"item": 1,
+			"tag_uuid": "c995cd20-7230-11e1-b0c4-0800200c9a66",
+			"key": "consumed",
+			"value": "may, 2005"
+    	}
+	}
+]
