@@ -23,11 +23,12 @@ Copy the example configs:
     cp local_settings.example.py local_settings.py
 
 Configure settings.py:
-*   Set DATABASES with your DB settings
-*   Set SECRET_KEY with your secret key
+
+* Set DATABASES with your DB settings
+* Set SECRET_KEY with your secret key
 
 Configure local_settings.py:
-*   Set your Amazon detals: KEY, SECRET_KEY, ASSOCIATE_TAG
+* Set your Amazon detals: KEY, SECRET_KEY, ASSOCIATE_TAG
 
 ## License
 
