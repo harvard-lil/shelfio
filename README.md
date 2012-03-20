@@ -24,15 +24,14 @@ Copy the example configs:
 
 Configure settings.py:
 
-* Set DATABASES with your DB settings
-* Set SECRET_KEY with your secret key
+    Set DATABASES with your DB settings
+    Set SECRET_KEY with your secret key
 
 Configure local_settings.py:
 
-* Set your Amazon detals:
-    * KEY
-    * SECRET_KEY
-    * ASSOCIATE_TAG
+    Set AMZ.KEY to your Amazon Product Advertising key
+    Set AMZ.SECRET_KEY to your Amazon Product Advertising secret key
+    Set AMZ.ASSOCIATE_TAG to your Amazon Product Advertising associate tag
 
 ## License
 
