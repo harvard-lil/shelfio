@@ -28,7 +28,11 @@ Configure settings.py:
 * Set SECRET_KEY with your secret key
 
 Configure local_settings.py:
-* Set your Amazon detals: KEY, SECRET_KEY, ASSOCIATE_TAG
+
+* Set your Amazon detals:
+    * KEY
+    * SECRET_KEY
+    * ASSOCIATE_TAG
 
 ## License
 
