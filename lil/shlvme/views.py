@@ -381,7 +381,7 @@ def process_logout(request):
     if request.user.is_authenticated():
         auth.logout(request)
     
-    return render_to_response('logout.html')
+    return render_to_response('index.html')
 
 
 ########################################
