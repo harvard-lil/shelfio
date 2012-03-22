@@ -3,3 +3,5 @@ lil/settings.py
 lil/shlvme/local_settings.py
 .project
 .pydevproject
+.DS_Store
+.sass-cache/

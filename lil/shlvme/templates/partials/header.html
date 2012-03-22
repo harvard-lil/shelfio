@@ -1,0 +1,15 @@
+<header class="global-header">
+	<nav>
+		<h1><a href="{% url shlvme.views.welcome %}">Shlv.me</a></h1>
+
+		<ul>
+			{% if user.is_authenticated %}
+				<li><a href="{% url shlvme.views.welcome %}">{{ user.username }}</a></li>
+				<li><a href="{% url shlvme.views.process_logout %}">Logout</a></li>
+			{% else %}
+				<li><a href="{% url shlvme.views.process_login %}">Login</a></li>
+				<li><a href="{% url shlvme.views.process_register %}">Register</a></li>
+			{% endif %}
+		</ul>
+	</nav>
+</header>
