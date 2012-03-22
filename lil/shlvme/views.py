@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.core.urlresolvers import reverse
 from lil.shlvme.models import Shelf, Item, Creator, Tag, LoginForm
 import json
 from amazonproduct import API
@@ -329,7 +330,7 @@ def process_register(request):
             user = auth.authenticate(username=supplied_username, password=supplied_password)
             
             auth.login(request, user)
-            return HttpResponseRedirect("/shlvme/")
+            return HttpResponseRedirect(reverse('welcome'))
     else:
         form = UserCreationForm()
         c = {}
@@ -351,7 +352,7 @@ def process_login(request):
             c.update({'formset': formset})
             return render_to_response('login.html', c)
         else:
-            return redirect('/shlvme/')
+            return redirect(reverse('welcome'))
             #return render_to_response('index.html')
 
     # If we get a POST, someone has filled out the login form
@@ -368,7 +369,7 @@ def process_login(request):
         if user is not None:
             if user.is_active:
                 auth.login(request, user)
-                return redirect('/shlvme/')
+                return redirect(reverse('welcome'))
                 #return render_to_response('index.html')
             else:
                 return render_to_response('login.html', c)
@@ -381,7 +382,7 @@ def process_logout(request):
     if request.user.is_authenticated():
         auth.logout(request)
     
-    return redirect('/')
+    return redirect(reverse('welcome'))
 
 
 ########################################

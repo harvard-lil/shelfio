@@ -17,15 +17,15 @@ urlpatterns = patterns('shlvme.views',
     url(r'^api/tag/(?P<url_tag_uuid>[a-zA-Z0-9\-]+)/$', 'api_tag', name='api_tag'), # http://shlv.me/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
 
     # Services
-    url(r'^services/incoming/$', 'services_incoming'),    
+    url(r'^services/incoming/$', 'services_incoming', name='incoming'),    
 
     # Pages
-    url(r'^$', 'welcome'),
+    url(r'^$', 'welcome', name='welcome'),
     url(r'^login/$', 'process_login', name='process_login'),
-    url(r'^logout/$', 'process_logout'),
+    url(r'^logout/$', 'process_logout', name='logout'),
     url(r'^register/$', 'process_register', name='process_register'),
     
-    url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user_home'),
-    url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_name>[a-zA-Z0-9\-]+)/$', 'user_shelf'),
+    url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user_home', name='user_home'),
+    url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_name>[a-zA-Z0-9\-]+)/$', 'user_shelf', name='user_shelf'),
 )
 urlpatterns += staticfiles_urlpatterns()
