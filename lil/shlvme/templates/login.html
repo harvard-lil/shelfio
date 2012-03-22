@@ -1,38 +1,14 @@
-<!doctype html>
+{% extends "layouts/base.html" %}
 
-<head>
-	<meta charset="UTF-8">
-	
-	<link rel="icon" href="favicon.ico" type="image/x-icon" />
-	
-	<link rel="stylesheet" type="text/css" media="all" href="/static/style/core.css" />	
-</head>
+{% block content %}
+	<article class="login thin-centered">
+		<h1>Login</h1>
 
-<body>
-{% include "topbar.html" %}
+		<form action="." method="post">
+			{% csrf_token %}
+			{{ formset.as_p }}
+			<input type="submit" value="Login" class="button cta">
+		</form>	
+	</article>
+{% endblock content %}
 
-<div id="container">
-<h2>Login</h2>
-
-{% if user.is_authenticated %}
-	<p>Hello, {{ user.username }}. You are logged in.</p>
-{% else %}
-	<form method="post" action=".">
-		{% csrf_token %}
-		<table>
-		<tr>
-		    <td>{{ formset.username.label_tag }}</td>
-		    <td>{{ formset.username }}</td>
-		</tr>
-		<tr>
-		    <td>{{ formset.password.label_tag }}</td>
-		    <td>{{ formset.password }}</td>
-		</tr>
-		</table>
-		
-		<input type="submit" value="login" />
-	</form>
-{% endif %} 
-</div>
-</body>
-</html>

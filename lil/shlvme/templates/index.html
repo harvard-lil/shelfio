@@ -1,19 +1,40 @@
-<!doctype html>
+{% extends "layouts/base.html" %}
 
-<head>
-	<meta charset="UTF-8">
-	
-	<link rel="icon" href="favicon.ico" type="image/x-icon" />
+{% block content %}
+	<article class="half-half welcome">
+		<section class="right-column">
+			<h1>Shlv.me</h1>
+			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			<p><a href="{% url shlvme.views.process_register %}" class="button cta">Create Stacks</a></p>
+			<video src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" width="100%" controls></video>
+		</section>
 
-	<link rel="stylesheet" type="text/css" media="all" href="/static/style/core.css" />	
-</head>
+		<section class="left-column">
+			<div class="welcome-stack"></div>
+		</section>
+	</article>
+{% endblock content %}
 
-<body>
-{% include "topbar.html" %}
+{% block scripts %}
+	{{ block.super }}
+	<script src="http://api.html5media.info/1.1.5/html5media.min.js"></script>
+	<script type="text/javascript">
+		$('.welcome-stack').stackView({
+			data: [
+				{
+					format: 'book',
+					title: 'Test Title',
+					creator: [
+						'Test Author'
+					],
+					pub_date: "1942",
+					link: '#',
+					shelfrank: 50,
+					height_measurement: 36
+				}
+			],
 
-<div id="container">
-	<h2>Welcome to Shlv.me</h2>
-	<p>We should put a Stack View and an intro video here.</p> 
-</div>
-</body>
-</html>
+			ribbon: 'Placeholder Stack'
+		})
+	</script>
+{% endblock scripts %}

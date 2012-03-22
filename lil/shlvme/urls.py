@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import patterns, url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from django.contrib import admin
 admin.autodiscover()
@@ -27,3 +28,4 @@ urlpatterns = patterns('shlvme.views',
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user_home'),
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_name>[a-zA-Z0-9\-]+)/$', 'user_shelf'),
 )
+urlpatterns += staticfiles_urlpatterns()
