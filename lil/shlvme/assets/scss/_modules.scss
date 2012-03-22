@@ -1,0 +1,17 @@
+.button {
+	display:inline-block;
+	border:1px solid #000;
+	text-decoration:none;
+	background:#000;
+	line-height:2;
+	padding:0 10px;
+
+	&, &:visited {
+		color:#fff;
+	}
+
+	&:hover, &:focus {
+		background:#fff;
+		color:#000;
+	}
+}
