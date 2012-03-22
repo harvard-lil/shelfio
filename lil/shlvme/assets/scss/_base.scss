@@ -4,10 +4,28 @@ body {
 }
 
 h1 {
-	font-size:72px;
+	font-size:48px;
 	line-height:1;
 }
 
 p, ol, ul, dl {
 	margin:24px 0;
+}
+
+label {
+	font-weight:bold;
+	display:block;
+}
+
+input {
+	&[type="text"], &[type="password"] {
+		border:1px solid #000;
+		padding:5px;
+	}
+}
+
+.helptext {
+	font-size:10px;
+	display:block;
+	line-height:2.4;
 }
