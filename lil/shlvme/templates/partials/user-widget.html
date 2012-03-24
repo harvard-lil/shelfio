@@ -4,7 +4,40 @@
 </figure>
 
 {% if is_owner %}
-<form action="">
-	<input type="submit" value="Update" class="button cta">
-</form>
+	<ul class="profile-info">
+		{% if first_name or last_name %}
+			<li>{{ first_name }} {{ last_name }}</li>
+		{% endif %}
+		{% if email %}
+			<li>{{ email }}</li>
+		{% endif %}
+		<li>Joined Shelv.me on: {{ date_joined|date:"F jS, Y" }}</li>
+	</ul>
+
+	<form class="user-settings contained-form island" action="TODO" method="post">
+		<input type="hidden" name="_method" value="patch">
+		
+		<header>
+			<h3>Edit Profile</h3>
+		</header>
+
+		<section>
+			<p>
+				<label for="first-name">First Name:</label>
+				<input type="text" id="first-name" name="first_name" value="{{ first_name }}">
+			</p>
+			<p>
+				<label for="last-name">Last Name:</label>
+				<input type="text" id="last-name" name="last_name" value="{{ last_name }}">
+			</p>
+			<p>
+				<label for="user-email">Email:</label>
+				<input type="email" id="user-email" name="email" value="{{ email }}">	
+			</p>
+
+			<p>
+				<input type="submit" value="Update" class="button positive">
+			</p>
+		</section>
+	</form>
 {% endif %}

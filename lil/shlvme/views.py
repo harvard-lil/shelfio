@@ -38,7 +38,7 @@ def get_user_data(request, user_name):
     context = {}
     target_user = get_object_or_404(User, username=user_name)
     queried_shelves = Shelf.objects.filter(user=target_user)
-    is_owner = target_user.username == request.user.username and requst.user.is_authenticated()
+    is_owner = target_user.username == request.user.username and request.user.is_authenticated()
     shelf_query = Shelf.objects.filter(user=target_user)
     shelves = []
     

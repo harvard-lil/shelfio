@@ -1,12 +1,12 @@
 /* Contain floats: h5bp.com/q */
-.clearfix, .global-header > nav, .half-half, .two-thirds, .shelf-overview {
+.clearfix, .global-header > nav, .half-half, .two-thirds, .island {
   *zoom: 1;
 }
-.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .shelf-overview:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .shelf-overview:after {
+.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .island:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after {
   content: "";
   display: table;
 }
-.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .shelf-overview:after {
+.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after {
   clear: both;
 }
 
@@ -503,8 +503,17 @@ h2 {
   font-size: 24px;
 }
 
+h3 {
+  font-size: 20px;
+  line-height: 1.8;
+}
+
 p, ol, ul, dl {
   margin: 24px 0;
+}
+
+ul, ol {
+  padding-left: 20px;
 }
 
 label {
@@ -512,9 +521,10 @@ label {
   display: block;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], textarea, input[type="password"], input[type="email"] {
   border: 1px solid #000;
   padding: 5px;
+  width: 260px;
 }
 
 .helptext {
@@ -623,27 +633,30 @@ input[type="text"], input[type="password"] {
   line-height: 2.25;
 }
 
-.shelf-overview {
+.island {
   border: 1px solid #000;
 }
-.shelf-overview > header {
+.island > header {
   background: #000;
   color: #fff;
   padding: 0 10px;
 }
-.shelf-overview > section {
-  padding: 12px 10px;
-}
-.shelf-overview > section p {
+.island > header > h2, .island > header h3, .island > header h4 {
   margin: 0;
 }
-.shelf-overview > footer {
+.island > section {
+  padding: 12px 10px;
+}
+.island > footer {
   border-top: 1px solid #000;
   padding: 0 10px;
 }
+
+.shelf-overview p {
+  margin: 0;
+}
 .shelf-overview h2 {
   line-height: 2;
-  margin: 0;
 }
 .shelf-overview .date {
   font-size: 12px;
@@ -659,6 +672,22 @@ input[type="text"], input[type="password"] {
 }
 .shelf-overview-actions > li {
   float: left;
+}
+
+.profile-info {
+  list-style: none;
+  font-size: 12px;
+  padding: 0;
+}
+
+.contained-form {
+  display: inline-block;
+}
+.contained-form p {
+  margin: 12px 0 0 0;
+}
+.contained-form p:first-child {
+  margin-top: 0;
 }
 
 .welcome h1 {
