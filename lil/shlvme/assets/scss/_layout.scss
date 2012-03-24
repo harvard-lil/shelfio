@@ -1,13 +1,16 @@
+.main {
+	width:$siteWidth;
+	margin:0 auto;
+	padding:0 $siteGutter;
+}
+
 .global-header {
 	background:#000;
 	color:#fff;
 	margin-bottom:48px;
 
 	> nav {
-		@extend .clearfix;
-		width:$siteWidth;
-		margin:0 auto;
-		padding:0 10px;
+		@extend .clearfix, .main;
 
 		> h1 {
 			float:left;
@@ -47,16 +50,10 @@
 	}
 }
 
-.main {
-	width:$siteWidth;
-	margin:0 auto;
-	padding:0 10px;
-}
+
 
 .global-footer {
-	width:$siteWidth;
-	margin:0 auto;
-	padding:0 10px;
+	@extend .main;
 
 	> p {
 		border-top:1px solid #000;
@@ -67,20 +64,33 @@
 
 .half-half {
 	@extend .clearfix;
-	$spacing: 60px;
 
 	> .right-column {
 		float:right;
-		width:($siteWidth - $spacing) / 2;
+		width:($siteWidth - $columnSpacing) / 2;
 	}
 	
 	> .left-column {
 		float:left;
-		width:($siteWidth - $spacing) / 2;
+		width:($siteWidth - $columnSpacing) / 2;
 	}
 }
 
 .thin-centered {
 	width:50%;
 	margin:0 auto;
+}
+
+.two-thirds {
+	@extend .clearfix;
+
+	> aside, > .aside {
+		float:left;
+		width:($siteWidth - $columnSpacing) / 3;
+	}
+
+	> .content {
+		float:right;
+		width:($siteWidth - $columnSpacing) / 3 * 2;
+	}
 }

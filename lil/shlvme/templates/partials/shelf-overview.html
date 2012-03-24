@@ -1,0 +1,16 @@
+<article class="shelf-overview">
+	<header>
+		<h2>{{ shelf.name }}</h2>
+	</header>
+
+	<section>
+		<p>{{ shelf.description }}</p>
+		<p class="date">Created on {{ shelf.creation_date }}</p>
+	</section>
+
+	<footer>
+		<ul class="shelf-overview-actions">
+			<li><a href="{% url user_shelf user_name shelf.name %}" class="button cta">View</a></li>
+		</ul>
+	</footer>
+</article>

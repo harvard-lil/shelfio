@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<article class="two-thirds user">
+		<aside>
+			{% include "partials/user-widget.html" %}
+		</aside>
+
+		<div class="content">
+			<h1>Shelves</h1>
+			{% for shelf in docs %}
+				{% include "partials/shelf-overview.html" %}
+			{% endfor %}
+		</div>
+	</article>
+{% endblock content %}

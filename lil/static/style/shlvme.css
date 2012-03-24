@@ -1,12 +1,12 @@
 /* Contain floats: h5bp.com/q */
-.clearfix, .global-header > nav, .half-half {
+.clearfix, .global-header > nav, .half-half, .two-thirds, .shelf-overview {
   *zoom: 1;
 }
-.clearfix:before, .global-header > nav:before, .half-half:before, .clearfix:after, .global-header > nav:after, .half-half:after {
+.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .shelf-overview:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .shelf-overview:after {
   content: "";
   display: table;
 }
-.clearfix:after, .global-header > nav:after, .half-half:after {
+.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .shelf-overview:after {
   clear: both;
 }
 
@@ -496,6 +496,11 @@ body {
 h1 {
   font-size: 48px;
   line-height: 1;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 24px;
 }
 
 p, ol, ul, dl {
@@ -518,15 +523,16 @@ input[type="text"], input[type="password"] {
   line-height: 2.4;
 }
 
+.main, .global-header > nav, .global-footer {
+  width: 960px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
 .global-header {
   background: #000;
   color: #fff;
   margin-bottom: 48px;
-}
-.global-header > nav {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
 }
 .global-header > nav > h1 {
   float: left;
@@ -559,17 +565,6 @@ input[type="text"], input[type="password"] {
   text-decoration: none;
 }
 
-.main {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
-}
-
-.global-footer {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
-}
 .global-footer > p {
   border-top: 1px solid #000;
   font-size: 12px;
@@ -590,12 +585,21 @@ input[type="text"], input[type="password"] {
   margin: 0 auto;
 }
 
+.two-thirds > aside, .two-thirds > .aside {
+  float: left;
+  width: 300px;
+}
+.two-thirds > .content {
+  float: right;
+  width: 600px;
+}
+
 .button {
   display: inline-block;
-  border: 1px solid #000;
+  border: 1px solid #fff;
   text-decoration: none;
   background: #000;
-  line-height: 2;
+  line-height: 1.875;
   padding: 0 10px;
 }
 .button, .button:visited {
@@ -604,6 +608,57 @@ input[type="text"], input[type="password"] {
 .button:hover, .button:focus {
   background: #fff;
   color: #000;
+  border-color: #000;
+}
+
+.profile-image > img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.profile-image > figcaption {
+  background: #000;
+  text-align: center;
+  color: #fff;
+  line-height: 2.25;
+}
+
+.shelf-overview {
+  border: 1px solid #000;
+}
+.shelf-overview > header {
+  background: #000;
+  color: #fff;
+  padding: 0 10px;
+}
+.shelf-overview > section {
+  padding: 12px 10px;
+}
+.shelf-overview > section p {
+  margin: 0;
+}
+.shelf-overview > footer {
+  border-top: 1px solid #000;
+  padding: 0 10px;
+}
+.shelf-overview h2 {
+  line-height: 2;
+  margin: 0;
+}
+.shelf-overview .date {
+  font-size: 12px;
+  line-height: 1;
+  margin-top: 12px;
+}
+
+.shelf-overview-actions {
+  list-style: none;
+  float: right;
+  margin: 0;
+  padding: 6px 0;
+}
+.shelf-overview-actions > li {
+  float: left;
 }
 
 .welcome h1 {

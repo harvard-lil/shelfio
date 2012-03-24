@@ -1,0 +1,10 @@
+<figure class="profile-image">
+	<img src="http://placekitten.com/400/400" alt="{{ user_name }}">
+	<figcaption>{{ user_name }}</figcaption>
+</figure>
+
+{% if is_owner %}
+<form action="">
+	<input type="submit" value="Update" class="button cta">
+</form>
+{% endif %}

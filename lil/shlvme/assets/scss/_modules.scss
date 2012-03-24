@@ -1,9 +1,9 @@
 .button {
 	display:inline-block;
-	border:1px solid #000;
+	border:1px solid #fff;
 	text-decoration:none;
 	background:#000;
-	line-height:2;
+	line-height:1.875;
 	padding:0 10px;
 
 	&, &:visited {
@@ -13,5 +13,72 @@
 	&:hover, &:focus {
 		background:#fff;
 		color:#000;
+		border-color:#000;
 	}
 }
+
+.profile-image {
+	> img {
+		display:block;
+		max-width:100%;
+		margin:0 auto;
+	}
+
+	> figcaption {
+		background:#000;
+		text-align:center;
+		color:#fff;
+		line-height:2.25;
+	}
+}
+
+.shelf-overview {
+	@extend .clearfix;
+	$gutter: 10px;
+	border:1px solid #000;
+
+	> header {
+		background:#000;
+		color:#fff;
+		padding:0 $gutter;
+	}
+
+	> section {
+		padding:12px $gutter;
+
+		p {
+			margin:0;
+		}
+	}
+
+	> footer {
+		border-top:1px solid #000;
+		padding:0 $gutter;
+	}
+
+	h2 {
+		line-height:2;
+		margin:0;
+	}
+
+	.date {
+		font-size:12px;
+		line-height:1;
+		margin-top:12px;
+	}
+}
+
+.shelf-overview-actions {
+	list-style:none;
+	float:right;
+	margin:0;
+	padding:6px 0;
+
+	> li {
+		float:left;
+	}
+}
+
+
+
+

@@ -3,8 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
-from django.shortcuts import redirect
-from django.shortcuts import render_to_response
+from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from lil.shlvme.models import Shelf, Item, Creator, Tag, LoginForm
@@ -32,12 +31,54 @@ logging.basicConfig(
 )
 
 ########################################
+###### Helpers? ########################
+########################################
+
+def get_user_data(request, user_name):
+    context = {}
+    target_user = get_object_or_404(User, username=user_name)
+    queried_shelves = Shelf.objects.filter(user=target_user)
+    is_owner = target_user.username == request.user.username and requst.user.is_authenticated()
+    shelf_query = Shelf.objects.filter(user=target_user)
+    shelves = []
+    
+    if is_owner:
+        context.update({
+            'first_name': target_user.first_name,
+            'last_name': target_user.last_name,
+            'date_joined': target_user.date_joined,
+            'email': target_user.email
+        })
+    else:
+        shelf_query.exclude(is_public=True)
+
+    for shelf in shelf_query:
+        shelf_to_serialize = {
+            'shelf_uuid': str(shelf.shelf_uuid),
+            'name': shelf.name,
+            'description': shelf.description,
+            'creation_date': shelf.creation_date,
+            'is_public': shelf.is_public
+        }
+        shelves.append(shelf_to_serialize)
+
+    context.update({
+        'is_owner': is_owner,
+        'user_name': target_user.username,
+        'docs': shelves
+    })
+
+    return context
+
+########################################
 ###### Pages ###########################
 ########################################
 
 def user_home(request, user_name):
     """A user's home. Includes profile and list of shelves."""
-    return render_to_response('user_home.html', {'url_username': user_name, 'user': request.user})
+    context = get_user_data(request, user_name)
+    context['user'] =request.user
+    return render_to_response('user/show.html', context)
 
 def user_shelf(request, url_user_name, url_shelf_name):
     """A user's shelf."""
@@ -59,37 +100,8 @@ def api_user(request, url_user_name):
      TODO: we need to validate/clean/urldecode the GET/POST values ?
     """
     if request.method == 'GET':                
-        target_user = User.objects.get(username=url_user_name)
-        
-        object_to_serialize = {}
-        object_to_serialize['user_name'] = target_user.username
-        
-        if request.user.is_authenticated() and request.user.username == url_user_name:
-            queried_shelves = Shelf.objects.filter(user=target_user)
-            
-            object_to_serialize['first_name'] = target_user.first_name
-            object_to_serialize['last_name'] = target_user.last_name
-            object_to_serialize['date_joined'] = target_user.date_joined
-            object_to_serialize['email'] = target_user.email
-            
-        else:
-            queried_shelves = Shelf.objects.filter(user=target_user).filter(is_public=True)
-        
-        # Build our json output from our shelves array
-        shelves = []
-        
-        for shelf in queried_shelves:
-            shelf_to_serialize = {}
-            shelf_to_serialize['shelf_uuid'] = str(shelf.shelf_uuid)
-            shelf_to_serialize['name'] = shelf.name
-            shelf_to_serialize['description'] = shelf.description
-            shelf_to_serialize['creation_date'] = shelf.creation_date
-            shelf_to_serialize['is_public'] = shelf.is_public
-            shelves.append(shelf_to_serialize)
-            
-        object_to_serialize['docs'] = shelves
-    
-        return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
+        context = get_user_data(request, url_user_name)
+        return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), mimetype='application/json')
     
     # If the user updates her profile, handle it here
     if request.method == 'POST':
