@@ -2,18 +2,18 @@
 	<nav>
 		<h1>
 			{% if user.is_authenticated %}
-				<a href="{% url shlvme.views.user_home user.username %}">Shlv.me</a>
+				<a href="{% url user_home user.username %}">Shlv.me</a>
 			{% else %}
-				<a href="{% url shlvme.views.welcome %}">Shlv.me</a>
+				<a href="{% url welcome %}">Shlv.me</a>
 			{% endif %}</h1>
 
 		<ul>
 			{% if user.is_authenticated %}
-				<li><a href="{% url shlvme.views.welcome %}">{{ user.username }}</a></li>
-				<li><a href="{% url shlvme.views.process_logout %}">Logout</a></li>
+				<li><a href="{% url welcome %}">{{ user.username }}</a></li>
+				<li><a href="{% url process_logout %}">Logout</a></li>
 			{% else %}
-				<li><a href="{% url shlvme.views.process_login %}">Login</a></li>
-				<li><a href="{% url shlvme.views.process_register %}">Register</a></li>
+				<li><a href="{% url process_login %}">Login</a></li>
+				<li><a href="{% url process_register %}">Register</a></li>
 			{% endif %}
 		</ul>
 	</nav>
