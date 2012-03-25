@@ -6,16 +6,17 @@
 {% if is_owner %}
 	<ul class="profile-info">
 		{% if first_name or last_name %}
-			<li>{{ first_name }} {{ last_name }}</li>
+			<li><strong>Name:</strong> {{ first_name }} {{ last_name }}</li>
 		{% endif %}
 		{% if email %}
-			<li>{{ email }}</li>
+			<li><strong>Email:</strong> {{ email }}</li>
 		{% endif %}
-		<li>Joined Shelv.me on: {{ date_joined|date:"F jS, Y" }}</li>
+		<li><strong>Joined Shelv.me on:</strong> {{ date_joined|date:"F jS, Y" }}</li>
 	</ul>
 
-	<form class="user-settings contained-form island" action="TODO" method="post">
+	<form class="user-settings contained-form island" action="." method="post">
 		<input type="hidden" name="_method" value="patch">
+		{% csrf_token %}
 		
 		<header>
 			<h3>Edit Profile</h3>

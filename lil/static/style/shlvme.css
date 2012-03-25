@@ -679,6 +679,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   font-size: 12px;
   padding: 0;
 }
+.profile-info > li {
+  line-height: 2;
+}
 
 .contained-form {
   display: inline-block;

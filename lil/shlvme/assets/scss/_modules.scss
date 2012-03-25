@@ -88,6 +88,10 @@
 	list-style:none;
 	font-size:12px;
 	padding:0;
+
+	> li {
+		line-height:2;
+	}
 }
 
 .contained-form {
