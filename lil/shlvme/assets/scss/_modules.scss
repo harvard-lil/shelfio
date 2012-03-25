@@ -106,4 +106,13 @@
 	}
 }
 
+.flash-messages {
+	list-style:none;
+	padding:0;
 
+	> li {
+		background:#000;
+		color:#fff;
+		padding:12px;
+	}
+}

@@ -693,6 +693,16 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin-top: 0;
 }
 
+.flash-messages {
+  list-style: none;
+  padding: 0;
+}
+.flash-messages > li {
+  background: #000;
+  color: #fff;
+  padding: 12px;
+}
+
 .welcome h1 {
   margin: 0;
   font-size: 72px;

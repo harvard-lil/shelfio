@@ -4,7 +4,7 @@ from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from lil.shlvme.models import LoginForm
 from django.core.context_processors import csrf
-from django.contrib import auth
+from django.contrib import auth, messages
 
 # TODO: a lot of the auth/auth functionality is crude. cleanup.
 
@@ -18,14 +18,16 @@ def process_register(request):
             supplied_username = request.POST.get('username', '')
             supplied_password = request.POST.get('password1', '')
             user = auth.authenticate(username=supplied_username, password=supplied_password)
-            
             auth.login(request, user)
             return HttpResponseRedirect(reverse('user_home', args=[user.username]))
+        else:
+            messages.error(request, 'You filled out something wrong. (TODO: GET SPECIFICS)')
+            return HttpResponseRedirect(reverse('process_register'))
     else:
         form = UserCreationForm()
         c = {}
         c.update(csrf(request))
-        c.update({'form': form})
+        c.update({'form': form, 'messages': messages.get_messages(request)})
         return render_to_response("register.html", c)
 
 
