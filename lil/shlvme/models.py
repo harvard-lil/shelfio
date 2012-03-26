@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.contrib.auth.models import User
+from django.contrib import auth
 import random
 from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
@@ -63,3 +64,4 @@ class AddToShelfConfirmForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)
+

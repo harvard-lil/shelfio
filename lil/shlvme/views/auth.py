@@ -48,23 +48,28 @@ def process_login(request):
 
     # If we get a POST, someone has filled out the login form
     if request.method == 'POST':
-        supplied_username = request.POST['username']
-        supplied_password = request.POST['password']
-        user = auth.authenticate(username=supplied_username, password=supplied_password)
-        
-        formset = LoginForm(initial={'username': supplied_username})
+        formset= LoginForm(request.POST)
         c = {}
         c.update(csrf(request))
-        c.update({'formset': formset})
-        
-        if user is not None:
-            if user.is_active:
-                auth.login(request, user)
-                return redirect(reverse('user_home', args=[user.username]))
+
+        if formset.is_valid():
+            supplied_username = formset.cleaned_data['username']
+            supplied_password = formset.cleaned_data['password']    
+            user = auth.authenticate(username=supplied_username, password=supplied_password)
+            c.update({'formset': formset})
+            
+            if user is not None:
+                if user.is_active:
+                    auth.login(request, user)
+                    return redirect(reverse('user_home', args=[user.username]))
+                else:
+                    messages.error(request, 'This account is inactive.')
             else:
-                return render_to_response('login.html', c)
-        else:
-            return render_to_response('login.html', c)
+                messages.error(request, 'Login failed. Please check your username and password.')
+            c.update({'messages': messages.get_messages(request)})
+        
+        c.update({'formset': formset})
+        return render_to_response('login.html', c)
 
 def process_logout(request):
     """The logout handler"""
