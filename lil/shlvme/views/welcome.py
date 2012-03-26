@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
 
 def welcome(request):
     """The application-wide welcome page."""
