@@ -1,12 +1,12 @@
 /* Contain floats: h5bp.com/q */
-.clearfix, .global-header > nav, .half-half {
+.clearfix, .global-header > nav, .half-half, .two-thirds, .island {
   *zoom: 1;
 }
-.clearfix:before, .global-header > nav:before, .half-half:before, .clearfix:after, .global-header > nav:after, .half-half:after {
+.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .island:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after {
   content: "";
   display: table;
 }
-.clearfix:after, .global-header > nav:after, .half-half:after {
+.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after {
   clear: both;
 }
 
@@ -496,10 +496,24 @@ body {
 h1 {
   font-size: 48px;
   line-height: 1;
+  margin-top: 0;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 20px;
+  line-height: 1.8;
 }
 
 p, ol, ul, dl {
   margin: 24px 0;
+}
+
+ul, ol {
+  padding-left: 20px;
 }
 
 label {
@@ -507,9 +521,10 @@ label {
   display: block;
 }
 
-input[type="text"], input[type="password"] {
+input[type="text"], textarea, input[type="password"], input[type="email"] {
   border: 1px solid #000;
   padding: 5px;
+  width: 260px;
 }
 
 .helptext {
@@ -518,15 +533,16 @@ input[type="text"], input[type="password"] {
   line-height: 2.4;
 }
 
+.main, .global-header > nav, .global-footer {
+  width: 960px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
 .global-header {
   background: #000;
   color: #fff;
   margin-bottom: 48px;
-}
-.global-header > nav {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
 }
 .global-header > nav > h1 {
   float: left;
@@ -559,17 +575,6 @@ input[type="text"], input[type="password"] {
   text-decoration: none;
 }
 
-.main {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
-}
-
-.global-footer {
-  width: 960px;
-  margin: 0 auto;
-  padding: 0 10px;
-}
 .global-footer > p {
   border-top: 1px solid #000;
   font-size: 12px;
@@ -590,12 +595,21 @@ input[type="text"], input[type="password"] {
   margin: 0 auto;
 }
 
+.two-thirds > aside, .two-thirds > .aside {
+  float: left;
+  width: 300px;
+}
+.two-thirds > .content {
+  float: right;
+  width: 600px;
+}
+
 .button {
   display: inline-block;
-  border: 1px solid #000;
+  border: 1px solid #fff;
   text-decoration: none;
   background: #000;
-  line-height: 2;
+  line-height: 1.875;
   padding: 0 10px;
 }
 .button, .button:visited {
@@ -604,6 +618,98 @@ input[type="text"], input[type="password"] {
 .button:hover, .button:focus {
   background: #fff;
   color: #000;
+  border-color: #000;
+}
+
+.profile-image > img {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.profile-image > figcaption {
+  background: #000;
+  text-align: center;
+  color: #fff;
+  line-height: 2.25;
+}
+
+.island {
+  border: 1px solid #000;
+}
+.island > header {
+  background: #000;
+  color: #fff;
+  padding: 0 10px;
+}
+.island > header > h2, .island > header h3, .island > header h4 {
+  margin: 0;
+}
+.island > section {
+  padding: 12px 10px;
+}
+.island > footer {
+  border-top: 1px solid #000;
+  padding: 0 10px;
+}
+
+.shelf-overview p {
+  margin: 0;
+}
+.shelf-overview h2 {
+  line-height: 2;
+}
+.shelf-overview .date {
+  font-size: 12px;
+  line-height: 1;
+  margin-top: 12px;
+}
+
+.shelf-overview-actions {
+  list-style: none;
+  float: right;
+  margin: 0;
+  padding: 6px 0;
+}
+.shelf-overview-actions > li {
+  float: left;
+}
+
+.profile-info {
+  list-style: none;
+  font-size: 12px;
+  padding: 0;
+}
+.profile-info > li {
+  line-height: 2;
+}
+
+.contained-form {
+  display: inline-block;
+}
+.contained-form p {
+  margin: 12px 0 0 0;
+}
+.contained-form p:first-child {
+  margin-top: 0;
+}
+
+.flash-messages {
+  list-style: none;
+  padding: 0;
+}
+.flash-messages > li {
+  background: #000;
+  color: #fff;
+  padding: 12px;
+}
+
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.errorlist + p {
+  margin-top: 0;
 }
 
 .welcome h1 {

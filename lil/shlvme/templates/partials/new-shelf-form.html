@@ -1,0 +1,25 @@
+<form action="TODO" method="post" class="new-shelf island contained-form">
+	<header>
+		<h3>New Shelf</h3>
+	</header>
+
+	<section>
+		<p>
+			<label for="shelf-name">Shelf Name:</label>
+			<input type="text" id="shelf-name" name="shelf_name">
+		</p>
+		<p>
+			<label for="shelf-description">Shelf Description:</label>
+			<textarea id="shelf-description" name="shelf_description" rows="4"></textarea>
+		</p>
+		<p>
+			<label>Make Shelf Public:
+				<input type="checkbox" name="is_public" checked>
+			</label>
+		</p>
+
+		<p>
+			<input type="submit" value="Create Shelf" class="button positive">
+		</p>
+	</section>
+</form>

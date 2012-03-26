@@ -1,0 +1,24 @@
+<article class="shelf-overview island">
+	<header>
+		<h2>{{ shelf.name }}</h2>
+	</header>
+
+	<section>
+		<p>{{ shelf.description }}</p>
+		<p class="date">Created on {{ shelf.creation_date }}</p>
+	</section>
+
+	<footer>
+		<ul class="shelf-overview-actions">
+			<li><a href="{% url user_shelf user_name shelf.name %}" class="button positive">View</a></li>
+			{% if is_owner %}
+				<li>
+					<form action="{% url user_shelf user_name shelf.name %}" method="post" class="single-button confirm" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It">
+						<input type="hidden" name="_method" value="delete">
+						<input type="submit" value="Delete">
+					</form>
+				</li>
+			{% endif %}
+		</ul>
+	</footer>
+</article>

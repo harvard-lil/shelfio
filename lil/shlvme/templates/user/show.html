@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<article class="two-thirds user">
+		<aside>
+			{% include "partials/user-widget.html" %}
+		</aside>
+
+		<div class="content">
+			<h1>Shelves</h1>
+			{% for shelf in docs %}
+				{% include "partials/shelf-overview.html" %}
+			{% empty %}
+				<p class="empty">You don't have any shelves yet.</p>
+			{% endfor %}
+
+			{% if is_owner %}
+				{% include "partials/new-shelf-form.html" %}
+			{% endif %}
+		</div>
+	</article>
+{% endblock content %}
