@@ -23,19 +23,7 @@
 		</header>
 
 		<section>
-			<p>
-				<label for="first-name">First Name:</label>
-				<input type="text" id="first-name" name="first_name" value="{{ first_name }}">
-			</p>
-			<p>
-				<label for="last-name">Last Name:</label>
-				<input type="text" id="last-name" name="last_name" value="{{ last_name }}">
-			</p>
-			<p>
-				<label for="user-email">Email:</label>
-				<input type="email" id="user-email" name="email" value="{{ email }}">	
-			</p>
-
+			{{ profileform.as_p }}
 			<p>
 				<input type="submit" value="Update" class="button positive">
 			</p>

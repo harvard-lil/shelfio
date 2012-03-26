@@ -8,6 +8,7 @@ from lil.shlvme.models import Shelf
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
+from lil.shlvme.models import EditProfileForm
 
 @csrf_exempt
 def api_user(request, url_user_name):
@@ -36,23 +37,29 @@ def api_user(request, url_user_name):
 
 def user_home(request, user_name):
     """A user's home. Includes profile and list of shelves."""
+    context = _get_user_data(request, user_name)
+    context.update(csrf(request))
+    context.update({ 'user': request.user })
+
     if request.method == 'GET':
-        context = _get_user_data(request, user_name)
-        context['user'] = request.user
-        context.update(csrf(request))
+        context.update({ 'profileform': EditProfileForm(context)})
         return render_to_response('user/show.html', context)
 
     elif request.method == 'POST' and request.POST.get('_method').upper() == 'PATCH':
+        profileform = EditProfileForm(request.POST)
+
         if not request.user.is_authenticated():
             return HttpResponse(status=401)
         elif user_name != request.user.username:
             return HttpResponse(status=403)
-
-        try:
+        
+        if profileform.is_valid():
             _update_user_data(user_name, request.POST)
-        except ValidationError, e:
-            return HttpResponse(status=400)
-        return redirect(reverse('user_home', args=[user_name]))
+            return redirect(reverse('user_home', args=[user_name]))
+        
+        context.update({ 'profileform': profileform })
+    
+    return render_to_response('user/show.html', context)
 
 def _get_user_data(request, user_name):
     context = {}

@@ -5,6 +5,7 @@ from django.contrib import auth
 import random
 from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
+from django.forms.widgets import TextInput
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
@@ -64,4 +65,12 @@ class AddToShelfConfirmForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)
+
+class EmailInput(TextInput):
+    input_type = 'email'
+
+class EditProfileForm(forms.Form):
+    first_name = forms.CharField(max_length=100, required=False)
+    last_name = forms.CharField(max_length=100, required=False)
+    email = forms.EmailField(required=False, widget=EmailInput)
 
