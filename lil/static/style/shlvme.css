@@ -703,6 +703,15 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   padding: 12px;
 }
 
+.errorlist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.errorlist + p {
+  margin-top: 0;
+}
+
 .welcome h1 {
   margin: 0;
   font-size: 72px;

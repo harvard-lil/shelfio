@@ -10,7 +10,9 @@ from django.contrib import auth, messages
 
 def process_register(request):
     """Register a new user"""
-    
+    c = {}
+    c.update(csrf(request))
+
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -21,13 +23,11 @@ def process_register(request):
             auth.login(request, user)
             return HttpResponseRedirect(reverse('user_home', args=[user.username]))
         else:
-            messages.error(request, 'You filled out something wrong. (TODO: GET SPECIFICS)')
-            return HttpResponseRedirect(reverse('process_register'))
+            c.update({'form': form})
+            return render_to_response('register.html', c)
     else:
         form = UserCreationForm()
-        c = {}
-        c.update(csrf(request))
-        c.update({'form': form, 'messages': messages.get_messages(request)})
+        c.update({'form': form})
         return render_to_response("register.html", c)
 
 
