@@ -1,4 +1,4 @@
-<form action="{% url user_shelves user.username %}" method="post" class="new-shelf island contained-form">
+<form action="{% url user_home user.username %}" method="post" class="new-shelf island contained-form">
 	{% csrf_token %}
 	<header>
 		<h3>New Shelf</h3>

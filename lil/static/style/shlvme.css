@@ -652,6 +652,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   padding: 0 10px;
 }
 
+.shelf-overview {
+  margin-bottom: 24px;
+}
 .shelf-overview p {
   margin: 0;
 }
@@ -672,6 +675,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 }
 .shelf-overview-actions > li {
   float: left;
+  margin-left: 5px;
 }
 
 .profile-info {

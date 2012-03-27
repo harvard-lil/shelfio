@@ -4,11 +4,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
-from lil.shlvme.models import Shelf
+from lil.shlvme.models import Shelf, EditProfileForm, NewShelfForm
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
-from lil.shlvme.models import EditProfileForm, NewShelfForm
 
 @csrf_exempt
 def api_user(request, url_user_name):
@@ -40,12 +39,15 @@ def user_home(request, user_name):
     context = _get_user_data(request, user_name)
     context.update(csrf(request))
     context.update({ 'user': request.user, 'new_shelf_form': NewShelfForm() })
+    context.update({ 'profileform': EditProfileForm(context)})
+    method_override = request.method == 'POST' and '_method' in request.POST.keys()
 
+    # View user profile
     if request.method == 'GET':
-        context.update({ 'profileform': EditProfileForm(context)})
         return render_to_response('user/show.html', context)
 
-    elif request.method == 'POST' and request.POST.get('_method').upper() == 'PATCH':
+    # Modify user profile
+    elif method_override and request.POST['_method'].upper() == 'PATCH':
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():
@@ -57,7 +59,23 @@ def user_home(request, user_name):
             _update_user_data(user_name, request.POST)
             return redirect(reverse('user_home', args=[user_name]))
         
-        context.update({ 'profileform': profileform })
+        context['profileform'] = profileform
+
+    # User creates new shelf
+    elif request.method == 'POST':
+        new_shelf_form = NewShelfForm(request.POST)
+
+        if new_shelf_form.is_valid():
+            new_shelf = Shelf(
+                user=request.user,
+                name=new_shelf_form.cleaned_data['name'],
+                description=new_shelf_form.cleaned_data['description'],
+                is_public=new_shelf_form.cleaned_data['is_public'],
+            )
+            new_shelf.save()
+            return redirect(request.path)
+
+        context['new_shelf_form'] = new_shelf_form
     
     return render_to_response('user/show.html', context)
 
@@ -83,6 +101,7 @@ def _get_user_data(request, user_name):
         shelf_to_serialize = {
             'shelf_uuid': str(shelf.shelf_uuid),
             'name': shelf.name,
+            'slug': shelf.slug,
             'description': shelf.description,
             'creation_date': shelf.creation_date,
             'is_public': shelf.is_public

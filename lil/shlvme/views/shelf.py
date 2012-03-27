@@ -98,18 +98,10 @@ def api_shelf(request, url_shelf_uuid=None, url_user_name=None, url_shelf_name=N
 
         return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
 
-def list(request, user_name):
-    # No separate page for shelf listing, redirect to user profile
-    if request.method == 'GET':
-        return redirect(reverse('user_home', args=[user_name]))
-
-    # Creating a new shelf
-    if request.method == 'POST':
-        pass
-
-def user_shelf(request, url_user_name, url_shelf_name):
+def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""
-    return render_to_response('user_shelf.html', {'user_name': url_user_name, 'shelf_name': url_shelf_name, 'user': request.user})
+    #shelf = Shelf.objects.get()
+    return render_to_response('user_shelf.html', {'user_name': url_user_name, 'shelf_name': url_shelf_slug, 'user': request.user})
 
 def _serialize_shelves_with_items(shelves):
     docs = []
