@@ -1,7 +1,7 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse
-from django.shortcuts import render_to_response, redirect
+from django.http import HttpResponse, Http404
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from lil.shlvme.models import Shelf, Item, Creator
 import json
@@ -100,8 +100,23 @@ def api_shelf(request, url_shelf_uuid=None, url_user_name=None, url_shelf_name=N
 
 def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""
-    #shelf = Shelf.objects.get()
-    return render_to_response('user_shelf.html', {'user_name': url_user_name, 'shelf_name': url_shelf_slug, 'user': request.user})
+    target_user = get_object_or_404(User, username=url_user_name)
+    target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
+
+    if request.method == 'GET':
+        if target_shelf.is_public or target_user == request.user:
+            return render_to_response('shelf/show.html', {
+                'user': request.user,
+                'shelf_user': target_user,
+                'is_owner': request.user == target_user,
+                'shelf': target_shelf
+            })
+        else:
+            raise Http404
+
+    # POSTS, PATCHES, DELETES, still to come
+    else:
+        pass
 
 def _serialize_shelves_with_items(shelves):
     docs = []

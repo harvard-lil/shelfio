@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<h1>
+		<a href="{% url user_home shelf_user.username %}">
+			{{ shelf_user.get_full_name }}&rsquo;s
+		</a>
+		{{ shelf.name }}
+	</h1>
+
+	<div class="half-half">
+		<section class="left-column">
+			<div id="active-stack"></div>
+		</section>
+		<section class="right-column">
+			<div id="active-item"></div>
+		</section>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script type="text/javascript">
+    $(function () { 
+			$('#active-stack').stackView({
+		    url: '#TODO',
+		    ribbon: '{{ shelf.name }}'
+		});
+	});
+</script>	
+{% endblock scripts %}
