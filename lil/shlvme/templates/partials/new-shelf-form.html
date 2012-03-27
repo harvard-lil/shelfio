@@ -1,21 +1,24 @@
-<form action="TODO" method="post" class="new-shelf island contained-form">
+<form action="{% url user_shelves user.username %}" method="post" class="new-shelf island contained-form">
+	{% csrf_token %}
 	<header>
 		<h3>New Shelf</h3>
 	</header>
 
+	{{ new_shelf_form.non_field_errors }}
 	<section>
 		<p>
-			<label for="shelf-name">Shelf Name:</label>
-			<input type="text" id="shelf-name" name="shelf_name">
+			{{ new_shelf_form.name.errors }}
+			<label for="id_name">Shelf Name:</label>
+			{{ new_shelf_form.name }}
 		</p>
 		<p>
-			<label for="shelf-description">Shelf Description:</label>
-			<textarea id="shelf-description" name="shelf_description" rows="4"></textarea>
+			{{ new_shelf_form.description.errors }}
+			<label for="id_description">Shelf Description:</label>
+			{{ new_shelf_form.description }}
 		</p>
 		<p>
-			<label>Make Shelf Public:
-				<input type="checkbox" name="is_public" checked>
-			</label>
+			{{ new_shelf_form.is_public.errors }}
+			<label>Make Shelf Public: {{ new_shelf_form.is_public }}</label>
 		</p>
 
 		<p>

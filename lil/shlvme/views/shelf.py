@@ -1,7 +1,8 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, redirect
+from django.core.urlresolvers import reverse
 from lil.shlvme.models import Shelf, Item, Creator
 import json
 from django.contrib.auth.models import User
@@ -96,6 +97,15 @@ def api_shelf(request, url_shelf_uuid=None, url_user_name=None, url_shelf_name=N
         object_to_serialize['message'] = message
 
         return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
+
+def list(request, user_name):
+    # No separate page for shelf listing, redirect to user profile
+    if request.method == 'GET':
+        return redirect(reverse('user_home', args=[user_name]))
+
+    # Creating a new shelf
+    if request.method == 'POST':
+        pass
 
 def user_shelf(request, url_user_name, url_shelf_name):
     """A user's shelf."""

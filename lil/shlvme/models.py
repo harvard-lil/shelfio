@@ -5,7 +5,7 @@ from django.contrib import auth
 import random
 from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
-from django.forms.widgets import TextInput
+from django.forms.widgets import TextInput, Textarea
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
@@ -73,4 +73,13 @@ class EditProfileForm(forms.Form):
     first_name = forms.CharField(max_length=100, required=False)
     last_name = forms.CharField(max_length=100, required=False)
     email = forms.EmailField(required=False, widget=EmailInput)
+
+class NewShelfForm(forms.Form):
+    name = forms.CharField(max_length=200)
+    description = forms.CharField(
+        max_length=1000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': '4'}),
+    )
+    is_public = forms.BooleanField(required=False)
 

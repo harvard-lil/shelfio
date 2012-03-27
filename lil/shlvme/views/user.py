@@ -8,7 +8,7 @@ from lil.shlvme.models import Shelf
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
-from lil.shlvme.models import EditProfileForm
+from lil.shlvme.models import EditProfileForm, NewShelfForm
 
 @csrf_exempt
 def api_user(request, url_user_name):
@@ -39,7 +39,7 @@ def user_home(request, user_name):
     """A user's home. Includes profile and list of shelves."""
     context = _get_user_data(request, user_name)
     context.update(csrf(request))
-    context.update({ 'user': request.user })
+    context.update({ 'user': request.user, 'new_shelf_form': NewShelfForm() })
 
     if request.method == 'GET':
         context.update({ 'profileform': EditProfileForm(context)})
