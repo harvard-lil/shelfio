@@ -5,18 +5,24 @@ from django.contrib import auth
 import random
 from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
-from django.forms.widgets import TextInput
+from django.forms.widgets import TextInput, Textarea
+from django.template.defaultfilters import slugify
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
     shelf_uuid = UUIDField(auto=True)
     name = models.CharField(max_length=200)
+    slug = models.SlugField()
     description = models.CharField(max_length=1000)
     creation_date = models.DateTimeField(auto_now=True)
     is_public = models.BooleanField()
 
     def __unicode__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Shelf, self).save(*args, **kwargs)
 
 class Item(models.Model):
     shelf = models.ForeignKey(Shelf)
@@ -73,4 +79,13 @@ class EditProfileForm(forms.Form):
     first_name = forms.CharField(max_length=100, required=False)
     last_name = forms.CharField(max_length=100, required=False)
     email = forms.EmailField(required=False, widget=EmailInput)
+
+class NewShelfForm(forms.Form):
+    name = forms.CharField(max_length=200)
+    description = forms.CharField(
+        max_length=1000,
+        required=False,
+        widget=forms.Textarea(attrs={'rows': '4'}),
+    )
+    is_public = forms.BooleanField(required=False)
 

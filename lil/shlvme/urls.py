@@ -26,6 +26,6 @@ urlpatterns = patterns('shlvme.views',
     url(r'^register/$', 'auth.process_register', name='process_register'),
     
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user.user_home', name='user_home'),
-    url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_name>[a-zA-Z0-9\-]+)/$', 'shelf.user_shelf', name='user_shelf'),
+    url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.user_shelf', name='user_shelf'),
 )
 urlpatterns += staticfiles_urlpatterns()

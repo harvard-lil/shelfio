@@ -17,6 +17,7 @@
 			"user": 2,
 			"shelf_uuid": "a4cdd340-722e-11e1-b0c4-0800200c9a66",
 			"name": "fav-movies",
+			"slug": "fav-movies",
 			"description": "These are the movies that I've watched over 20 times.",
 			"is_public": true
     	}
