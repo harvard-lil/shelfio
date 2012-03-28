@@ -40,7 +40,7 @@ def user_home(request, user_name):
     context.update(csrf(request))
     context.update({ 'user': request.user, 'new_shelf_form': NewShelfForm() })
     context.update({ 'profileform': EditProfileForm(context)})
-    print request.method
+    
     # View user profile
     if request.method == 'GET':
         return render_to_response('user/show.html', context)

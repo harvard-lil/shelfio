@@ -83,14 +83,19 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
     shelf_name = target_shelf.name
     api_response = api_shelf(request, target_shelf)
-    print api_response.status_code
+    referer = request.META.get(
+        'HTTP-REFERER',
+        reverse('user_home', args=[request.user.username]),
+    )
 
     # TODO: User referer meta on these non-GETs to redirect back to originating page,
     # instead of just always going to the shelf show page.
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
-        messages.success(request, shelf_name + ' has been updated.') 
+        messages.success(request, shelf_name + ' has been updated.')
+        return redirect(referer)
     elif api_response.status_code == 204:
         messages.info(request, shelf_name + ' has been deleted.')
+        return redirect(referer)
     elif api_response.status_code >= 400:
         return api_response
 
