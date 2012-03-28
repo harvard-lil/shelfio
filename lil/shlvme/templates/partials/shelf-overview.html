@@ -14,6 +14,7 @@
 			{% if is_owner %}
 				<li>
 					<form action="{% url user_shelf user_name shelf.slug %}" method="post" class="single-button confirm" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It">
+						{% csrf_token %}
 						<input type="hidden" name="_method" value="delete">
 						<input type="submit" value="Delete" class="button negative">
 					</form>

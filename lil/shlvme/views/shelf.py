@@ -1,160 +1,152 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from lil.shlvme.models import Shelf, Item, Creator
+from lil.shlvme.models import Shelf, Item, Creator, NewShelfForm
 import json
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 @csrf_exempt
-def api_shelf(request, url_shelf_uuid=None, url_user_name=None, url_shelf_name=None):
-    """API for shelves
-    Something like shlv.me/api/shelf/5138a693-7ea9-4f3a-8e4f-40ad3b847ef9
-    Or, something like shlv.me/api/shelf/
-    TODO: we need to validate/clean/urldecode the GET/POST values
-    """
-    # Create a new shelf
+def api_shelf_create(request):
     if request.method == 'POST' and request.user.is_authenticated():
-        target_user = User.objects.get(username=request.user.username)
-        shelf = Shelf(user=target_user, name=request.POST.get('shelf-name'), description=request.POST.get('description'), is_public=request.POST.get('is-public'))
-        shelf.save()
-        
+        form = NewShelfForm(request.POST)
+        if form.is_valid():
+            shelf = Shelf(
+                user=request.user,
+                name=form.cleaned_data['name'],
+                description=form.cleaned_data['description'],
+                is_public=form.cleaned_data['is_public'],
+            )
+            shelf.save()
+        else:
+            return HttpResponse(400)
         return HttpResponse(status=201)
-        
-    # Edit an existing shelf
-    elif request.method == 'POST' and request.user.is_authenticated() and url_shelf_uuid is not None:
-        return HttpResponse(status=202)
-    
-    # Delete an existing shelf
-    elif request.method == 'DELETE' and request.user.is_authenticated() and url_shelf_uuid is not None:
-        target_user = User.objects.get(username=request.user.username)
-        shelf = Shelf.objects.get(user=target_user, shelf_uuid=url_shelf_uuid)
+
+    # POST but not authenticated
+    elif request.method == 'POST':
+        return HttpResponse(status=401)
+
+    # Method not supported
+    else:
+        return HttpResponseNotAllowed(['POST'])
+
+@csrf_exempt
+def api_shelf_by_uuid(request, url_shelf_uuid):
+    # /shlv.me/api/shelf/5138a693-7ea9-4f3a-8e4f-40ad3b847ef9
+    shelf = get_object_or_404(Shelf, shelf_uuid=url_shelf_uuid)
+    return api_shelf(request, shelf)
+
+@csrf_exempt
+def api_shelf_by_name(request, url_user_name, url_shelf_slug):
+    # /shlv.me/api/shelf/some-username/some-shelf-slug
+    target_user = get_object_or_404(User, username=url_user_name)
+    shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
+
+    return api_shelf(request, shelf)
+
+def api_shelf(request, shelf):
+    if request.user != shelf.user and not shelf.is_public:
+        return HttpResponse(status=404)
+
+    # Edit shelf
+    elif request.method in ('POST', 'PATCH', 'PUT') and request.user.is_authenticated():
+        try:
+            serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
+        except ValidationError, e:
+            return HttpResponse(status=400)
+        return HttpResponse(
+            json.dumps(serialized, cls=DjangoJSONEncoder),
+            mimetype='application/json',
+        )
+
+    # Delete shelf
+    elif request.method == 'DELETE' and request.user.is_authenticated():
         shelf.delete()
-        
-        return HttpResponse(status=202)
-    
-    # Get one shelf from a shelf_uuid
-    elif request.method == 'GET' and url_shelf_uuid is not None:
-        # Some boilerplate
-        docs = []
-        shelves = None
-        message = ''
-    
-        if request.user.is_authenticated():
-            target_user = User.objects.get(username=request.user.username)
-            shelves = Shelf.objects.filter(user=target_user).filter(shelf_uuid=url_shelf_uuid)
+        return HttpResponse(status=204)
 
-            docs = _serialize_shelves_with_items(shelves)
-        else:
-            shelves = Shelf.objects.filter(is_public=True).filter(shelf_uuid=url_shelf_uuid)
+    elif request.method == 'GET':
+        serialized_shelf = _serialize_shelf(shelf)
+        return HttpResponse(
+            json.dumps(serialized_shelf, cls=DjangoJSONEncoder),
+            mimetype='application/json',
+        )
 
-            docs = _serialize_shelves_with_items(shelves)
-
-        object_to_serialize = {}
-    
-        # TODO: start and limit are placeholders at this point
-        object_to_serialize['limit'] = 0
-        object_to_serialize['start'] = 0
-        object_to_serialize['num_found'] = len(docs)
-        object_to_serialize['docs'] = docs
-        object_to_serialize['message'] = message
-
-        return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
-    
-    # Get one shelf from a user name and a shelf name
-    elif request.method == 'GET' and url_user_name is not None and url_shelf_name is not None:
-        # Some boilerplate
-        docs = []
-        shelves = None
-        message = ''
-    
-        if request.user.is_authenticated() and request.user.username == url_user_name:
-            target_user = User.objects.get(username=request.user.username)
-            shelves = Shelf.objects.filter(user=target_user).filter(name=url_shelf_name)
-            
-            docs = _serialize_shelves_with_items(shelves)
-           
-        else:
-            target_user = User.objects.get(username=url_user_name)
-            shelves = Shelf.objects.filter(user=target_user).filter(name=url_shelf_name).filter(is_public=True)
-            
-            docs = _serialize_shelves_with_items(shelves)
-        
-        object_to_serialize = {}
-    
-        # TODO: start and limit are placeholders at this point
-        object_to_serialize['shelf_uuid'] = str(shelves[0].shelf_uuid)
-        object_to_serialize['user_name'] = shelves[0].user.username
-        object_to_serialize['name'] = shelves[0].name
-        object_to_serialize['description'] = shelves[0].description
-        object_to_serialize['creation_date'] = shelves[0].creation_date
-        object_to_serialize['is_public'] = shelves[0].is_public
-        object_to_serialize['limit'] = 0
-        object_to_serialize['start'] = 0
-        object_to_serialize['num_found'] = len(docs)
-        object_to_serialize['docs'] = docs
-        object_to_serialize['message'] = message
-
-        return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
+    else:
+        return HttpResponseNotAllowed(['POST', 'PATCH', 'PUT', 'DELETE', 'GET'])
 
 def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""
     target_user = get_object_or_404(User, username=url_user_name)
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
+    shelf_name = target_shelf.name
+    api_response = api_shelf(request, target_shelf)
+    print api_response.status_code
 
-    if request.method == 'GET':
-        if target_shelf.is_public or target_user == request.user:
-            return render_to_response('shelf/show.html', {
-                'user': request.user,
-                'shelf_user': target_user,
-                'is_owner': request.user == target_user,
-                'shelf': target_shelf
-            })
-        else:
-            raise Http404
+    # TODO: User referer meta on these non-GETs to redirect back to originating page,
+    # instead of just always going to the shelf show page.
+    if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
+        messages.success(request, shelf_name + ' has been updated.') 
+    elif api_response.status_code == 204:
+        messages.info(request, shelf_name + ' has been deleted.')
+    elif api_response.status_code >= 400:
+        return api_response
 
-    # POSTS, PATCHES, DELETES, still to come
-    else:
-        pass
+    return render_to_response('shelf/show.html', {
+        'user': request.user,
+        'shelf_user': target_user,
+        'is_owner': request.user == target_user,
+        'shelf': target_shelf
+    })
 
 def _serialize_shelves_with_items(shelves):
-    docs = []
+    return [_serialize_shelf(shelf) for shelf in shelves]
 
-    for shelf in shelves:
-        doc = {}
-        doc['shelf_uuid'] = str(shelf.shelf_uuid)
-        doc['user_name'] = shelf.user.username
-        doc['name'] = shelf.name
-        doc['description'] = shelf.description
-        doc['creation_date'] = shelf.creation_date
-        doc['is_public'] = shelf.is_public
+def _update_shelf_data(shelf, updates):
+    updatables = ['name', 'description', 'is_public']
+    for key, val in updates.items():
+        if key in updatables:
+            setattr(shelf, key, val)
+    shelf.save()
+    return shelf
+
+def _serialize_shelf(shelf):
+    item_list = []
+    items = Item.objects.filter(shelf=shelf)
+
+    for item in items:
+        creators = Creator.objects.filter(item=item)
+        creators_list = []
+        for creator in creators:
+            creators_list.append(creator.name)
         
-        list_of_items = []
-        item_to_serialize = {}
-        items = Item.objects.filter(shelf=shelves)
-        for item in items:
-            target_creators = Creator.objects.filter(item=item)
-            creators_list = []
-            for target_creator in target_creators:
-                creators_list.append(target_creator.name)
-            
-            doc['item_uuid'] = str(item.item_uuid)
-            doc['title'] = item.title
-            doc['creator'] = creators_list
-            doc['isbn'] = item.isbn                   
-            doc['web_location'] = item.link
-            doc['measurement_height_numeric'] = float(item.measurement_height_numeric)
-            doc['measurement_page_numeric'] = item.measurement_page_numeric
-            doc['pub_date'] = item.pub_date
-            doc['shelfrank'] = item.shelfrank
-            doc['content_type'] = item.content_type
-            doc['creation_date'] = item.creation_date
-            doc['sort_order'] = item.sort_order    
-            
-            list_of_items.append(item_to_serialize)                   
-            
-        doc['items'] = list_of_items
-        docs.append(doc)
-        
-    return docs
+        doc = {
+            'item_uuid': str(item.item_uuid),
+            'title': item.title,
+            'creator': creators_list,
+            'isbn': item.isbn,
+            'web_location': item.link,
+            'measurement_height_numeric': float(item.measurement_height_numeric),
+            'measurement_page_numeric': item.measurement_page_numeric,
+            'pub_date': item.pub_date,
+            'shelfrank': item.shelfrank,
+            'content_type': item.content_type,
+            'creation_date': item.creation_date,
+            'sort_order': item.sort_order
+        }
+        item_list.append(doc)
+
+    return {
+        'shelf_uuid': str(shelf.shelf_uuid),
+        'user_name': shelf.user.username,
+        'name': shelf.name,
+        'description': shelf.description,
+        'creation_date': shelf.creation_date,
+        'is_public': shelf.is_public,
+        'slug': shelf.slug,
+        'docs': item_list,
+        'start': -1,
+        'num_found': len(item_list)
+    }
