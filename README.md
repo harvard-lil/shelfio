@@ -16,7 +16,7 @@ Install the MySQL DB Driver (if you've configured Django to use MySQL), http://s
     
     If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
 
-Install the lxml package, 
+Install the lxml package, http://lxml.de
 
 These install guides should get you close:
 
