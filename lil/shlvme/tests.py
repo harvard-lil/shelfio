@@ -73,3 +73,17 @@ class AmazonTestCase(unittest.TestCase):
     def test_add_imdb_item(self):
         response = self.client.get(('%s?loc=http://www.amazon.com/Blood-Meridian-Evening-Redness-West/dp/0679728759/ref=sr_1_1?s=books&ie=UTF8&qid=1332896433&sr=1-1' % reverse('incoming')))
         self.assertEqual('Blood Meridian: Or the Evening Redness in the West', response.context['title'])
+        
+class MusicbrainzTestCase(unittest.TestCase):
+    """Test our Musicbrainz bookmarklet functionality. We'll depend on the MacroTestCase to
+    set things up properly.
+    """
+    def setUp(self):
+        self.client = Client(enforce_csrf_checks=False)
+        
+    def tearDown(self):
+        pass
+
+    def test_add_mb_item(self):
+        response = self.client.get(('%s?loc=http://musicbrainz.org/release-group/20e845b1-c6b5-44f7-ab7e-cbc0e33767b5' % reverse('incoming')))
+        self.assertEqual('1996', response.context['pub_date'])
