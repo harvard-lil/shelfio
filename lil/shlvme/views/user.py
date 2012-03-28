@@ -40,14 +40,13 @@ def user_home(request, user_name):
     context.update(csrf(request))
     context.update({ 'user': request.user, 'new_shelf_form': NewShelfForm() })
     context.update({ 'profileform': EditProfileForm(context)})
-    method_override = request.method == 'POST' and '_method' in request.POST.keys()
-
+    
     # View user profile
     if request.method == 'GET':
         return render_to_response('user/show.html', context)
 
     # Modify user profile
-    elif method_override and request.POST['_method'].upper() == 'PATCH':
+    elif request.method == 'PATCH':
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():
@@ -119,7 +118,8 @@ def _get_user_data(request, user_name):
 def _update_user_data(user_name, updates):
     target_user = get_object_or_404(User, username=user_name)
     updatables = ['first_name', 'last_name', 'email']
-    for key in updatables:
-        setattr(target_user, key, updates[key])
+    for key, val in updates.items():
+        if key in updatables:
+            setattr(target_user, key, val)    
     target_user.full_clean()
     target_user.save()
