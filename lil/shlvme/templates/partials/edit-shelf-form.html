@@ -1,0 +1,31 @@
+<form action="#" method="post" id="edit-shelf" class="island contained-form">
+	{% csrf_token %}
+	<input type="hidden" name="_method" value="patch">
+
+	<header>
+		<h3>Edit Shelf</h3>
+	</header>
+
+	{{ new_shelf_form.non_field_errors }}
+	<section>
+		<p>
+			{{ new_shelf_form.name.errors }}
+			<label for="id_name">Shelf Name:</label>
+			{{ new_shelf_form.name }}
+		</p>
+		<p>
+			{{ new_shelf_form.description.errors }}
+			<label for="id_description">Shelf Description:</label>
+			{{ new_shelf_form.description }}
+		</p>
+		<p>
+			{{ new_shelf_form.is_public.errors }}
+			<label>Make Shelf Public: {{ new_shelf_form.is_public }}</label>
+		</p>
+
+		<p>
+			<input type="submit" value="Save Shelf" class="button positive">
+			<a class="button neutral">Cancel</a>
+		</p>
+	</section>
+</form>
