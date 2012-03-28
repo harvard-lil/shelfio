@@ -6,6 +6,23 @@ Build and share shelves of books, movies, albums, and most anything on the web
 
 
 ### Required packages
+
+Install the MySQL DB Driver (if you've configured Django to use MySQL), http://sourceforge.net/projects/mysql-python/
+
+    wget http://downloads.sourceforge.net/project/mysql-python/mysql-python/1.2.3/MySQL-python-1.2.3.tar.gz
+    tar xvzf MySQL-python-1.2.3.tar.gz
+    cd MySQL-python-1.2.3
+    sudo python setup.py install
+    
+    If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
+
+Install the lxml package, 
+
+These install guides should get you close:
+
+  * http://stackoverflow.com/questions/1277124/how-do-you-install-lxml-on-os-x-leopard-without-using-macports-or-fink
+  * http://lxml.de/installation.html
+
 Install the Amazon Product API package, http://packages.python.org/python-amazon-product-api/
 
     wget http://pypi.python.org/packages/source/p/python-amazon-product-api/python-amazon-product-api-0.2.5.tar.gz#md5=86206766f8741d2f3ff477fec1e106bd
