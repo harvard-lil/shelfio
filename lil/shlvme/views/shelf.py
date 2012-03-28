@@ -88,8 +88,6 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         reverse('user_home', args=[request.user.username]),
     )
 
-    # TODO: User referer meta on these non-GETs to redirect back to originating page,
-    # instead of just always going to the shelf show page.
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
         messages.success(request, shelf_name + ' has been updated.')
         return redirect(referer)
@@ -99,11 +97,13 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     elif api_response.status_code >= 400:
         return api_response
 
+    shelf = json.loads(api_response.content)
     return render_to_response('shelf/show.html', {
         'user': request.user,
         'shelf_user': target_user,
         'is_owner': request.user == target_user,
-        'shelf': target_shelf
+        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
+        'shelf_name': shelf_name
     })
 
 def _serialize_shelves_with_items(shelves):

@@ -7,7 +7,7 @@
 			<a href="{% url user_home shelf_user.username %}">
 				{{ shelf_user.username }}&rsquo;s
 			</a>
-			{{ shelf.name }}
+			{{ shelf_name }}
 		</h1>
 	
 		<section class="left-column">
@@ -25,8 +25,8 @@
 	<script type="text/javascript">
     $(function () { 
 			$('#active-stack').stackView({
-		    url: '{% url api_shelf_by_uuid shelf.shelf_uuid %}',
-		    ribbon: '{{ shelf.name }}'
+		    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
+		    ribbon: '{{ shelf_name }}'
 		});
 	});
 </script>	
