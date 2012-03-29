@@ -89,3 +89,11 @@ class NewShelfForm(forms.Form):
     )
     is_public = forms.BooleanField(required=False)
 
+class AddItemForm(forms.ModelForm):
+    def __init__(self, user, *args, **kwargs):
+        super(AddItemForm, self).__init__(*args, **kwargs)
+        if user is not None:
+            self.fields['shelf'].queryset = Shelf.objects.filter(user=user)
+            self.fields['shelf'].empty_label = None
+    class Meta:
+        model = Item
