@@ -102,6 +102,11 @@ def user_create(request):
         add_item_form = AddItemForm(request.user, request.POST)
         if add_item_form.is_valid():
             add_item_form.save()
+            success_text = '%(item)s added to %(shelf)s.' % {
+                'item': add_item_form.cleaned_data['title'],
+                'shelf': add_item_form.cleaned_data['shelf'].name
+            }
+            messages.success(request, success_text)
             return redirect(reverse(
                 'user_shelf',
                 args=[request.user.username, add_item_form.cleaned_data['shelf'].slug],
