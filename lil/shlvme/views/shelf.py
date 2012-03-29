@@ -3,11 +3,12 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from lil.shlvme.models import Shelf, Item, Creator, NewShelfForm
+from lil.shlvme.models import Shelf, Item, Creator, NewShelfForm, AddItemForm
 import json
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.core.context_processors import csrf
 
 @csrf_exempt
 def api_shelf_create(request):
@@ -52,7 +53,7 @@ def api_shelf(request, shelf):
         return HttpResponse(status=404)
 
     # Edit shelf
-    elif request.method in ('POST', 'PATCH', 'PUT') and request.user.is_authenticated():
+    elif request.method in ('PATCH', 'PUT') and request.user.is_authenticated():
         try:
             serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
@@ -88,6 +89,17 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         reverse('user_home', args=[request.user.username]),
     )
 
+    shelf = json.loads(api_response.content)
+    context = {
+        'user': request.user,
+        'shelf_user': target_user,
+        'is_owner': request.user == target_user,
+        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
+        'shelf_name': shelf_name,
+        'shelf_slug': shelf['slug']
+    }
+    context.update(csrf(request))
+
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
         messages.success(request, shelf_name + ' has been updated.')
         return redirect(referer)
@@ -97,14 +109,8 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     elif api_response.status_code >= 400:
         return api_response
 
-    shelf = json.loads(api_response.content)
-    return render_to_response('shelf/show.html', {
-        'user': request.user,
-        'shelf_user': target_user,
-        'is_owner': request.user == target_user,
-        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
-        'shelf_name': shelf_name
-    })
+    context.update({ 'messages': messages.get_messages(request) })
+    return render_to_response('shelf/show.html', context)
 
 def _serialize_shelves_with_items(shelves):
     return [_serialize_shelf(shelf) for shelf in shelves]

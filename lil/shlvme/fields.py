@@ -137,3 +137,9 @@ class UUIDField(models.CharField):
             }
         defaults.update(kwargs)
         return super(UUIDField, self).formfield(**defaults) 
+
+#class ShelfChoiceField(forms.ModelChoiceField):
+#    def label_from_instance(self, obj):
+#        return obj.
+
+

@@ -1,10 +1,27 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
-from lil.shlvme.models import Shelf, Item, Creator, Tag
+from django.shortcuts import redirect, render_to_response
+from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm
 import json
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.core.context_processors import csrf
+
+@csrf_exempt
+def api_item_create(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+
+    if request.method == 'POST':
+        pass
+
+    return HttpResponseNotAllowed(['POST'])
+
+@csrf_exempt
+def api_item_by_uuid(request, url_item_uuid):
+    pass
 
 @csrf_exempt
 def api_item(request, url_item_uuid=None):
@@ -69,4 +86,34 @@ def api_item(request, url_item_uuid=None):
         object_to_serialize['message'] = message
 
         return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
-        
+
+def user_create(request):
+    if not request.user.is_authenticated():
+        messages.warning(request, 'You need to sign in to add items.')
+        return redirect(reverse('process_login'))
+    
+    context = {}
+    context.update(csrf(request))
+
+    if request.method == 'GET':
+        add_item_form = AddItemForm(request.user, initial=request.GET)
+
+    elif request.method == 'POST':
+        add_item_form = AddItemForm(request.user, request.POST)
+        if add_item_form.is_valid():
+            add_item_form.save()
+            success_text = '%(item)s added to %(shelf)s.' % {
+                'item': add_item_form.cleaned_data['title'],
+                'shelf': add_item_form.cleaned_data['shelf'].name
+            }
+            messages.success(request, success_text)
+            return redirect(reverse(
+                'user_shelf',
+                args=[request.user.username, add_item_form.cleaned_data['shelf'].slug],
+            ))
+
+    context.update({
+        'user': request.user,
+        'add_item_form': add_item_form
+    })
+    return render_to_response('item/create.html', context)
