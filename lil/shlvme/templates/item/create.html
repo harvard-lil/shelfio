@@ -1,0 +1,14 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<article class="thin-centered">
+		<form action="." method="post">
+			{% csrf_token %}
+			<h1>Add Item to Shelf</h1>
+			{{ add_item_form.as_p }}
+			<p>
+				<input type="submit" value="Add Item" class="button positive">
+			</p>
+		</form>
+	</article>
+{% endblock content %}

@@ -1,7 +1,6 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-	
 	<article class="half-half">
 		<h1>
 			<a href="{% url user_home shelf_user.username %}">
@@ -27,7 +26,7 @@
 			$('#active-stack').stackView({
 		    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
 		    ribbon: '{{ shelf_name }}'
+			});
 		});
-	});
-</script>	
+	</script>	
 {% endblock scripts %}

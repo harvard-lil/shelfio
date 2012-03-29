@@ -39,9 +39,11 @@ def process_login(request):
         if not request.user.is_authenticated():
             formset = LoginForm()
             
-            c = {}
+            c = {
+                'formset': formset,
+                'messages': messages.get_messages(request)
+            }
             c.update(csrf(request))
-            c.update({'formset': formset})
             return render_to_response('login.html', c)
         else:
             return redirect(reverse('welcome'))
