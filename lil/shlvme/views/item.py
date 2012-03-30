@@ -4,7 +4,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
-from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm
+from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm, CreatorForm
 import json
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -19,9 +19,11 @@ def api_item_create(request):
         return HttpResponse(status=401)
 
     form = AddItemForm(request.user, request.POST)
-    if form.is_valid():
-        form.save()
-        return HttpResponse(json.dumps(form.cleaned_data, cls=DjangoJSONEncoder), mimetype='application/json')
+    creator_form = CreatorForm(request.POST)
+    if form.is_valid() and creator_form.is_valid():
+        item = form.save()
+        _save_creators(creator_form, item)
+        return HttpResponse(json.dumps(serialize_item(item), cls=DjangoJSONEncoder), mimetype='application/json')
     else:
         return HttpResponse(status=400)
 
@@ -37,7 +39,7 @@ def api_item_by_uuid(request, url_item_uuid):
 
         shelf = Shelf.objects.get(shelf_uuid=item.shelf.shelf_uuid)
         if shelf.is_public or shelf.user == request.user:
-            serialized_item = _serialize_item(item)
+            serialized_item = serialize_item(item)
             return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
         return HttpResponse(status=404)
 
@@ -46,6 +48,7 @@ def api_item_by_uuid(request, url_item_uuid):
 
     if request.method in ['PUT', 'PATCH', 'POST']:
         pass
+
 
 def user_create(request):
     if not request.user.is_authenticated():
@@ -57,11 +60,14 @@ def user_create(request):
 
     if request.method == 'GET':
         add_item_form = AddItemForm(request.user, initial=request.GET)
+        creator_form = CreatorForm(initial=request.GET)
 
     elif request.method == 'POST':
         add_item_form = AddItemForm(request.user, request.POST)
-        if add_item_form.is_valid():
-            add_item_form.save()
+        creator_form = CreatorForm(request.POST)
+        if add_item_form.is_valid() and creator_form.is_valid():
+            item = add_item_form.save()
+            _save_creators(creator_form, item)
             success_text = '%(item)s added to %(shelf)s.' % {
                 'item': add_item_form.cleaned_data['title'],
                 'shelf': add_item_form.cleaned_data['shelf'].name
@@ -74,15 +80,25 @@ def user_create(request):
 
     context.update({
         'user': request.user,
-        'add_item_form': add_item_form
+        'add_item_form': add_item_form,
+        'creator_form': creator_form
     })
     return render_to_response('item/create.html', context)
 
-def _serialize_item(item):
+def serialize_item(item):
     serialized = {}
     for field in item._meta.fields:
         serialized[field.name] = getattr(item, field.name)
-    serialized['item_uuid'] = '%s' % item.item_uuid
-    serialized['shelf'] = '%s' % item.shelf.shelf_uuid
+    serialized['item_uuid'] = str(item.item_uuid)
+    serialized['shelf'] = str(item.shelf.shelf_uuid)
+    creators = Creator.objects.filter(item=item)
+    creators_list = [creator.name for creator in creators]
+    serialized['creator'] = creators_list
     return serialized
+
+def _save_creators(creator_form, item):
+    creators = [c.strip() for c in creator_form.cleaned_data['creator'].split(',')]
+    for creator in creators:
+        c = Creator(name=creator, item=item)
+        c.save()
 
