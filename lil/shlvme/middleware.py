@@ -7,5 +7,4 @@ class MethodOverrideMiddleware(object):
         if '_method' in request.POST.keys():
             request.method = request.POST['_method'].upper()
         request.originalMethod = request.method
-        print request.method
         return None

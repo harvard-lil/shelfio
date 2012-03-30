@@ -29,6 +29,8 @@ def api_item_create(request):
 
 @csrf_exempt
 def api_item_by_uuid(request, url_item_uuid):
+    print request.method
+    
     if request.method == 'GET':
         try:
             item = Item.objects.get(item_uuid=url_item_uuid)
@@ -44,7 +46,17 @@ def api_item_by_uuid(request, url_item_uuid):
         return HttpResponse(status=404)
 
     if request.method == 'DELETE':
-        pass
+        try:
+            item = Item.objects.get(item_uuid=url_item_uuid)
+        except Item.DoesNotExist:
+            return HttpResponse(status=404)
+        except Item.MultipleObjectsReturned:
+            return HttpResponse(status=500)
+        shelf = Shelf.objects.get(shelf_uuid=item.shelf.shelf_uuid)
+        if shelf.user == request.user:
+            item.delete()
+            return HttpResponse(status=204)
+        return HttpResponse(status=404)
 
     if request.method in ['PUT', 'PATCH', 'POST']:
         pass
