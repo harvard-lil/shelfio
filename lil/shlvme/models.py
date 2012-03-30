@@ -7,6 +7,7 @@ from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
 from django.template.defaultfilters import slugify
+from django.utils import simplejson
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
@@ -97,3 +98,6 @@ class AddItemForm(forms.ModelForm):
             self.fields['shelf'].empty_label = None
     class Meta:
         model = Item
+
+class CreatorForm(forms.Form):
+    creator = forms.CharField(max_length=1000)

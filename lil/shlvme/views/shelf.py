@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.context_processors import csrf
+from lil.shlvme.views.item import serialize_item
 
 @csrf_exempt
 def api_shelf_create(request):
@@ -124,30 +125,8 @@ def _update_shelf_data(shelf, updates):
     return shelf
 
 def _serialize_shelf(shelf):
-    item_list = []
     items = Item.objects.filter(shelf=shelf)
-
-    for item in items:
-        creators = Creator.objects.filter(item=item)
-        creators_list = []
-        for creator in creators:
-            creators_list.append(creator.name)
-        
-        doc = {
-            'item_uuid': str(item.item_uuid),
-            'title': item.title,
-            'creator': creators_list,
-            'isbn': item.isbn,
-            'web_location': item.link,
-            'measurement_height_numeric': float(item.measurement_height_numeric),
-            'measurement_page_numeric': item.measurement_page_numeric,
-            'pub_date': item.pub_date,
-            'shelfrank': item.shelfrank,
-            'content_type': item.content_type,
-            'creation_date': item.creation_date,
-            'sort_order': item.sort_order
-        }
-        item_list.append(doc)
+    item_list = [serialize_item(item) for item in items]
 
     return {
         'shelf_uuid': str(shelf.shelf_uuid),
