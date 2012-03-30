@@ -80,10 +80,11 @@ class MusicbrainzTestCase(unittest.TestCase):
     """
     def setUp(self):
         self.client = Client(enforce_csrf_checks=False)
+        self.client.login(username='testuser', password='testpass')
         
     def tearDown(self):
         pass
 
     def test_add_mb_item(self):
-        response = self.client.get(('%s?loc=http://musicbrainz.org/release-group/20e845b1-c6b5-44f7-ab7e-cbc0e33767b5' % reverse('incoming')))
+        response = self.client.get(('%s?loc=http://musicbrainz.org/release-group/20e845b1-c6b5-44f7-ab7e-cbc0e33767b5' % reverse('incoming')), follow=True)
         self.assertEqual('1996', response.context['pub_date'])

@@ -1,4 +1,5 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
 from amazonproduct import API
 import re
 import logging
@@ -20,31 +21,27 @@ logging.basicConfig(
     filemode = 'w'
 )
 
-
 def incoming(request):
     url = request.GET.get('loc', None)
+
+    details = {}
     
     if re.search(r'amazon\.com', url):
         details = get_amazon_details(url)
-        return render_to_response('add-item.html', {'user': request.user, 'creator': details['creator'], 'title': details['title'], 
-                                                    'isbn': details['isbn'], 'measurement_page_numeric': details['measurement_page_numeric'],
-                                                    'measurement_height_numeric': details['measurement_height_numeric'],
-                                                    'content_type': details['content_type'], 'pub_date': details['pub_date'],
-                                                    'link': url, 'creator': details['creator']})
 
     elif re.search(r'imdb\.com', url):
         details = get_imdb_details(url)
-        return render_to_response('add-item.html', {'user': request.user, 'title': details['title'],
-                                                    'link': url, 'content_type': details['content_type'],
-                                                    'creator': details['creator'], 'pub_date': details['pub_date']})
 
     elif re.search(r'musicbrainz\.org', url):
         details = get_musicbrainz_details(url)
-        return render_to_response('add-item.html', {'user': request.user, 'title': details['title'],
-                                                    'link': url, 'content_type': details['content_type'],
-                                                    'creator': details['creator'], 'pub_date': details['pub_date']})
+        
+    encoded_params = urllib.urlencode(details)
+        
+    url = reverse('user_item_create')
+    return redirect(url + '?' + encoded_params)
+    
 def get_amazon_details(url):
-    """Given an IMDB URL, get title, creator, etc. from imdapi.com
+    """Given an Amazon URL, get title, creator, etc. from imdapi.com
     """
     matches = re.search(r'\/([A-Z0-9]{10})($|\/)', url)
     asin = matches.group(1)
@@ -56,15 +53,26 @@ def get_amazon_details(url):
     details = {}
     
     looked_up_item = api.item_lookup(asin, IdType='ASIN', AssociateTag= AMZ['ASSOCIATE_TAG'], ResponseGroup='Large')
-    item_attributes = looked_up_item['Items']['Item']['ItemAttributes']
-                   
-    details['creator'] = item_attributes['Author']
-    details['title'] = item_attributes['Title']
-    details['isbn'] = item_attributes['ISBN']
-    details['measurement_page_numeric'] = item_attributes['NumberOfPages']
-    details['measurement_height_numeric'] = item_attributes['ItemDimensions']['Length']
-    details['content_type'] = item_attributes['ProductGroup']
-    details['pub_date'] = item_attributes['PublicationDate']
+
+    if looked_up_item['Items']['Item']['ItemAttributes'] is not None:
+        item_attributes = looked_up_item['Items']['Item']['ItemAttributes']
+        
+        if hasattr(item_attributes, 'Author'):
+            details['creator'] = item_attributes['Author']
+        if hasattr(item_attributes, 'Title'):
+            details['title'] = item_attributes['Title']
+        if hasattr(item_attributes, 'ISBN'):
+            details['isbn'] = item_attributes['ISBN']
+        if hasattr(item_attributes, 'NumberOfPages'):
+            details['measurement_page_numeric'] = item_attributes['NumberOfPages']
+        if hasattr(item_attributes, 'ItemDimensions') and hasattr(item_attributes['ItemDimensions'], 'Length'):
+            amz_length = int(item_attributes['ItemDimensions']['Length'])
+            height_in_inches = (amz_length / 100) * 2.54
+            details['measurement_height_numeric'] = height_in_inches
+        if hasattr(item_attributes, 'Author'):
+            details['content_type'] = item_attributes['ProductGroup']
+        if hasattr(item_attributes, 'PublicationDate'):
+            details['pub_date'] = item_attributes['PublicationDate']
         
     return details
 
