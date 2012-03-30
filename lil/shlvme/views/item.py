@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
@@ -8,84 +9,43 @@ import json
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.context_processors import csrf
+from django.views.decorators.http import require_POST
+from django.forms.models import model_to_dict
 
 @csrf_exempt
+@require_POST
 def api_item_create(request):
     if not request.user.is_authenticated():
         return HttpResponse(status=401)
 
-    if request.method == 'POST':
-        pass
-
-    return HttpResponseNotAllowed(['POST'])
+    form = AddItemForm(request.user, request.POST)
+    if form.is_valid():
+        form.save()
+        return HttpResponse(json.dumps(form.cleaned_data, cls=DjangoJSONEncoder), mimetype='application/json')
+    else:
+        return HttpResponse(status=400)
 
 @csrf_exempt
 def api_item_by_uuid(request, url_item_uuid):
-    pass
+    if request.method == 'GET':
+        try:
+            item = Item.objects.get(item_uuid=url_item_uuid)
+        except Item.DoesNotExist:
+            return HttpResponse(status=404)
+        except Item.MultipleObjectsReturned:
+            return HttpResponse(status=500)
 
-@csrf_exempt
-def api_item(request, url_item_uuid=None):
-    """API for items
-    Something like shlv.me/api/item/7838a693-7ea9-4f3a-8e4f-40ad3b8492e3
-    or, something like shlv.me/api/item/
-    TODO: we need to validate/clean/urldecode the GET/POST values
-    """
-    
-    # Add a new item to a shelf
-    # TODO: All kinds of validation. Also, some type of transaction so that the item and creator are saved together?
-    if request.method == 'POST' and request.user.is_authenticated():
-        target_user = User.objects.get(username=request.user.username)
-        target_shelf = Shelf.objects.get(user=target_user, name=request.POST.get('shelf-name'))
+        shelf = Shelf.objects.get(shelf_uuid=item.shelf.shelf_uuid)
+        if shelf.is_public or shelf.user == request.user:
+            serialized_item = _serialize_item(item)
+            return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
+        return HttpResponse(status=404)
 
-        staged_item = Item(shelf=target_shelf, title=request.POST.get('title'), isbn=request.POST.get('isbn'))
-        staged_item.save()
-        
-        staged_creator = Creator(item=staged_item, name=request.POST.get('creator'))
-        staged_creator.save()
-        
-        return HttpResponse(status=201)
-        
-    # Edit an existing shelf
-    elif request.method == 'POST' and request.user.is_authenticated() and url_item_uuid is not None:
-        return HttpResponse(status=202)
+    if request.method == 'DELETE':
+        pass
 
-    # Get tags for an item
-    elif request.method == 'GET' and request.user.is_authenticated() and url_item_uuid is not None:
-        # Some boilerplate
-        docs = []
-        tags = None
-        message = ''
-        
-        target_item = Item.objects.get(item_uuid=url_item_uuid)
-        target_shelf = target_item.shelf
-    
-        # Get tags for item that user owns
-        if request.user.is_authenticated():
-            target_user = User.objects.get(username=request.user.username)
-            
-            # User owns the shelf
-            if target_shelf.user == target_user:
-                tags = Tag.objects.filter(item = target_item)
-                
-            else:
-                tags = get_public_tags(url_item_uuid)
-                
-            docs = serialize_tags(tags)
-           
-        else:
-            tags = get_public_tags(url_item_uuid)
-            
-            docs = serialize_tags(tags)
-        
-
-        object_to_serialize = {}
-
-        object_to_serialize['item_uuid'] = str(target_shelf.shelf_uuid)
-        object_to_serialize['num_found'] = len(docs)
-        object_to_serialize['docs'] = docs
-        object_to_serialize['message'] = message
-
-        return HttpResponse(json.dumps(object_to_serialize, cls=DjangoJSONEncoder), mimetype='application/json')
+    if request.method in ['PUT', 'PATCH', 'POST']:
+        pass
 
 def user_create(request):
     if not request.user.is_authenticated():
@@ -117,3 +77,12 @@ def user_create(request):
         'add_item_form': add_item_form
     })
     return render_to_response('item/create.html', context)
+
+def _serialize_item(item):
+    serialized = {}
+    for field in item._meta.fields:
+        serialized[field.name] = getattr(item, field.name)
+    serialized['item_uuid'] = '%s' % item.item_uuid
+    serialized['shelf'] = '%s' % item.shelf.shelf_uuid
+    return serialized
+

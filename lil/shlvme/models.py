@@ -7,6 +7,7 @@ from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
 from django.template.defaultfilters import slugify
+from django.utils import simplejson
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
