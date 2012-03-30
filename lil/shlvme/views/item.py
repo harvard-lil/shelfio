@@ -11,6 +11,9 @@ from django.contrib import messages
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_POST
 from django.forms.models import model_to_dict
+import logging
+
+logger = logging.getLogger(__name__)
 
 @csrf_exempt
 @require_POST
@@ -28,9 +31,7 @@ def api_item_create(request):
         return HttpResponse(status=400)
 
 @csrf_exempt
-def api_item_by_uuid(request, url_item_uuid):
-    print request.method
-    
+def api_item_by_uuid(request, url_item_uuid):  
     if request.method == 'GET':
         try:
             item = Item.objects.get(item_uuid=url_item_uuid)
@@ -45,6 +46,7 @@ def api_item_by_uuid(request, url_item_uuid):
             return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
         return HttpResponse(status=404)
 
+    
     if request.method == 'DELETE':
         try:
             item = Item.objects.get(item_uuid=url_item_uuid)
@@ -62,7 +64,7 @@ def api_item_by_uuid(request, url_item_uuid):
         pass
 
 
-def user_create(request):
+def user_create(request):    
     if not request.user.is_authenticated():
         messages.warning(request, 'You need to sign in to add items.')
         return redirect(reverse('process_login'))

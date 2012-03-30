@@ -8,18 +8,12 @@ import urllib2
 import json
 from xml.etree.ElementTree import fromstring, ElementTree
 
+logger = logging.getLogger(__name__)
+
 try:
     from lil.shlvme.local_settings import *
 except ImportError, e:
-    print 'Unable to load local_settings.py:', e
-    
-logger = logging.getLogger(__name__)
-logging.basicConfig(
-    level = logging.INFO,
-    format = '%(asctime)s %(levelname)s %(filename)s %(lineno)d %(message)s',
-    filename = '/tmp/shlvme.log',
-    filemode = 'w'
-)
+    logger.error('Unable to load local_settings.py:', e)
 
 def incoming(request):
     url = request.GET.get('loc', None)
@@ -35,10 +29,10 @@ def incoming(request):
     elif re.search(r'musicbrainz\.org', url):
         details = get_musicbrainz_details(url)
         
+    details['link'] = url
     encoded_params = urllib.urlencode(details)
-        
-    url = reverse('user_item_create')
-    return redirect(url + '?' + encoded_params)
+
+    return redirect(reverse('user_item_create') + '?' + encoded_params)
     
 def get_amazon_details(url):
     """Given an Amazon URL, get title, creator, etc. from imdapi.com
@@ -95,7 +89,6 @@ def get_imdb_details(url):
     response_json = json.loads(response.read())
 
     details['title'] = response_json['Title']
-    details['link'] = url
     details['content_type'] = 'dvd'
     details['creator'] = response_json['Director']
     details['pub_date'] = response_json['Year']
