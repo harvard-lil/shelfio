@@ -611,6 +611,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   background: #000;
   line-height: 1.875;
   padding: 0 10px;
+  cursor: pointer;
 }
 .button, .button:visited {
   color: #fff;
@@ -735,13 +736,36 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0;
 }
 
+.js .form-hidden {
+  display: none;
+}
+
+.ui-dialog-titlebar {
+  display: none;
+}
+
+.ui-widget-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #000;
+}
+.rgba .ui-widget-overlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal {
+  background: #fff;
+}
+
 .welcome h1 {
   margin: 0;
   font-size: 72px;
 }
 
-.js #edit-profile.form-hidden {
-  display: none;
+.user h1 .button {
+  vertical-align: middle;
+  font-size: 16px;
 }
 
 .active-item {

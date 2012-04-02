@@ -1,0 +1,19 @@
+.ui-dialog-titlebar {
+	display:none;
+}
+
+.ui-widget-overlay {
+	position:fixed;
+	top:0;
+	left:0;
+	background:#000;
+
+	.rgba & {
+		background:rgba(0,0,0,.5);
+	}
+}
+
+.modal {
+	background:#fff;
+}
+

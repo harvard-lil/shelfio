@@ -7,7 +7,9 @@
 		</aside>
 
 		<div class="content">
-			<h1>Shelves</h1>
+			<h1>Shelves
+				<a href="#new-shelf" title="New Shelf" class="button positive">+</a>
+			</h1>
 			{% for shelf in docs %}
 				{% include "partials/shelf-overview.html" %}
 			{% empty %}

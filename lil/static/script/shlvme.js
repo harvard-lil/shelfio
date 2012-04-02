@@ -64,10 +64,42 @@
 		*/
 		var $editProfileLinks = $('a[href="#edit-profile"]'),
 		    $editProfile = $('#edit-profile');
+
 		$editProfileLinks.click(function(e) {
 			$editProfileLinks.addClass('hidden');
 			$editProfile.removeClass('form-hidden');
 			e.preventDefault();
 		});
+
+		/*
+		   Global
+
+		   Modal activations.
+		*/
+		$('.modal').each(function(i, el) {
+			var $modal = $(el),
+			    $links = $('a[href="#' + $modal.attr('id') + '"]'),
+			    $closers = $modal.find('.modal-close');
+
+			$modal.dialog({
+				autoOpen:false,
+				modal:true,
+				resizable:false,
+				draggable:false
+			});
+
+			$links.click(function(e) {
+				$modal.dialog('open');
+				e.preventDefault();
+			});
+
+			$closers.click(function(e) {
+				$modal.dialog('close');
+				e.preventDefault();
+			});
+		});
+
+		// A little helper for reducing flashes during page loads with CSS.
+		$('html').addClass('ready');
 	});
 })(jQuery);
