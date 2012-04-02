@@ -56,5 +56,18 @@
 			});
 			$(this).find('.stack-items').disableSelection();
 		});
+
+		/*
+		   /shlvme/:user
+
+		   Show/hide edit profile form
+		*/
+		var $editProfileLinks = $('a[href="#edit-profile"]'),
+		    $editProfile = $('#edit-profile');
+		$editProfileLinks.click(function(e) {
+			$editProfileLinks.addClass('hidden');
+			$editProfile.removeClass('form-hidden');
+			e.preventDefault();
+		});
 	});
 })(jQuery);

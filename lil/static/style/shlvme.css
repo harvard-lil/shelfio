@@ -740,6 +740,14 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   font-size: 72px;
 }
 
+.js #edit-profile.form-hidden {
+  display: none;
+}
+
 .active-item {
-  left: 15px;
+  -webkit-transform: translate(15px, 0);
+  -moz-transform: translate(15px, 0);
+  -ms-transform: translate(15px, 0);
+  -o-transform: translate(15px, 0);
+  transform: translate(15px, 0);
 }
