@@ -739,3 +739,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0;
   font-size: 72px;
 }
+
+.active-item {
+  left: 15px;
+}

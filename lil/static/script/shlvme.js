@@ -7,7 +7,11 @@
 		   Show item information on item click in shelf.
 		*/
 		$b.delegate('#active-stack .stack-item a', 'click', function(e) {
-			var data = $(this).closest('.stack-item').data('stackviewItem');
+			var $item = $(this).closest('.stack-item'),
+			    data = $item.data('stackviewItem');
+
+			$('#active-stack .active-item').removeClass('active-item');
+			$item.addClass('active-item');
 			$('#active-item').html(tmpl($('#item-details').html(), data));
 			e.preventDefault();
 		});
@@ -28,7 +32,11 @@
 				},
 				statusCode: {
 					204: function() {
-						alert('Deleted!')
+						var $num = $('#active-stack .num-found span'),
+						    num = parseInt($num.html(), 10);
+
+						$num.html(num-1);
+						$('#active-stack .active-item').remove();
 					}
 				}
 			})
