@@ -43,5 +43,18 @@
 			e.preventDefault();
 		});
 
+		/*
+		   /shlvme/:user/:shelf
+
+		   Sort shelf items.
+		*/
+		$b.delegate('.stackview', 'stackview.init', function(e) {
+			$(this).find('.stack-items').sortable({
+				update: function(event, ui) {
+					$('#active-stack').stackView('zIndex');
+				}
+			});
+			$(this).find('.stack-items').disableSelection();
+		});
 	});
 })(jQuery);
