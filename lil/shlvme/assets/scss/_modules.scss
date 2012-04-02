@@ -5,6 +5,7 @@
 	background:#000;
 	line-height:1.875;
 	padding:0 10px;
+	cursor:pointer;
 
 	&, &:visited {
 		color:#fff;
@@ -154,3 +155,8 @@
 		margin:0;
 	}
 }
+
+.js .form-hidden {
+	display:none;
+}
+

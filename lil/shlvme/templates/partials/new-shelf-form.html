@@ -1,4 +1,4 @@
-<form action="{% url user_home user.username %}" method="post" class="new-shelf island contained-form">
+<form action="{% url user_home user.username %}" method="post" class="modal island contained-form" id="new-shelf">
 	{% csrf_token %}
 	<header>
 		<h3>New Shelf</h3>
@@ -23,6 +23,7 @@
 
 		<p>
 			<input type="submit" value="Create Shelf" class="button positive">
+			<a class="button neutral modal-close">Cancel</a>
 		</p>
 	</section>
 </form>
