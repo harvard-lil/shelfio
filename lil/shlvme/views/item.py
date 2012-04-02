@@ -11,6 +11,7 @@ from django.contrib import messages
 from django.core.context_processors import csrf
 from django.views.decorators.http import require_POST
 from django.forms.models import model_to_dict
+from lil.shlvme.utils import fill_with_get
 import logging
 
 logger = logging.getLogger(__name__)
@@ -73,8 +74,11 @@ def user_create(request):
     context.update(csrf(request))
 
     if request.method == 'GET':
-        add_item_form = AddItemForm(request.user, initial=request.GET)
-        creator_form = CreatorForm(initial=request.GET)
+        print request.GET
+        add_item_form = AddItemForm(request.user)
+        creator_form = CreatorForm()
+        fill_with_get(add_item_form, request.GET)
+        fill_with_get(creator_form, request.GET)
 
     elif request.method == 'POST':
         add_item_form = AddItemForm(request.user, request.POST)
