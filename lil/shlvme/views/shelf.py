@@ -90,6 +90,12 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         reverse('user_home', args=[request.user.username]),
     )
 
+    if api_response.status_code == 204:
+        messages.info(request, shelf_name + ' has been deleted.')
+        return redirect(referer)
+    elif api_response.status_code >= 400:
+        return api_response
+
     shelf = json.loads(api_response.content)
     context = {
         'user': request.user,
@@ -104,11 +110,6 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
         messages.success(request, shelf_name + ' has been updated.')
         return redirect(referer)
-    elif api_response.status_code == 204:
-        messages.info(request, shelf_name + ' has been deleted.')
-        return redirect(referer)
-    elif api_response.status_code >= 400:
-        return api_response
 
     context.update({ 'messages': messages.get_messages(request) })
     return render_to_response('shelf/show.html', context)
