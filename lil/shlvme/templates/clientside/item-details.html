@@ -1,0 +1,24 @@
+<script type='text/x-template' id="item-details">
+	<div class="item-details">
+		<h3><a href="<%=link%>"><%=title%></a></h3>
+		<ul>
+			<li>
+				<h4>Creators:</h4>
+				<%=creator.join(', ')%>
+			</li>
+			<li>
+				<h4>Published:</h4>
+				<%=pub_date%>
+			</li>
+			<li>
+				<h4>ISBN:</h4>
+				<%=isbn%>
+			</li>
+			<li>
+				<h4>Item Created:</h4>
+				<%=creation_date%>
+			</li>
+		</ul>
+		<p><a href="/shlvme/api/item/<%=item_uuid%>/" class="button negative delete-item">Delete Item</a></p>
+	</div>
+</script>

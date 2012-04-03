@@ -1,0 +1,31 @@
+<script type="text/x-template" id="edit-shelf">
+	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="island contained-form">
+		{% csrf_token %}
+		<input type="hidden" name="_method" value="patch">
+
+		<header>
+			<h3>Edit Shelf</h3>
+		</header>
+
+		<section>
+			<p>
+				<label for="id_name">Shelf Name:</label>
+				<input type="text" maxlength="200" name="name" value="<%=name%>">
+			</p>
+
+			<p>
+				<label for="id_description">Shelf Description:</label>
+				<textarea name="description" rows="4"><%=description%></textarea>
+			</p>
+
+			<p>
+				<label>Make Shelf Public: <input type="checkbox" name="is_public" checked="<%=is_public%>"></label>
+			</p>
+
+			<p>
+				<input type="submit" value="Save Shelf" class="button positive">
+				<a class="button neutral" id="cancel-edit">Cancel</a>
+			</p>
+		</section>
+	</form>
+</script>
