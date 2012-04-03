@@ -12,6 +12,18 @@
 	}
 }
 
+.right-actions {
+	list-style:none;
+	float:right;
+	margin:0;
+	padding:6px 0;
+
+	> li {
+		float:left;
+		margin-left:5px;
+	}
+}
+
 @mixin translate($x, $y) {
 	-webkit-transform:translate($x, $y);
 	-moz-transform:translate($x, $y);

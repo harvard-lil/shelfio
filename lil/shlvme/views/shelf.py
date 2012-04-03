@@ -54,7 +54,7 @@ def api_shelf(request, shelf):
         return HttpResponse(status=404)
 
     # Edit shelf
-    elif request.method in ('PATCH', 'PUT') and request.user.is_authenticated():
+    elif request.method in ['PATCH', 'PUT', 'POST'] and request.user.is_authenticated():
         try:
             serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
@@ -94,7 +94,8 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         messages.info(request, shelf_name + ' has been deleted.')
         return redirect(referer)
     elif api_response.status_code >= 400:
-        return api_response
+        messages.error(request, 'Shelf name is required')
+        return redirect(referer)
 
     shelf = json.loads(api_response.content)
     context = {
@@ -118,12 +119,16 @@ def _serialize_shelves_with_items(shelves):
     return [_serialize_shelf(shelf) for shelf in shelves]
 
 def _update_shelf_data(shelf, updates):
-    updatables = ['name', 'description', 'is_public']
-    for key, val in updates.items():
-        if key in updatables:
-            setattr(shelf, key, val)
-    shelf.save()
-    return shelf
+    form = NewShelfForm(updates)
+    if form.is_valid():
+        updatables = ['name', 'description', 'is_public']
+        for key, val in updates.items():
+            if key in updatables:
+                setattr(shelf, key, val)
+        shelf.save()
+        return shelf
+    else:
+        raise ValidationError('Shelf name is required')
 
 def _serialize_shelf(shelf):
     items = Item.objects.filter(shelf=shelf)
