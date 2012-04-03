@@ -8,6 +8,7 @@ from lil.shlvme.models import Shelf, EditProfileForm, NewShelfForm
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
+from django.contrib import messages
 
 @csrf_exempt
 def api_user(request, url_user_name):
@@ -40,13 +41,9 @@ def user_home(request, user_name):
     context.update(csrf(request))
     context.update({ 'user': request.user, 'new_shelf_form': NewShelfForm() })
     context.update({ 'profileform': EditProfileForm(context)})
-    
-    # View user profile
-    if request.method == 'GET':
-        return render_to_response('user/show.html', context)
 
     # Modify user profile
-    elif request.method == 'PATCH':
+    if request.method in ['PATCH', 'PUT']:
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():
@@ -75,7 +72,8 @@ def user_home(request, user_name):
             return redirect(request.path)
 
         context['new_shelf_form'] = new_shelf_form
-    
+        
+    context['messages'] = messages.get_messages(request);
     return render_to_response('user/show.html', context)
 
 def _get_user_data(request, user_name):

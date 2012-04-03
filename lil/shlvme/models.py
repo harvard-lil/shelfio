@@ -42,7 +42,6 @@ class Item(models.Model):
     def __unicode__(self):
         return self.title
 
-
     class Meta:
         ordering = ['sort_order']
         models.CharField(max_length=200)
