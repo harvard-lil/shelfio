@@ -16,15 +16,18 @@ def api_shelf_create(request):
     if request.method == 'POST' and request.user.is_authenticated():
         form = NewShelfForm(request.POST)
         if form.is_valid():
-            shelf = Shelf(
-                user=request.user,
-                name=form.cleaned_data['name'],
-                description=form.cleaned_data['description'],
-                is_public=form.cleaned_data['is_public'],
-            )
-            shelf.save()
+            try:
+                shelf = Shelf(
+                    user=request.user,
+                    name=form.cleaned_data['name'],
+                    description=form.cleaned_data['description'],
+                    is_public=form.cleaned_data['is_public'],
+                )
+                shelf.save()
+            except ValidationError, e:
+                return HttpResponse('A shelf by that name already exists.', status=400)
         else:
-            return HttpResponse(400)
+            return HttpResponse('Shelf name is required.', status=400)
         return HttpResponse(status=201)
 
     # POST but not authenticated
@@ -94,7 +97,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         messages.info(request, shelf_name + ' has been deleted.')
         return redirect(referer)
     elif api_response.status_code >= 400:
-        messages.error(request, 'Shelf name is required')
+        messages.error(request, api_response.content)
         return redirect(referer)
 
     shelf = json.loads(api_response.content)

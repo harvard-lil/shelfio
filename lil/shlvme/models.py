@@ -8,6 +8,7 @@ from lil.shlvme.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
 from django.template.defaultfilters import slugify
 from django.utils import simplejson
+from django.core.exceptions import ValidationError
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
@@ -22,8 +23,12 @@ class Shelf(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Shelf, self).save(*args, **kwargs)
+        slug = slugify(self.name)
+        if Shelf.objects.filter(user=self.user, slug=slug).exists():
+            raise ValidationError('You already have a shelf by that name.')
+        else:
+            self.slug = slugify(self.name)
+            super(Shelf, self).save(*args, **kwargs)
 
 class Item(models.Model):
     shelf = models.ForeignKey(Shelf)
