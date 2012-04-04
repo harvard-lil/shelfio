@@ -24,6 +24,11 @@
 	}
 }
 
+.depressed-text {
+	color:rgba(0,0,0,.5);
+	text-shadow:1px 1px 1px rgba(255,255,255,.5), -1px -1px 1px rgba(0,0,0,.2);
+}
+
 @mixin translate($x, $y) {
 	-webkit-transform:translate($x, $y);
 	-moz-transform:translate($x, $y);

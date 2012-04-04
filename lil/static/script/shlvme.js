@@ -15,6 +15,7 @@ var BASE_URL = '/shlvme/';
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
 			$('#active-item').html(tmpl($('#item-details').html(), data));
+			bindConfirmations('#active-item');
 			e.preventDefault();
 		});
 
@@ -39,6 +40,7 @@ var BASE_URL = '/shlvme/';
 
 						$num.html(num-1);
 						$('#active-stack .active-item').remove();
+						$('#active-item').empty();
 					}
 				}
 			})
@@ -138,34 +140,36 @@ var BASE_URL = '/shlvme/';
 
 		   Declarative confirmation modal.
 		*/
-		$('[data-confirm-message]').bind('click.confirmer', function(e) {
-			var $this= $(this),
-			    $confirmation = $(tmpl($('#confirm-modal').html(), {
-			    	type: $this.data('confirm-type'),
-			    	accept: $this.data('confirm-accept'),
-			    	reject: $this.data('confirm-reject'),
-			    	message: $this.data('confirm-message')
-			    }));
+		function bindConfirmations(context) {
+			$(context).find('[data-confirm-message]').bind('click.confirmer', function(e) {
+				var $this= $(this),
+				    $confirmation = $(tmpl($('#confirm-modal').html(), {
+				    	type: $this.data('confirm-type'),
+				    	accept: $this.data('confirm-accept'),
+				    	reject: $this.data('confirm-reject'),
+				    	message: $this.data('confirm-message')
+				    }));
 
-			console.log('clicked');
-			$confirmation.delegate('.confirm-reject', 'click', function(e) {
-				$confirmation.dialog('destroy').remove();
-				e.preventDefault();
-			}).delegate('.confirm-accept', 'click', function(e) {
-				$this.unbind('click.confirmer').addClass('confirmed');
-				$confirmation.dialog('close');
-				$this.click();
+				$confirmation.delegate('.confirm-reject', 'click', function(e) {
+					$confirmation.dialog('destroy').remove();
+					e.preventDefault();
+				}).delegate('.confirm-accept', 'click', function(e) {
+					$this.unbind('click.confirmer').addClass('confirmed');
+					$confirmation.dialog('close');
+					$this.click();
+					e.preventDefault();
+				});
+
+				$confirmation.dialog({
+					modal:true,
+					resizable:false,
+					draggable:false
+				});
+
 				e.preventDefault();
 			});
-
-			$confirmation.dialog({
-				modal:true,
-				resizable:false,
-				draggable:false
-			});
-
-			e.preventDefault();
-		});
+		}
+		bindConfirmations('body');
 
 		// A little helper for reducing flashes during page loads with CSS.
 		$('html').addClass('ready');

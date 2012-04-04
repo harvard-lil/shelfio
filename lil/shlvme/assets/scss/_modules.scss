@@ -1,20 +1,36 @@
 .button {
 	display:inline-block;
-	border:1px solid #fff;
+	border:1px solid $buttonBorderColor;
 	text-decoration:none;
-	background:#000;
 	line-height:1.875;
 	padding:0 10px;
 	cursor:pointer;
+	background:transparent;
 
 	&, &:visited {
-		color:#fff;
+		color:$buttonTextColor;
 	}
 
 	&:hover, &:focus {
-		background:#fff;
-		color:#000;
-		border-color:#000;
+		color:#fff;
+	}
+
+	&.positive {
+		&:hover, &:focus {
+			background:$positiveColor;
+		}
+	}
+
+	&.neutral {
+		&:hover, &:focus {
+			background:$neutralColor;
+		}
+	}
+
+	&.negative {
+		&:hover, &:focus {
+			background:$negativeColor;
+		}
 	}
 }
 
@@ -26,7 +42,7 @@
 	}
 
 	> figcaption {
-		background:#000;
+		background:$islandHeader;
 		text-align:center;
 		color:#fff;
 		line-height:2.25;
@@ -36,10 +52,10 @@
 .island {
 	@extend .clearfix;
 	$gutter: 10px;
-	border:1px solid #000;
+	border:1px solid $islandBorder;
 
 	> header {
-		background:#000;
+		background:$islandHeader;
 		color:#fff;
 		padding:0 $gutter;
 
@@ -53,7 +69,9 @@
 	}
 
 	> footer {
-		border-top:1px solid #000;
+		@extend .clearfix;
+		border-top:1px solid $islandBorder;
+		background:$islandFooter;
 		padding:0 $gutter;
 	}
 }
