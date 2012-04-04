@@ -25,7 +25,7 @@ def api_shelf_create(request):
                 )
                 shelf.save()
             except ValidationError, e:
-                return HttpResponse('A shelf by that name already exists.', status=400)
+                return HttpResponse('A shelf by that name already exists.', status=409)
         else:
             return HttpResponse('Shelf name is required.', status=400)
         return HttpResponse(status=201)
