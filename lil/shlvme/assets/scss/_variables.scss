@@ -1,3 +1,19 @@
 $siteWidth: 960px;
 $siteGutter: 10px;
 $columnSpacing: 60px;
+$standardGray: #444;
+$minorGray: #e5e5e5;
+$crimson: #a51c30;
+
+//$islandHeader: #580813;
+$islandHeader: #777;
+$islandFooter: #e5e5e5;
+$islandBorder: $islandFooter - #111;
+
+$warningColor: #b2ac30;
+$negativeColor: $crimson;
+$positiveColor: #1ca536;
+$neutralColor: #888;
+
+$buttonTextColor: #888;
+$buttonBorderColor: rgba(0,0,0,.1);
