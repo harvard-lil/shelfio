@@ -68,7 +68,10 @@ def user_home(request, user_name):
                 description=new_shelf_form.cleaned_data['description'],
                 is_public=new_shelf_form.cleaned_data['is_public'],
             )
-            new_shelf.save()
+            try:
+                new_shelf.save()
+            except ValidationError:
+                messages.error(request, 'A shelf with that name already exists.')
             return redirect(request.path)
 
         context['new_shelf_form'] = new_shelf_form
