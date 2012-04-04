@@ -15,6 +15,7 @@ var BASE_URL = '/shlvme/';
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
 			$('#active-item').html(tmpl($('#item-details').html(), data));
+			bindConfirmations('#active-item');
 			e.preventDefault();
 		});
 
@@ -39,6 +40,7 @@ var BASE_URL = '/shlvme/';
 
 						$num.html(num-1);
 						$('#active-stack .active-item').remove();
+						$('#active-item').empty();
 					}
 				}
 			})

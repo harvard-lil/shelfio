@@ -19,6 +19,6 @@
 				<%=creation_date%>
 			</li>
 		</ul>
-		<p><a href="/shlvme/api/item/<%=item_uuid%>/" class="button negative delete-item">Delete Item</a></p>
+		<p><a href="/shlvme/api/item/<%=item_uuid%>/" class="button negative delete-item" data-confirm-message="Are you sure you want to delete <%=title%>?" data-confirm-type="negative" data-confirm-accept="Delete Item" data-confirm-reject="Never Mind">Delete Item</a></p>
 	</div>
 </script>
