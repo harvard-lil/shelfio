@@ -1,3 +1,5 @@
+var BASE_URL = '/shlvme/';
+
 (function($) {
 	$(function() {
 		var $b = $('body');
@@ -19,9 +21,9 @@
 		/*
 		   /shlvme/:user/:shelf
 
-		   Delete an item.
+		   Delete an item. Requires confirmation first.
 		*/
-		$b.delegate('a.delete-item', 'click', function(e) {
+		$b.delegate('a.delete-item.confirmed', 'click', function(e) {
 			var $this = $(this);
 
 			$.ajax({
@@ -72,9 +74,37 @@
 		});
 
 		/*
+		   /shlvme/:user
+
+		   Edit shelf modal
+		*/
+		$b.delegate('.edit-shelf', 'click', function(e) {
+			var $this = $(this),
+			    uuid = $this.closest('.shelf-overview').data('uuid'),
+			    template = $('#edit-shelf').html();
+
+			$this.addClass('loading');
+
+			$.getJSON(BASE_URL + 'api/shelf/' + uuid + '/', function(data) {
+				$(tmpl(template, data)).appendTo('body').dialog({
+					modal:true,
+					resizable:false,
+					draggable:false
+				});
+
+				$('#cancel-edit').click(function(event) {
+					$(this).closest('form').dialog('destroy').remove();
+					event.preventDefault();
+				});
+			});
+
+			e.preventDefault();
+		});
+
+		/*
 		   Global
 
-		   Modal activations.
+		   Static modal activations.
 		*/
 		$('.modal').each(function(i, el) {
 			var $modal = $(el),
@@ -97,6 +127,44 @@
 				$modal.dialog('close');
 				e.preventDefault();
 			});
+
+			if ($modal.find('.errorlist').length) {
+				$modal.dialog('open');
+			}
+		});
+
+		/*
+		   Global
+
+		   Declarative confirmation modal.
+		*/
+		$('[data-confirm-message]').bind('click.confirmer', function(e) {
+			var $this= $(this),
+			    $confirmation = $(tmpl($('#confirm-modal').html(), {
+			    	type: $this.data('confirm-type'),
+			    	accept: $this.data('confirm-accept'),
+			    	reject: $this.data('confirm-reject'),
+			    	message: $this.data('confirm-message')
+			    }));
+
+			console.log('clicked');
+			$confirmation.delegate('.confirm-reject', 'click', function(e) {
+				$confirmation.dialog('destroy').remove();
+				e.preventDefault();
+			}).delegate('.confirm-accept', 'click', function(e) {
+				$this.unbind('click.confirmer').addClass('confirmed');
+				$confirmation.dialog('close');
+				$this.click();
+				e.preventDefault();
+			});
+
+			$confirmation.dialog({
+				modal:true,
+				resizable:false,
+				draggable:false
+			});
+
+			e.preventDefault();
 		});
 
 		// A little helper for reducing flashes during page loads with CSS.

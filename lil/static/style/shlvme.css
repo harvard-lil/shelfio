@@ -10,6 +10,17 @@
   clear: both;
 }
 
+.right-actions, .shelf-overview-actions, .confirm-actions {
+  list-style: none;
+  float: right;
+  margin: 0;
+  padding: 6px 0;
+}
+.right-actions > li, .shelf-overview-actions > li, .confirm-actions > li {
+  float: left;
+  margin-left: 5px;
+}
+
 /*
  * HTML5 Boilerplate
  *
@@ -660,23 +671,13 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0;
 }
 .shelf-overview h2 {
-  line-height: 2;
+  line-height: 1;
+  padding: 12px 0;
 }
 .shelf-overview .date {
   font-size: 12px;
   line-height: 1;
   margin-top: 12px;
-}
-
-.shelf-overview-actions {
-  list-style: none;
-  float: right;
-  margin: 0;
-  padding: 6px 0;
-}
-.shelf-overview-actions > li {
-  float: left;
-  margin-left: 5px;
 }
 
 .profile-info {
@@ -690,6 +691,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .contained-form {
   display: inline-block;
+  background: #fff;
 }
 .contained-form p {
   margin: 12px 0 0 0;
@@ -754,8 +756,15 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   background: rgba(0, 0, 0, 0.5);
 }
 
-.modal {
-  background: #fff;
+.js .modal {
+  display: none;
+}
+.ready .modal {
+  display: block;
+}
+
+.confirm-actions {
+  padding: 12px 0;
 }
 
 .welcome h1 {
