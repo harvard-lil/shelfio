@@ -171,6 +171,16 @@ var BASE_URL = '/shlvme/';
 		}
 		bindConfirmations('body');
 
+		/*
+		   Global
+
+		   Flash message dismissal.
+		*/
+		$b.delegate('.flash-messages > li', 'click', function(e) {
+			$(this).fadeOut(500);
+			e.preventDefault();
+		});
+
 		// A little helper for reducing flashes during page loads with CSS.
 		$('html').addClass('ready');
 	});

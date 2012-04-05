@@ -3,13 +3,11 @@
 {% block content %}
 	<article class="register thin-centered">
 		<h1>Create an Account</h1>
-
-		{% include "partials/messages.html" %}
 		
 		<form action="." method="post">
 			{% csrf_token %}
 			{{ form.as_p }}
-			<input type="submit" value="Create Account" class="button positive">
+			<button type="submit" class="button positive icon-ok immediate">Create Account</button>
 		</form>
 	</article>
 {% endblock content %}

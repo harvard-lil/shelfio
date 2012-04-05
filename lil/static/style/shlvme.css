@@ -1,22 +1,30 @@
+@font-face {
+  font-family: 'FontAwesome';
+  src: url("../fonts/fontawesome-webfont.eot");
+  src: url("../fonts/fontawesome-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/fontawesome-webfont.woff") format("woff"), url("../fonts/fontawesome-webfont.ttf") format("truetype"), url("../fonts/fontawesome-webfont.svgz#FontAwesomeRegular") format("svg"), url("../fonts/fontawesome-webfont.svg#FontAwesomeRegular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
 /* Contain floats: h5bp.com/q */
-.clearfix, .global-header > nav, .half-half, .two-thirds, .island, .island > footer {
+.clearfix, .global-header > nav, .half-half, .two-thirds, .island, .island > footer, .shelf-meta, .flash-messages {
   *zoom: 1;
 }
-.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .island:before, .island > footer:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after, .island > footer:after {
+.clearfix:before, .global-header > nav:before, .half-half:before, .two-thirds:before, .island:before, .island > footer:before, .shelf-meta:before, .flash-messages:before, .clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after, .island > footer:after, .shelf-meta:after, .flash-messages:after {
   content: "";
   display: table;
 }
-.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after, .island > footer:after {
+.clearfix:after, .global-header > nav:after, .half-half:after, .two-thirds:after, .island:after, .island > footer:after, .shelf-meta:after, .flash-messages:after {
   clear: both;
 }
 
-.right-actions, .shelf-overview-actions, .confirm-actions {
+.right-actions, .shelf-overview-actions, .confirm-actions, .item-actions {
   list-style: none;
   float: right;
   margin: 0;
   padding: 6px 0;
 }
-.right-actions > li, .shelf-overview-actions > li, .confirm-actions > li {
+.right-actions > li, .shelf-overview-actions > li, .confirm-actions > li, .item-actions > li {
   float: left;
   margin-left: 5px;
 }
@@ -102,15 +110,8 @@ body {
    Links
    ========================================================================== */
 a {
-  color: #00e;
-}
-
-a:visited {
-  color: #551a8b;
-}
-
-a:hover {
-  color: #06e;
+  color: #718399;
+  text-decoration: none;
 }
 
 a:focus {
@@ -120,6 +121,7 @@ a:focus {
 /* Improve readability when focused and hovered in all browsers: h5bp.com/h */
 a:hover, a:active {
   outline: 0;
+  text-decoration: underline;
 }
 
 /* =============================================================================
@@ -503,6 +505,10 @@ td {
     page-break-after: avoid;
   }
 }
+html {
+  overflow-y: scroll;
+}
+
 body {
   font-size: 16px;
   line-height: 1.5;
@@ -514,6 +520,7 @@ h1 {
   font-size: 48px;
   line-height: 1;
   margin-top: 0;
+  color: #111;
 }
 
 h2 {
@@ -539,7 +546,7 @@ label {
 }
 
 input[type="text"], textarea, input[type="password"], input[type="email"] {
-  border: 1px solid #000;
+  border: 1px solid #e5e5e5;
   padding: 5px;
   width: 260px;
 }
@@ -550,14 +557,14 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 2.4;
 }
 
-.main, .global-header > nav, .global-footer {
+.main, .global-header > nav, .global-footer, .flash-messages {
   width: 960px;
   margin: 0 auto;
   padding: 0 10px;
 }
 
 .global-header {
-  background: #e5e5e5;
+  background: #c6d8ee;
   margin-bottom: 48px;
 }
 .global-header > nav > h1 {
@@ -565,9 +572,6 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0;
   font-size: 32px;
   line-height: 1.5;
-}
-.global-header > nav > h1 > a {
-  color: rgba(0, 0, 0, 0.5);
 }
 .global-header > nav > ul {
   float: right;
@@ -578,7 +582,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 }
 .global-header > nav > ul li {
   float: left;
-  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 .global-header > nav > ul li:first-child {
   border-left: 0;
@@ -589,11 +593,17 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 3;
   padding: 0 16px;
 }
+.global-header > nav > ul a:hover, .global-header > nav > ul a:focus {
+  background: rgba(255, 255, 255, 0.3);
+}
 .global-header a {
-  color: #444444;
+  color: rgba(0, 0, 0, 0.6);
   text-decoration: none;
 }
 
+.global-footer {
+  color: #888;
+}
 .global-footer > p {
   border-top: 1px solid #e5e5e5;
   font-size: 12px;
@@ -630,22 +640,32 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 1.875;
   padding: 0 10px;
   cursor: pointer;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
 }
 .button, .button:visited {
   color: #888888;
 }
 .button:hover, .button:focus {
+  text-decoration: none;
+}
+.button:hover, .button:focus, .button.immediate {
   color: #fff;
 }
-.button.positive:hover, .button.positive:focus {
+.button.positive:hover, .button.positive:focus, .button.positive.immediate {
   background: #1ca536;
 }
-.button.neutral:hover, .button.neutral:focus {
-  background: #888888;
+.button.neutral:hover, .button.neutral:focus, .button.neutral.immediate {
+  background: #555555;
 }
-.button.negative:hover, .button.negative:focus {
+.button.negative:hover, .button.negative:focus, .button.negative.immediate {
   background: #a51c30;
+}
+.button.immediate {
+  opacity: .7;
+}
+.button.immediate:hover, .button.immediate:focus {
+  opacity: 1;
 }
 
 .profile-image > img {
@@ -654,7 +674,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0 auto;
 }
 .profile-image > figcaption {
-  background: #777777;
+  background: #718399;
   text-align: center;
   color: #fff;
   line-height: 2.25;
@@ -662,9 +682,12 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .island {
   border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  overflow: hidden;
+  background: #fff;
 }
 .island > header {
-  background: #777777;
+  background: #718399;
   color: #fff;
   padding: 0 10px;
 }
@@ -690,10 +713,21 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 1;
   padding: 12px 0;
 }
-.shelf-overview .date {
-  font-size: 12px;
+
+.shelf-meta {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0 0;
   line-height: 1;
-  margin-top: 12px;
+  font-size: 12px;
+  color: #888;
+}
+.shelf-meta > li {
+  float: left;
+  margin-left: 12px;
+}
+.shelf-meta > li:first-child {
+  margin-left: 0;
 }
 
 .profile-info {
@@ -705,9 +739,12 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 2;
 }
 
+.edit-profile {
+  margin-top: 12px;
+}
+
 .contained-form {
   display: inline-block;
-  background: #fff;
 }
 .contained-form p {
   margin: 12px 0 0 0;
@@ -719,43 +756,127 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .flash-messages {
   list-style: none;
   padding: 0;
+  height: 48px;
+  margin: -48px auto 0 auto;
+  text-align: center;
 }
 .flash-messages > li {
+  display: inline-block;
   background: #000;
   color: #fff;
-  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 1.5;
+  padding: 6px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.flash-messages > li:before {
+  font-family: 'FontAwesome';
+  padding-right: 10px;
+}
+.flash-messages > li:after {
+  font-family: 'FontAwesome';
+  padding-left: 10px;
+  content: "\f057";
+  opacity: .5;
+}
+.flash-messages > li:hover:after {
+  opacity: 1;
+}
+.flash-messages > li.error {
+  background: #a51c30;
+}
+.flash-messages > li.error:before {
+  content: "\f071";
+}
+.flash-messages > li.info {
+  background: #555555;
+}
+.flash-messages > li.info:before {
+  content: "\f05a";
+}
+.flash-messages > li.warning {
+  background: #b2ac30;
+}
+.flash-messages > li.warning:before {
+  content: "\f071";
+}
+.flash-messages > li.success {
+  background: #1ca536;
+}
+.flash-messages > li.success:before {
+  content: "\f00c";
 }
 
 .errorlist {
   list-style: none;
   padding: 0;
   margin: 0;
+  color: #a51c30;
+  font-weight: bold;
 }
 .errorlist + p {
   margin-top: 0;
 }
 
-.item-details {
-  border: 1px solid #000;
-  padding: 12px 12px 0 12px;
-}
-.item-details > h3 {
-  margin: 0 0 12px 0;
-}
-.item-details > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.item-details > ul > li {
-  margin-bottom: 12px;
-}
-.item-details h4 {
-  margin: 0;
-}
-
 .js .form-hidden {
   display: none;
+}
+
+.stackview {
+  font-weight: normal;
+}
+
+.icon:after, [class^="icon-"]:after, [class*=" icon-"]:after {
+  font-family: 'FontAwesome', serif;
+  padding-left: 5px;
+  position: relative;
+  top: 1px;
+}
+
+.icon-view:after {
+  content: "\f06e";
+}
+
+.icon-edit:after {
+  content: "\f044";
+}
+
+.icon-delete:after {
+  content: "\f056";
+}
+
+.icon-login:after {
+  content: "\f090";
+}
+
+.icon-logout:after {
+  content: "\f08b";
+}
+
+.icon-register:after {
+  content: "\f046";
+}
+
+.icon-user:after {
+  content: "\f007";
+}
+
+.icon-ok:after {
+  content: "\f058";
+}
+
+.icon-accept:after {
+  content: "\f087";
+}
+
+.icon-reject:after {
+  content: "\f088";
+}
+
+.icon-external:after {
+  content: "\f08e";
 }
 
 .ui-dialog-titlebar {
@@ -793,10 +914,42 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   font-size: 16px;
 }
 
+.shelf h1 {
+  margin-bottom: 0;
+}
+.shelf h2 {
+  margin-top: 0;
+}
+
 .active-item {
   -webkit-transform: translate(15px, 0);
   -moz-transform: translate(15px, 0);
   -ms-transform: translate(15px, 0);
   -o-transform: translate(15px, 0);
   transform: translate(15px, 0);
+}
+
+.item-details section > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.item-details section > ul > li {
+  margin-bottom: 12px;
+}
+.item-details > header {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.item-details h3 {
+  padding: 0;
+  line-height: 1.2;
+}
+.item-details h4 {
+  margin: 0;
+}
+
+.view-item {
+  float: right;
+  font-size: 13px;
 }
