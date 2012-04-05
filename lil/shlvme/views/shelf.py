@@ -114,7 +114,8 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'is_owner': request.user == target_user,
         'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
         'shelf_name': shelf_name,
-        'shelf_slug': shelf['slug']
+        'shelf_slug': shelf['slug'],
+        'shelf_description': shelf['description']
     }
     context.update(csrf(request))
 

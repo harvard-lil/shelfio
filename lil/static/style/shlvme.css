@@ -914,6 +914,13 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   font-size: 16px;
 }
 
+.shelf h1 {
+  margin-bottom: 0;
+}
+.shelf h2 {
+  margin-top: 0;
+}
+
 .active-item {
   -webkit-transform: translate(15px, 0);
   -moz-transform: translate(15px, 0);
