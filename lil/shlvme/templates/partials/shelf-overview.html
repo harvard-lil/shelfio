@@ -5,19 +5,21 @@
 
 	<section>
 		<p>{{ shelf.description }}</p>
-		<p class="date">Created on {{ shelf.creation_date }}</p>
+		<ul class="shelf-meta">
+			<li class="date">Created on {{ shelf.creation_date|date:"F jS, Y" }}</li>
+		</ul>
 	</section>
 
 	<footer>
 		<ul class="shelf-overview-actions">
-			<li><a href="{% url user_shelf user_name shelf.slug %}" class="button positive">View</a></li>
+			<li><a href="{% url user_shelf user_name shelf.slug %}" class="button positive icon-view">View</a></li>
 			{% if is_owner %}
-				<li><a href="#edit-shelf" class="button neutral edit-shelf">Edit</a></li>
+				<li><a href="#edit-shelf" class="button neutral edit-shelf icon-edit">Edit</a></li>
 				<li>
 					<form action="{% url user_shelf user_name shelf.slug %}" method="post" class="single-button">
 						{% csrf_token %}
 						<input type="hidden" name="_method" value="delete">
-						<input type="submit" value="Delete" class="button negative" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It">
+						<button type="submit" class="button negative icon-delete" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It">Delete</button>
 					</form>
 				</li>
 			{% endif %}

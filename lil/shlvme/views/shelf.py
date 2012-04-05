@@ -112,7 +112,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     context.update(csrf(request))
 
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
-        messages.success(request, shelf_name + ' has been updated.')
+        messages.success(request, shelf_name + ' has been saved.')
         return redirect(referer)
 
     context.update({ 'messages': messages.get_messages(request) })

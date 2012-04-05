@@ -12,7 +12,7 @@
 			<li><strong>Email:</strong> {{ email }}</li>
 		{% endif %}
 		<li><strong>Joined Shelv.me on:</strong> {{ date_joined|date:"F jS, Y" }}</li>
-		<li><a href="#edit-profile" class="button">Edit</a></li>
+		<li class="edit-profile"><a href="#edit-profile" class="button neutral icon-edit">Edit</a></li>
 	</ul>
 
 	<form class="contained-form island form-hidden" action="." method="post" id="edit-profile">
