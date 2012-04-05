@@ -35,18 +35,14 @@
 	content:"\f007";
 }
 
-.icon-confirm:after {
+.icon-ok:after {
 	content:"\f058";
 }
 
-.confirm-accept {
-	@extend .icon;
+.icon-accept:after {
+	content:"\f087";
+}
 
-	.negative &:after {
-		content:"\f056";
-	}
-
-	.positive &:after {
-		content:"\f058";
-	}
+.icon-reject:after {
+	content:"\f088";
 }

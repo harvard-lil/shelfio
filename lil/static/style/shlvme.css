@@ -552,7 +552,7 @@ label {
 }
 
 input[type="text"], textarea, input[type="password"], input[type="email"] {
-  border: 1px solid #000;
+  border: 1px solid #e5e5e5;
   padding: 5px;
   width: 260px;
 }
@@ -832,7 +832,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   display: none;
 }
 
-.icon:after, .confirm-accept:after, [class^="icon-"]:after, [class*=" icon-"]:after {
+.stackview {
+  font-weight: normal;
+}
+
+.icon:after, [class^="icon-"]:after, [class*=" icon-"]:after {
   font-family: 'FontAwesome', serif;
   padding-left: 5px;
   position: relative;
@@ -867,15 +871,16 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   content: "\f007";
 }
 
-.icon-confirm:after {
+.icon-ok:after {
   content: "\f058";
 }
 
-.negative .confirm-accept:after {
-  content: "\f056";
+.icon-accept:after {
+  content: "\f087";
 }
-.positive .confirm-accept:after {
-  content: "\f058";
+
+.icon-reject:after {
+  content: "\f088";
 }
 
 .ui-dialog-titlebar {
