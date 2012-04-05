@@ -12,6 +12,10 @@
 		color:$buttonTextColor;
 	}
 
+	&:hover, &:focus {
+		text-decoration:none;
+	}
+
 	&:hover, &:focus, &.immediate {
 		color:#fff;
 	}

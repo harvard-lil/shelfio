@@ -646,6 +646,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .button, .button:visited {
   color: #888888;
 }
+.button:hover, .button:focus {
+  text-decoration: none;
+}
 .button:hover, .button:focus, .button.immediate {
   color: #fff;
 }
