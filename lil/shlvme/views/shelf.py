@@ -88,9 +88,14 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
     shelf_name = target_shelf.name
     api_response = api_shelf(request, target_shelf)
+
+    if request.user.is_authenticated():
+        referer_fallback = reverse('user_home', args=[request.user.username])
+    else:
+        referer_fallback = reverse('welcome')
     referer = request.META.get(
-        'HTTP-REFERER',
-        request.path,
+        'HTTP_REFERER',
+        referer_fallback,
     )
     print api_response.status_code
     if api_response.status_code == 204:
