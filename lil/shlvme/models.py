@@ -24,7 +24,7 @@ class Shelf(models.Model):
 
     def save(self, *args, **kwargs):
         slug = slugify(self.name)
-        if Shelf.objects.filter(user=self.user, slug=slug).exists():
+        if Shelf.objects.filter(user=self.user, slug=slug).exclude(pk=self.pk).exists():
             raise ValidationError('You already have a shelf by that name.')
         else:
             self.slug = slugify(self.name)

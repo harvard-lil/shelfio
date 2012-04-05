@@ -57,11 +57,11 @@ def api_shelf(request, shelf):
         return HttpResponse(status=404)
 
     # Edit shelf
-    elif request.method in ['PATCH', 'PUT', 'POST'] and request.user.is_authenticated():
+    elif request.method in ['PUT', 'POST'] and request.user.is_authenticated():
         try:
             serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
-            return HttpResponse(status=400)
+            return HttpResponse('You already have a shelf by that name.', status=400)
         return HttpResponse(
             json.dumps(serialized, cls=DjangoJSONEncoder),
             mimetype='application/json',
@@ -80,7 +80,7 @@ def api_shelf(request, shelf):
         )
 
     else:
-        return HttpResponseNotAllowed(['POST', 'PATCH', 'PUT', 'DELETE', 'GET'])
+        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
 
 def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""
@@ -124,10 +124,13 @@ def _serialize_shelves_with_items(shelves):
 def _update_shelf_data(shelf, updates):
     form = NewShelfForm(updates)
     if form.is_valid():
-        updatables = ['name', 'description', 'is_public']
+        updatables = ['name', 'description']
         for key, val in updates.items():
             if key in updatables:
                 setattr(shelf, key, val)
+        print shelf.is_public
+        setattr(shelf, 'is_public', updates.has_key('is_public'))
+        print shelf.is_public
         shelf.save()
         return shelf
     else:
