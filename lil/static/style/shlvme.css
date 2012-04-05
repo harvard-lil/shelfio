@@ -18,13 +18,13 @@
   clear: both;
 }
 
-.right-actions, .shelf-overview-actions, .confirm-actions {
+.right-actions, .shelf-overview-actions, .confirm-actions, .item-actions {
   list-style: none;
   float: right;
   margin: 0;
   padding: 6px 0;
 }
-.right-actions > li, .shelf-overview-actions > li, .confirm-actions > li {
+.right-actions > li, .shelf-overview-actions > li, .confirm-actions > li, .item-actions > li {
   float: left;
   margin-left: 5px;
 }
@@ -570,7 +570,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 }
 
 .global-header {
-  background: #e5e5e5;
+  background: #c6d8ee;
   margin-bottom: 48px;
 }
 .global-header > nav > h1 {
@@ -578,9 +578,6 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0;
   font-size: 32px;
   line-height: 1.5;
-}
-.global-header > nav > h1 > a {
-  color: rgba(0, 0, 0, 0.5);
 }
 .global-header > nav > ul {
   float: right;
@@ -591,7 +588,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 }
 .global-header > nav > ul li {
   float: left;
-  border-left: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 .global-header > nav > ul li:first-child {
   border-left: 0;
@@ -602,8 +599,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 3;
   padding: 0 16px;
 }
+.global-header > nav > ul a:hover, .global-header > nav > ul a:focus {
+  background: rgba(255, 255, 255, 0.3);
+}
 .global-header a {
-  color: #444444;
+  color: rgba(0, 0, 0, 0.6);
   text-decoration: none;
 }
 
@@ -643,22 +643,29 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 1.875;
   padding: 0 10px;
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50px;
 }
 .button, .button:visited {
   color: #888888;
 }
-.button:hover, .button:focus {
+.button:hover, .button:focus, .button.immediate {
   color: #fff;
 }
-.button.positive:hover, .button.positive:focus {
+.button.positive:hover, .button.positive:focus, .button.positive.immediate {
   background: #1ca536;
 }
-.button.neutral:hover, .button.neutral:focus {
-  background: #888888;
+.button.neutral:hover, .button.neutral:focus, .button.neutral.immediate {
+  background: #555555;
 }
-.button.negative:hover, .button.negative:focus {
+.button.negative:hover, .button.negative:focus, .button.negative.immediate {
   background: #a51c30;
+}
+.button.immediate {
+  opacity: .7;
+}
+.button.immediate:hover, .button.immediate:focus {
+  opacity: 1;
 }
 
 .profile-image > img {
@@ -667,7 +674,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   margin: 0 auto;
 }
 .profile-image > figcaption {
-  background: #777777;
+  background: #718399;
   text-align: center;
   color: #fff;
   line-height: 2.25;
@@ -675,9 +682,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .island {
   border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  overflow: hidden;
 }
 .island > header {
-  background: #777777;
+  background: #718399;
   color: #fff;
   padding: 0 10px;
 }
@@ -782,7 +791,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   content: "\f071";
 }
 .flash-messages > li.info {
-  background: #888888;
+  background: #555555;
 }
 .flash-messages > li.info:before {
   content: "\f05a";
@@ -804,28 +813,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   list-style: none;
   padding: 0;
   margin: 0;
+  color: #a51c30;
+  font-weight: bold;
 }
 .errorlist + p {
   margin-top: 0;
-}
-
-.item-details {
-  border: 1px solid #000;
-  padding: 12px 12px 0 12px;
-}
-.item-details > h3 {
-  margin: 0 0 12px 0;
-}
-.item-details > ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.item-details > ul > li {
-  margin-bottom: 12px;
-}
-.item-details h4 {
-  margin: 0;
 }
 
 .js .form-hidden {
@@ -883,6 +875,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   content: "\f088";
 }
 
+.icon-external:after {
+  content: "\f08e";
+}
+
 .ui-dialog-titlebar {
   display: none;
 }
@@ -924,4 +920,29 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   -ms-transform: translate(15px, 0);
   -o-transform: translate(15px, 0);
   transform: translate(15px, 0);
+}
+
+.item-details section > ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.item-details section > ul > li {
+  margin-bottom: 12px;
+}
+.item-details > header {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.item-details h3 {
+  padding: 0;
+  line-height: 1.2;
+}
+.item-details h4 {
+  margin: 0;
+}
+
+.view-item {
+  float: right;
+  font-size: 13px;
 }
