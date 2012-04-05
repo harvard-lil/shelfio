@@ -110,15 +110,8 @@ body {
    Links
    ========================================================================== */
 a {
-  color: #00e;
-}
-
-a:visited {
-  color: #551a8b;
-}
-
-a:hover {
-  color: #06e;
+  color: #718399;
+  text-decoration: none;
 }
 
 a:focus {
@@ -128,6 +121,7 @@ a:focus {
 /* Improve readability when focused and hovered in all browsers: h5bp.com/h */
 a:hover, a:active {
   outline: 0;
+  text-decoration: underline;
 }
 
 /* =============================================================================
@@ -607,6 +601,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   text-decoration: none;
 }
 
+.global-footer {
+  color: #888;
+}
 .global-footer > p {
   border-top: 1px solid #e5e5e5;
   font-size: 12px;

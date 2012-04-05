@@ -57,6 +57,7 @@
 
 .global-footer {
 	@extend .main;
+	color:#888;
 
 	> p {
 		border-top:1px solid $minorGray;
