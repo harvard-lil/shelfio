@@ -141,13 +141,71 @@
 
 // Generic messages
 .flash-messages {
+	@extend .clearfix, .main;
 	list-style:none;
 	padding:0;
+	height:48px;
+	margin:-48px auto 0 auto;
+	text-align:center;
 
 	> li {
+		display:inline-block;
 		background:#000;
 		color:#fff;
-		padding:12px;
+		font-size:16px;
+		font-weight:bold;
+		line-height:1.5;
+		padding:6px;
+		margin-left:5px;
+		cursor:pointer;
+
+		&:before {
+			font-family:'FontAwesome';
+			padding-right:10px;
+		}
+
+		&:after {
+			font-family:'FontAwesome';
+			padding-left:10px;
+			content:"\f057";
+			opacity:.5;
+		}
+
+		&:hover:after {
+			opacity:1;
+		}
+
+		&.error {
+			background:$negativeColor;
+
+			&:before {
+				content:"\f071";
+			}
+		}
+
+		&.info {
+			background:$neutralColor;
+
+			&:before {
+				content:"\f05a";
+			}
+		}
+
+		&.warning {
+			background:$warningColor;
+
+			&:before {
+				content:"\f071";
+			}
+		}
+
+		&.success {
+			background:$positiveColor;
+
+			&:before {
+				content:"\f00c";
+			}
+		}
 	}
 }
 

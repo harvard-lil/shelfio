@@ -3,8 +3,6 @@
 {% block content %}
 	<article class="register thin-centered">
 		<h1>Create an Account</h1>
-
-		{% include "partials/messages.html" %}
 		
 		<form action="." method="post">
 			{% csrf_token %}
