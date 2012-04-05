@@ -90,12 +90,14 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     api_response = api_shelf(request, target_shelf)
     referer = request.META.get(
         'HTTP-REFERER',
-        reverse('user_home', args=[request.user.username]),
+        request.path,
     )
-
+    print api_response.status_code
     if api_response.status_code == 204:
         messages.info(request, shelf_name + ' has been deleted.')
         return redirect(referer)
+    elif api_response.status_code == 404:
+        raise Http404
     elif api_response.status_code >= 400:
         messages.error(request, api_response.content)
         return redirect(referer)

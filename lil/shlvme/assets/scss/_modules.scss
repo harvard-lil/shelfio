@@ -64,6 +64,7 @@
 	border:1px solid $islandBorder;
 	border-radius:5px;
 	overflow:hidden;
+	background:#fff;
 
 	> header {
 		background:$islandHeader;
@@ -139,7 +140,6 @@
 
 .contained-form {
 	display:inline-block;
-	background:#fff;
 
 	p {
 		margin:12px 0 0 0;

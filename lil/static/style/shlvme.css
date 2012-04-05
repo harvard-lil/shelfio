@@ -684,6 +684,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   border: 1px solid #d4d4d4;
   border-radius: 5px;
   overflow: hidden;
+  background: #fff;
 }
 .island > header {
   background: #718399;
@@ -744,7 +745,6 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .contained-form {
   display: inline-block;
-  background: #fff;
 }
 .contained-form p {
   margin: 12px 0 0 0;
