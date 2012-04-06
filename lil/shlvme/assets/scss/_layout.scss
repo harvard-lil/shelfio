@@ -5,7 +5,7 @@
 }
 
 .global-header {
-	background:$minorGray;
+	background:$globalHeader;
 	margin-bottom:48px;
 
 	> nav {
@@ -16,10 +16,6 @@
 			margin:0;
 			font-size:32px;
 			line-height:1.5;
-
-			> a {
-				color:rgba(0,0,0,.5);
-			}
 		}
 
 		> ul {
@@ -31,7 +27,7 @@
 
 			li {
 				float:left;
-				border-left:1px solid rgba(255,255,255,.4);
+				border-left:1px solid rgba(0,0,0,.1);
 
 				&:first-child {
 					border-left:0;
@@ -43,12 +39,16 @@
 				font-size:16px;
 				line-height:3;
 				padding:0 16px;
+
+				&:hover, &:focus {
+					background:rgba(255,255,255,.3);
+				}
 			}
 		}
 	}
 
 	a {
-		color:$standardGray;
+		color:rgba(0,0,0,.6);
 		text-decoration:none;
 	}
 }
@@ -57,6 +57,7 @@
 
 .global-footer {
 	@extend .main;
+	color:#888;
 
 	> p {
 		border-top:1px solid $minorGray;

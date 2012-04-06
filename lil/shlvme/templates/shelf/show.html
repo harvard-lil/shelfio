@@ -1,18 +1,15 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-	<article class="half-half">
-		<h1>
-			<a href="{% url user_home shelf_user.username %}">{{ shelf_user.username }}&rsquo;s</a>
-			{{ shelf_name }}
-		</h1>
-	
+	<article class="half-half shelf">
 		<section class="left-column">
-			{% include "partials/messages.html" %}
 			<div id="active-stack"></div>
 		</section>
 
 		<section class="right-column">
+			<h1>{{ shelf_name }}</h1>
+			<h2>by <a href="{% url user_home shelf_user.username %}">{{ shelf_user.username }}</a></h2>
+			<p>{{ shelf_description }}</p>
 			<div id="active-item"></div>
 		</section>
 	</article>

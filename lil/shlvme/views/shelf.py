@@ -57,11 +57,11 @@ def api_shelf(request, shelf):
         return HttpResponse(status=404)
 
     # Edit shelf
-    elif request.method in ['PATCH', 'PUT', 'POST'] and request.user.is_authenticated():
+    elif request.method in ['PUT', 'POST'] and request.user.is_authenticated():
         try:
             serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
-            return HttpResponse(status=400)
+            return HttpResponse('You already have a shelf by that name.', status=400)
         return HttpResponse(
             json.dumps(serialized, cls=DjangoJSONEncoder),
             mimetype='application/json',
@@ -80,7 +80,7 @@ def api_shelf(request, shelf):
         )
 
     else:
-        return HttpResponseNotAllowed(['POST', 'PATCH', 'PUT', 'DELETE', 'GET'])
+        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
 
 def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""
@@ -88,14 +88,21 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
     shelf_name = target_shelf.name
     api_response = api_shelf(request, target_shelf)
-    referer = request.META.get(
-        'HTTP-REFERER',
-        reverse('user_home', args=[request.user.username]),
-    )
 
+    if request.user.is_authenticated():
+        referer_fallback = reverse('user_home', args=[request.user.username])
+    else:
+        referer_fallback = reverse('welcome')
+    referer = request.META.get(
+        'HTTP_REFERER',
+        referer_fallback,
+    )
+    print api_response.status_code
     if api_response.status_code == 204:
         messages.info(request, shelf_name + ' has been deleted.')
         return redirect(referer)
+    elif api_response.status_code == 404:
+        raise Http404
     elif api_response.status_code >= 400:
         messages.error(request, api_response.content)
         return redirect(referer)
@@ -107,12 +114,13 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'is_owner': request.user == target_user,
         'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
         'shelf_name': shelf_name,
-        'shelf_slug': shelf['slug']
+        'shelf_slug': shelf['slug'],
+        'shelf_description': shelf['description']
     }
     context.update(csrf(request))
 
     if request.method in ['POST', 'PATCH', 'PUT'] and api_response.status_code == 200:
-        messages.success(request, shelf_name + ' has been updated.')
+        messages.success(request, shelf_name + ' has been saved.')
         return redirect(referer)
 
     context.update({ 'messages': messages.get_messages(request) })
@@ -124,10 +132,13 @@ def _serialize_shelves_with_items(shelves):
 def _update_shelf_data(shelf, updates):
     form = NewShelfForm(updates)
     if form.is_valid():
-        updatables = ['name', 'description', 'is_public']
+        updatables = ['name', 'description']
         for key, val in updates.items():
             if key in updatables:
                 setattr(shelf, key, val)
+        print shelf.is_public
+        setattr(shelf, 'is_public', updates.has_key('is_public'))
+        print shelf.is_public
         shelf.save()
         return shelf
     else:
