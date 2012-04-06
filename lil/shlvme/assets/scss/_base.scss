@@ -5,7 +5,7 @@ html {
 body {
 	font-size:16px;
 	line-height:1.5;
-	background:#fff;
+	background:url(../images/paper.png) #fff;
 	color:$standardGray;
 }
 
@@ -41,6 +41,7 @@ label {
 input {
 	&[type="text"], &[type="password"], &[type="email"] {
 		border:1px solid $minorGray;
+		border-radius:5px;
 		padding:5px;
 		width:260px;
 	}

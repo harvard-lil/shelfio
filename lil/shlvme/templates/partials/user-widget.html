@@ -1,5 +1,7 @@
+{% load md5 %}
+
 <figure class="profile-image">
-	<img src="http://placekitten.com/400/400" alt="{{ user_name }}">
+	<img src="http://www.gravatar.com/avatar/{{ email|md5 }}?s=256&d=mm" alt="{{ user_name }}">
 	<figcaption>{{ user_name }}</figcaption>
 </figure>
 
