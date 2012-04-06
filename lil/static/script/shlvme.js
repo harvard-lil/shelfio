@@ -177,7 +177,10 @@ var BASE_URL = '/shlvme/';
 		   Flash message dismissal.
 		*/
 		$b.delegate('.flash-messages > li', 'click', function(e) {
-			$(this).fadeOut(500);
+			var $this = $(this);
+			$this.animate({ 'top': '-48px' }, 500, function() {
+				$this.remove();
+			});
 			e.preventDefault();
 		});
 

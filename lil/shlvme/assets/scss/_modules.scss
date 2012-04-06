@@ -46,14 +46,6 @@
 			background:$negativeColor;
 		}
 	}
-
-	&.immediate {
-		opacity:.7;
-
-		&:hover, &:focus {
-			opacity:1;
-		}
-	}
 }
 
 .profile-image {
@@ -74,7 +66,7 @@
 		text-align:center;
 		color:rgba(0,0,0,.5);
 		line-height:2.25;
-		text-shadow:1px 1px 1px rgba(255,255,255,.5);
+		text-shadow:1px 1px 1px rgba(255,255,255,.6);
 		font-weight:bold;
 	}
 }
@@ -92,6 +84,7 @@
 		background:url(../images/fabric_island.png) $islandHeader;
 		color:#fff;
 		padding:0 $gutter;
+		box-shadow:inset 0 15px 20px rgba(255,255,255,.2);
 
 		> h2, h3, h4 {
 			margin:0;
@@ -180,6 +173,8 @@
 	height:48px;
 	margin:-48px auto 0 auto;
 	text-align:center;
+	position:relative;
+	z-index:2;
 
 	> li {
 		display:inline-block;
@@ -191,6 +186,9 @@
 		padding:6px;
 		margin-left:5px;
 		cursor:pointer;
+		position:relative;
+		box-shadow:inset 0 5px 10px rgba(0,0,0,.2), 0 2px 5px rgba(0,0,0,.4);
+		border-radius:0 0 5px 5px;
 
 		&:before {
 			font-family:'FontAwesome';
