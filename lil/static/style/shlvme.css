@@ -512,7 +512,7 @@ html {
 body {
   font-size: 16px;
   line-height: 1.5;
-  background: #fff;
+  background: url(../images/paper.png) white;
   color: #444444;
 }
 
@@ -547,6 +547,7 @@ label {
 
 input[type="text"], textarea, input[type="password"], input[type="email"] {
   border: 1px solid #e5e5e5;
+  border-radius: 5px;
   padding: 5px;
   width: 260px;
 }
@@ -564,8 +565,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 }
 
 .global-header {
-  background: #c6d8ee;
+  background: url(../images/fabric_header.png) #c6d8ee;
   margin-bottom: 48px;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.6);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
 }
 .global-header > nav > h1 {
   float: left;
@@ -642,12 +646,17 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 50px;
+  box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2), inset 0 5px 10px rgba(255, 255, 255, 0.2);
+  position: relative;
 }
 .button, .button:visited {
   color: #888888;
 }
 .button:hover, .button:focus {
   text-decoration: none;
+}
+.boxshadow .button:hover, .boxshadow .button:focus {
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.5), inset 0 5px 10px rgba(255, 255, 255, 0.2);
 }
 .button:hover, .button:focus, .button.immediate {
   color: #fff;
@@ -685,9 +694,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   border-radius: 5px;
   overflow: hidden;
   background: #fff;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
 }
 .island > header {
-  background: #718399;
+  background: url(../images/fabric_island.png) #718399;
   color: #fff;
   padding: 0 10px;
 }

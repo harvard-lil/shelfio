@@ -7,6 +7,10 @@
 	cursor:pointer;
 	background:rgba(255,255,255,.8);
 	border-radius:50px;
+	box-shadow:-1px -1px 1px rgba(255,255,255,.2),
+	           1px 1px 1px rgba(0,0,0,.2),
+	           inset 0 5px 10px rgba(255,255,255,.2);
+	position:relative;
 
 	&, &:visited {
 		color:$buttonTextColor;
@@ -14,6 +18,12 @@
 
 	&:hover, &:focus {
 		text-decoration:none;
+
+		.boxshadow & {
+			box-shadow:-1px -1px 1px rgba(0,0,0,.2),
+			           1px 1px 1px rgba(255,255,255,.5),
+			           inset 0 5px 10px rgba(255,255,255,.2);
+		}
 	}
 
 	&:hover, &:focus, &.immediate {
@@ -69,9 +79,10 @@
 	border-radius:5px;
 	overflow:hidden;
 	background:#fff;
+	box-shadow:1px 1px 5px rgba(0,0,0,.2);
 
 	> header {
-		background:$islandHeader;
+		background:url(../images/fabric_island.png) $islandHeader;
 		color:#fff;
 		padding:0 $gutter;
 
