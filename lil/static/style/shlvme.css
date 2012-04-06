@@ -646,7 +646,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   cursor: pointer;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 50px;
-  box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2), inset 0 5px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2);
   position: relative;
 }
 .button, .button:visited {
@@ -656,7 +656,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   text-decoration: none;
 }
 .boxshadow .button:hover, .boxshadow .button:focus {
-  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.5), inset 0 5px 10px rgba(255, 255, 255, 0.2);
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.5), inset 1px 5px 12px rgba(0, 0, 0, 0.3);
 }
 .button:hover, .button:focus, .button.immediate {
   color: #fff;
@@ -677,16 +677,25 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   opacity: 1;
 }
 
+.profile-image {
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 0 15px #ccc;
+}
 .profile-image > img {
   display: block;
   max-width: 100%;
   margin: 0 auto;
+  padding: 24px 0;
 }
 .profile-image > figcaption {
-  background: #718399;
+  background: url(../images/fabric_header.png) #c6d8ee;
   text-align: center;
-  color: #fff;
+  color: rgba(0, 0, 0, 0.5);
   line-height: 2.25;
+  text-shadow: 1px 1px 1px rgba(255, 255, 255, 0.5);
+  font-weight: bold;
 }
 
 .island {
@@ -694,7 +703,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   border-radius: 5px;
   overflow: hidden;
   background: #fff;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px #ccc;
 }
 .island > header {
   background: url(../images/fabric_island.png) #718399;
