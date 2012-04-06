@@ -5,8 +5,13 @@
 }
 
 .global-header {
-	background:$globalHeader;
+	background:url(../images/fabric_header.png) $globalHeader;
 	margin-bottom:48px;
+	text-shadow:1px 1px 1px rgba(255,255,255,.6);
+	box-shadow:0 5px 10px rgba(0,0,0,.2), inset 0 15px 20px rgba(255,255,255,.5);
+	border-bottom:1px solid rgba(128,128,128,.1);
+	position:relative;
+	z-index:3;
 
 	> nav {
 		@extend .clearfix, .main;
@@ -16,6 +21,7 @@
 			margin:0;
 			font-size:32px;
 			line-height:1.5;
+
 		}
 
 		> ul {
@@ -48,7 +54,7 @@
 	}
 
 	a {
-		color:rgba(0,0,0,.6);
+		color:rgba(0,0,0,.5);
 		text-decoration:none;
 	}
 }
