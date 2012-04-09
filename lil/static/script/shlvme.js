@@ -53,12 +53,54 @@ var BASE_URL = '/shlvme/';
 		   Sort shelf items.
 		*/
 		$b.delegate('.stackview', 'stackview.init', function(e) {
-			$(this).find('.stack-items').sortable({
+			if (!$('#active-stack').length) return;
+			var $si = $(this).find('.stack-items'),
+			    startIndex, endIndex;
+
+			$si.sortable({
+				containment: 'parent',
+
+				start: function(event, ui) {
+					$si.css('overflow-x', 'hidden');
+					startIndex = $si.children().index(ui.item);
+					console.log(startIndex);
+				},
+
+				stop: function(event, ui) {
+					$si.css('overflow-x', 'auto');
+				},
+
 				update: function(event, ui) {
+					var $item = $(ui.item),
+					    uuid = $item.data('stackviewItem').item_uuid;
+
+					$si.sortable('disable');
+					endIndex = $si.children().index(ui.item);
+
+					if (endIndex < startIndex) {
+						$item.data('stackviewItem').sort_order = $item.next().data('stackviewItem').sort_order;
+						$item.nextUntil($si.children()[startIndex]).add($si.children()[startIndex]).each(function() {
+							$(this).data('stackviewItem').sort_order--
+						});
+					}
+					else {
+						$item.data('stackviewItem').sort_order = $item.prev().data('stackviewItem').sort_order;
+						$item.prevUntil($si.children()[startIndex]).add($si.children()[startIndex]).each(function() {
+							$(this).data('stackviewItem').sort_order++
+						});
+					}
+
+					$.post(BASE_URL + 'api/item/' + uuid + '/reorder/', {
+						'sort_order': $item.data('stackviewItem').sort_order
+					}, function() {
+						$si.sortable('enable');
+					});
+
 					$('#active-stack').stackView('zIndex');
 				}
 			});
-			$(this).find('.stack-items').disableSelection();
+
+			$si.disableSelection();
 		});
 
 		/*

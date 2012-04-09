@@ -42,13 +42,22 @@ class Item(models.Model):
     shelfrank = models.PositiveIntegerField(default=random.randint(0, 100))
     creation_date = models.DateTimeField(auto_now=True)
     pub_date = models.PositiveIntegerField(default=utils.get_current_year())
-    sort_order = models.PositiveIntegerField(default=random.randint(0, 100)) 
+    sort_order = models.PositiveIntegerField(editable=False) 
 
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            try:
+                max = Item.objects.order_by('-sort_order')[0].sort_order
+                self.sort_order = max + 1
+            except IndexError:
+                self.sort_order = 1
+        super(Item, self).save(*args, **kwargs)
+
     class Meta:
-        ordering = ['sort_order']
+        ordering = ['-sort_order']
         models.CharField(max_length=200)
         
 class Creator(models.Model):
