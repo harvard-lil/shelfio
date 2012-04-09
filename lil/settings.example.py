@@ -153,5 +153,5 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-LOGIN_URL = '/shlvme/login'
-LOGIN_REDIRECT_URL = '/shlvme/'
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
