@@ -12,6 +12,7 @@ from django.core.context_processors import csrf
 from django.views.decorators.http import require_POST
 from django.forms.models import model_to_dict
 from lil.shlvme.utils import fill_with_get
+from django.db.models import F
 import logging
 
 logger = logging.getLogger(__name__)
@@ -46,7 +47,6 @@ def api_item_by_uuid(request, url_item_uuid):
             serialized_item = serialize_item(item)
             return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
         return HttpResponse(status=404)
-
     
     if request.method == 'DELETE':
         try:
@@ -64,6 +64,35 @@ def api_item_by_uuid(request, url_item_uuid):
     if request.method in ['PUT', 'PATCH', 'POST']:
         pass
 
+
+@csrf_exempt
+@require_POST
+def api_item_reorder(request, url_item_uuid):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+    if not 'sort_order' in request.POST:
+        return HttpResponse(status=400)
+
+    try:
+        item = Item.objects.get(item_uuid=url_item_uuid)
+    except Item.DoesNotExist:
+        return HttpResponse(status=404)
+    except Item.MultipleObjectsReturned:
+        return HttpResponse(status=500)
+
+    shelf = Shelf.objects.get(shelf_uuid=item.shelf.shelf_uuid)
+    if shelf.user == request.user:
+        old_so = item.sort_order
+        new_so = int(request.POST['sort_order'])
+        if new_so > old_so:
+            Item.objects.filter(sort_order__gt=old_so).filter(sort_order__lte=new_so).update(sort_order=F('sort_order') - 1)
+        else:
+            Item.objects.filter(sort_order__lt=old_so).filter(sort_order__gte=new_so).update(sort_order=F('sort_order') + 1)
+        item.sort_order = new_so
+        item.save()
+        return HttpResponse(status=200)
+
+    return HttpResponse(status=404)
 
 def user_create(request):    
     if not request.user.is_authenticated():
