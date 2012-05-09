@@ -64,7 +64,7 @@ def get_amazon_details(url):
             height_in_inches = (amz_length / 100) * 2.54
             details['measurement_height_numeric'] = height_in_inches
         if hasattr(item_attributes, 'Author'):
-            details['content_type'] = item_attributes['ProductGroup']
+            details['format'] = 'book' #item_attributes['ProductGroup']
         if hasattr(item_attributes, 'PublicationDate'):
             details['pub_date'] = item_attributes['PublicationDate']
         
@@ -89,7 +89,7 @@ def get_imdb_details(url):
     response_json = json.loads(response.read())
 
     details['title'] = response_json['Title']
-    details['content_type'] = 'dvd'
+    details['format'] = 'Video/Film'
     details['creator'] = response_json['Director']
     details['pub_date'] = response_json['Year']
     
@@ -131,7 +131,7 @@ def get_musicbrainz_details(url):
         date_element = tree.find('*/{0}first-release-date'.format(namespace))
 
     details['title'] = title_element.text
-    details['content_type'] = 'music'
+    details['format'] = 'soundrecording'
     details['creator'] = name_element.text
     details['pub_date'] = date_element.text
     

@@ -92,7 +92,7 @@ def _get_user_data(request, user_name):
             'first_name': target_user.first_name,
             'last_name': target_user.last_name,
             'date_joined': target_user.date_joined,
-            'email': target_user.email
+            #'email': target_user.email
         })
     else:
         shelf_query.exclude(is_public=True)
@@ -111,6 +111,7 @@ def _get_user_data(request, user_name):
     context.update({
         'is_owner': is_owner,
         'user_name': target_user.username,
+        'email': target_user.email,
         'docs': shelves
     })
 

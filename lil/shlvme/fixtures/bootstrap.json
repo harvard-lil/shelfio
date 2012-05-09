@@ -31,8 +31,9 @@
 			"title": "Horns and Halos",
 			"isbn": "lk34kl53kl2j345",
 			"link": "http://www.imdb.com/title/tt0319514/",
-			"content_type": "dvd",
-			"pub_date": 2002
+			"format": "Video/Film",
+			"pub_date": 2002,
+			"sort_order": 1
     	}
 	},
 	{
