@@ -7,6 +7,7 @@ import urllib
 import urllib2
 import json
 from xml.etree.ElementTree import fromstring, ElementTree
+from BeautifulSoup import BeautifulSoup
 
 logger = logging.getLogger(__name__)
 
@@ -74,24 +75,28 @@ def get_amazon_details(url):
 def get_imdb_details(url):
     """Given an IMDB URL, get title, creator, etc. from imdapi.com
     """
-    matches = re.search(r'/([a-zA-Z]{2}[0-9]{7})', url)
-    imdb_id = matches.group(1)
-    
-    details = {}
-
-    url = 'http://www.imdbapi.com/'
-    url_params = {'i' : imdb_id}
-
-    data = urllib.urlencode(url_params)
-    url = url + '?' + data
-    req = urllib2.Request(url, data)
+    req = urllib2.Request(url)
     response = urllib2.urlopen(req)
-    response_json = json.loads(response.read())
+    
+    # Use Beautiful Soup to create a workable object from the source
+    soup = BeautifulSoup(response)
+    
+    # This title contains our title and year
+    title = soup.find("h1",{"class":"header", "itemprop": "name"})
 
-    details['title'] = response_json['Title']
+    release_year = title.span.a.string
+    
+    # Year is in the span. Remove it so that we only have the title left 
+    title.span.decompose()   
+    cleaned_title = re.sub(r'\n', '', title.contents[0])
+    
+    director = soup.find("a",{"itemprop": "director"}).string
+
+    details = {}
+    details['title'] = cleaned_title
     details['format'] = 'Video/Film'
-    details['creator'] = response_json['Director']
-    details['pub_date'] = response_json['Year']
+    details['creator'] = director
+    details['pub_date'] = release_year
     
     return details
 
