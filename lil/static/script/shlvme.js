@@ -9,15 +9,29 @@ var BASE_URL = '/shlvme/';
 		   Show item information on item click in shelf.
 		*/
 		$b.delegate('#active-stack .stack-item a', 'click', function(e) {
-			var $item = $(this).closest('.stack-item'),
-			    data = $item.data('stackviewItem');
+			var $item = $(this).closest('.stack-item');
+			populateItemDetails($item);
+			e.preventDefault();
+		});
+		
+		/*
+		   /shlvme/:user/:shelf
+
+		   Show first item in right panel upon load.
+		*/
+		$b.on('stackview.pageload', '.stackview', function(e) {
+      var $item = $(this).find('.stack-item:first');
+      populateItemDetails($item);
+		});
+		
+		function populateItemDetails($item) {
+		  var data = $item.data('stackviewItem');
 
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
 			$('#active-item').html(tmpl($('#item-details').html(), data));
 			bindConfirmations('#active-item');
-			e.preventDefault();
-		});
+		}
 
 		/*
 		   /shlvme/:user/:shelf
