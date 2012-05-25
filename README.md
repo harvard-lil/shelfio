@@ -2,53 +2,84 @@
 
 Build and share shelves of books, movies, albums, and most anything on the web
 
-## Installation
+##Developing shlv.me -- Setting up your Django environment
 
+###Install Django
 
-### Required packages
+curl -LO https://www.djangoproject.com/download/1.4/tarball/
+tar xvfz Django-1.4.tar.gz
+cd Django-1.4
+sudo python setup.py install
 
-Install the MySQL DB Driver (if you've configured Django to use MySQL), http://sourceforge.net/projects/mysql-python/
+Django should be ready to roll, but give it a test (no errors == good):
+python
+>>> import django
 
-    wget http://downloads.sourceforge.net/project/mysql-python/mysql-python/1.2.3/MySQL-python-1.2.3.tar.gz
-    tar xvzf MySQL-python-1.2.3.tar.gz
-    cd MySQL-python-1.2.3
-    sudo python setup.py install
-    
-    If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
+###Install required shlv.me packages and Django
 
-Install the lxml package, http://lxml.de
+Install the MySQL driver
 
-These install guides should get you close:
+If you're using MySQL to power Django, you'll need the driver:
 
-  * http://stackoverflow.com/questions/1277124/how-do-you-install-lxml-on-os-x-leopard-without-using-macports-or-fink
-  * http://lxml.de/installation.html
+curl -LO http://downloads.sourceforge.net/project/mysql-python/mysql-python/1.2.3/MySQL-python-1.2.3.tar.gz
+tar xvzf MySQL-python-1.2.3.tar.gz
+cd MySQL-python-1.2.3
+sudo python setup.py install
+
+If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
 
 Install the Amazon Product API package, http://packages.python.org/python-amazon-product-api/
 
-    wget http://pypi.python.org/packages/source/p/python-amazon-product-api/python-amazon-product-api-0.2.5.tar.gz#md5=86206766f8741d2f3ff477fec1e106bd
-    tar xvfz python-amazon-product-api-0.2.5.tar.gz
-    cd python-amazon-product-api-0.2.5
-    sudo python setup.py install
+curl -LO http://pypi.python.org/packages/source/p/python-amazon-product-api/python-amazon-product-api-0.2.5.tar.gz
+tar xvfz python-amazon-product-api-0.2.5.tar.gz
+sudo python setup.py install
 
-### Setup configs
+Install lxml:
 
-Copy the example configs:
+http://lxml.de/installation.html
 
-    cd lil/
-    cp settings.example.py settings.py
-    cd shlvme/
-    cp local_settings.example.py local_settings.py
+(If you work in OS X, this might be helpful: http://stackoverflow.com/questions/1277124/how-do-you-install-lxml-on-os-x-leopard-without-using-macports-or-fink)
 
-Configure settings.py:
+Install Beautiful Soup:
 
-    Set DATABASES with your DB settings
-    Set SECRET_KEY with your secret key
+easy_install BeautifulSoup
 
-Configure local_settings.py:
+###Create your database and load some data to get started
 
-    Set AMZ.KEY to your Amazon Product Advertising key
-    Set AMZ.SECRET_KEY to your Amazon Product Advertising secret key
-    Set AMZ.ASSOCIATE_TAG to your Amazon Product Advertising associate tag
+If you're using MySQL your database creation process might look something like this (these DB credentials should match what you have in settings.py):
+
+mysql -u root -psomepasshere
+mysql> create database shlvme_matt; grant all on shlvme_matt.* to shlvme_matt@'%' identified by 'shlvme_matt';
+mysql -u shlvme_matt -psomepasshere shlvme_matt
+
+Create your tables:
+python manage.py syncdb
+
+Load some data:
+python manage.py loaddata shlvme/fixtures/bootstrap.json
+
+(this should create a user with the username of 'willy' and the password of 'pass')
+
+###Install shlv.me
+
+Clone the repo:
+git clone git://github.com/harvard-lil/shlvme.git
+
+Get the develop branch:
+git checkout -b develop origin/develop
+git pull
+
+Config your Django project settings:
+cd lil
+cp settings.py.example settings.py
+(At a minimum, youll probably update LOGGING, DATABASES and SECRET_KEY)
+
+Configure your Django app (local settings):
+cd shlvme
+cp local_settings.example.py local_settings.py
+
+Start the Django web server:
+python manage.py runserver hlsl7.law.harvard.edu:8000
 
 ## License
 
