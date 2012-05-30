@@ -34,7 +34,6 @@ class Item(models.Model):
     shelf = models.ForeignKey(Shelf)
     item_uuid = UUIDField(auto=True)
     title = models.CharField(max_length=200)
-    isbn = models.CharField(max_length=200)
     link = models.URLField()
     measurement_page_numeric = models.PositiveIntegerField(default=300)
     measurement_height_numeric = models.DecimalField(default='25.5', max_digits=5, decimal_places=2)
