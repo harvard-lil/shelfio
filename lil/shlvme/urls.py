@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth import views as auth_views
 
 from django.contrib import admin
 admin.autodiscover()
@@ -22,10 +23,13 @@ urlpatterns = patterns('lil.shlvme.views',
 
     # Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
+    url(r'^add-item/$', 'item.user_create', name='user_item_create'),
     url(r'^login/$', 'auth.process_login', name='process_login'),
     url(r'^logout/$', 'auth.process_logout', name='process_logout'),
     url(r'^register/$', 'auth.process_register', name='process_register'),
-    url(r'^add-item/$', 'item.user_create', name='user_item_create'),
+    url(r'^password/change/$', auth_views.password_change, {'template_name': 'registration/password_change_form.html'}, name='auth_password_change'),
+    url(r'^password/change/done/$', auth_views.password_change_done, {'template_name': 'registration/password_change_done.html'},   name='auth_password_change_done'),
+    
     
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user.user_home', name='user_home'),
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.user_shelf', name='user_shelf'),

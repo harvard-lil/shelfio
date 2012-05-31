@@ -6,7 +6,9 @@
 		</header>
 
 		<section>
-		  			<img src="http://covers.openlibrary.org/b/isbn/<%=isbn%>-M.jpg" alt="<%=title%>" />
+			{% if isbn %}
+		  	<img src="http://covers.openlibrary.org/b/isbn/<%=isbn%>-M.jpg" alt="<%=title%>" />
+			{% endif %}
 			<ul>
 				<li>
 					<h4>Creators:</h4>
@@ -16,6 +18,7 @@
 					<h4>Published:</h4>
 					<%=pub_date%>
 				</li>
+				{% if isbn %}
 				<li>
 					<h4>ISBN:</h4>
 					<%=isbn%>
@@ -24,6 +27,7 @@
 					<h4>Item Created:</h4>
 					<%=creation_date%>
 				</li>
+				{% endif %}
 			</ul>
 		</section>
 
