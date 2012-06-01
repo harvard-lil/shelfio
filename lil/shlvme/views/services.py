@@ -67,7 +67,10 @@ def get_amazon_details(url):
         if hasattr(item_attributes, 'Author'):
             details['format'] = 'book' #item_attributes['ProductGroup']
         if hasattr(item_attributes, 'PublicationDate'):
-            details['pub_date'] = item_attributes['PublicationDate']
+            pub_date =item_attributes['PublicationDate']
+            
+            if len(pub_date) > 4: 
+                details['pub_date'] = pub_date[0:5]
         
     return details
 
