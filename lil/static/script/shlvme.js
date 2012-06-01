@@ -158,17 +158,6 @@ var BASE_URL = '/shlvme/';
 
 			e.preventDefault();
 		});
-		
-		$( "#shelfrank-slider" ).slider({
-        value: 51,
-        min: 0,
-        max: 100,
-        step: 1,
-        slide: function( event, ui ) {
-            //Its setting the slider value to the element with id "amount"
-            $( "#id_shelfrank" ).val( ui.value );
-        }
-    });
 
 		/*
 		   Global
