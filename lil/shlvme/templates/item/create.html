@@ -5,13 +5,17 @@
 		<form action="." method="post">
 			{% csrf_token %}
 			<h1>Add Item to Shelf</h1>
-			<div id="preview-item" class="stackview"></div>
 			
-			<p>
+			<p id="shelf-select">
 			  {{ add_item_form.shelf.errors }}
         <label for="id_shelf">Shelf</label>
         {{ add_item_form.shelf }}
       </p>
+
+      <div id="preview-item" class="stackview clearfix"></div>
+      
+      <div style="clear:both;"></div>
+      
 			<div id="customizations" style="display:none;">
 			<p>
 			  {{ add_item_form.title.errors }}
