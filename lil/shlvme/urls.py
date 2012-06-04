@@ -23,6 +23,7 @@ urlpatterns = patterns('lil.shlvme.views',
 
     # Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
+    url(r'^about/$', 'about.about', name='about'),
     url(r'^add-item/$', 'item.user_create', name='user_item_create'),
     url(r'^login/$', 'auth.process_login', name='process_login'),
     url(r'^logout/$', 'auth.process_logout', name='process_logout'),
