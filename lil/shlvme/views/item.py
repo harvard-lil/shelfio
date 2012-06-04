@@ -4,7 +4,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
-from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm, CreatorForm
+from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm, CreatorForm, TagForm
 import json
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -94,6 +94,7 @@ def api_item_reorder(request, url_item_uuid):
 
     return HttpResponse(status=404)
 
+"""
 def user_create(request):    
     if not request.user.is_authenticated():
         messages.warning(request, 'You need to sign in to add items.')
@@ -129,6 +130,54 @@ def user_create(request):
         'user': request.user,
         'add_item_form': add_item_form,
         'creator_form': creator_form
+    })
+    return render_to_response('item/create.html', context)
+"""
+
+def user_create(request):    
+    if not request.user.is_authenticated():
+        messages.warning(request, 'You need to sign in to add items.')
+        return redirect(reverse('process_login'))
+    
+    context = {}
+    context.update(csrf(request))
+    
+
+    if request.method == 'GET':
+        print request.GET
+        add_item_form = AddItemForm(request.user)
+        creator_form = CreatorForm()
+        fill_with_get(add_item_form, request.GET)
+        fill_with_get(creator_form, request.GET)
+        tag_form = TagForm()
+
+    elif request.method == 'POST':
+        add_item_form = AddItemForm(request.user, request.POST)
+        creator_form = CreatorForm(request.POST)
+        tag_form = TagForm(request.POST)
+        if add_item_form.is_valid() and creator_form.is_valid() and tag_form.is_valid():
+            item = add_item_form.save()
+            _save_creators(creator_form, item)
+            
+            tag = tag_form.save(commit=False)
+            tag.item = item
+            tag.save()
+            
+            success_text = '%(item)s added to %(shelf)s.' % {
+                'item': add_item_form.cleaned_data['title'],
+                'shelf': add_item_form.cleaned_data['shelf'].name
+            }
+            messages.success(request, success_text)
+            return redirect(reverse(
+                'user_shelf',
+                args=[request.user.username, add_item_form.cleaned_data['shelf'].slug],
+            ))
+
+    context.update({
+        'user': request.user,
+        'add_item_form': add_item_form,
+        'creator_form': creator_form,
+        'tag_form': tag_form
     })
     return render_to_response('item/create.html', context)
 

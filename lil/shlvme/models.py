@@ -114,3 +114,8 @@ class AddItemForm(forms.ModelForm):
 
 class CreatorForm(forms.Form):
     creator = forms.CharField(max_length=1000)
+    
+class TagForm(forms.ModelForm):
+    class Meta:
+        model = Tag
+        exclude = ('item')
