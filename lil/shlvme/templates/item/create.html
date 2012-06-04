@@ -1,20 +1,99 @@
 {% extends "layouts/base.html" %}
 
 {% block content %}
-	<article class="thin-centered">
+	<article class="medium-centered">
 		<form action="." method="post">
 			{% csrf_token %}
 			<h1>Add Item to Shelf</h1>
-			{{ add_item_form.as_p }}
+			
+			<p id="shelf-select">
+			  {{ add_item_form.shelf.errors }}
+        <label for="id_shelf">Shelf</label>
+        {{ add_item_form.shelf }}
+      </p>
+
+      <div id="preview-item" class="stackview clearfix"></div>
+      
+      <div style="clear:both;"></div>
+      
+			<div id="customizations" style="display:none;">
+			<p>
+			  {{ add_item_form.title.errors }}
+        <label for="id_title">Title</label>
+        {{ add_item_form.title }}
+      </p>
+      <p>
+			  {{ add_item_form.format.errors }}
+        <label for="id_format">Format</label>
+        {{ add_item_form.format }}
+      </p>
+      <p>
+			  {{ add_item_form.measurement_page_numeric.errors }}
+        <label for="id_measurement_page_numeric">Pages</label>
+        {{ add_item_form.measurement_page_numeric }}
+      </p>
+      <p>
+			  {{ add_item_form.measurement_height_numeric.errors }}
+        <label for="id_measurement_height_numeric">Height (cm)</label>
+        {{ add_item_form.measurement_height_numeric }}
+      </p>
+      <p>
+			  {{ add_item_form.shelfrank.errors }}
+        {{ add_item_form.shelfrank }}
+      </p>
+      <p>
+			  {{ add_item_form.pub_date.errors }}
+        <label for="id_pub_date">Year</label>
+        {{ add_item_form.pub_date }}
+      </p>
+      <p>
+			  {{ add_item_form.link.errors }}
+        <label for="id_link">Link</label>
+        {{ add_item_form.link }}
+      </p>
+			<!--{# Include the hidden fields #}
+      {% for hidden in add_item_form.hidden_fields %}
+      {{ hidden }}
+      {% endfor %}
+      {# Include the visible fields #}
+      {% for field in add_item_form.visible_fields %}
+          <p>
+              {{ field.errors }}
+              {{ field.label_tag }} {{ field }}
+          </p>
+      {% endfor %}
+      {{ add_item_form.as_p }}-->
 			{{ creator_form.as_p }}
 			
 			{% for form in tag_formset %}
 				{{ form.as_p }}
 			{% endfor %}
 			
+			<label for="id_shelfrank">Shelfrank:</label>
+			<div id="shelfrank-slider"></div>
+			</div>
 			<p>
 				<input type="submit" value="Add Item" class="button positive icon-ok immediate">
 			</p>
+			<a href="#" id="customize">customize</a>
 		</form>
 	</article>
 {% endblock content %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ STATIC_PREFIX }}script/form.js"></script>	
+	<script type="text/html" id="item_tmpl">
+    <li class="stack-item stack-book heat<%= heat %>" style="width:<%= book_height %>; height:<%= book_thickness %>;">
+			<a href="<%= link %>" target="_blank">
+				<span class="spine-text">
+				  <span class="spine-title"><%= title %></span>
+					<span class="spine-author"><%= author %></span>
+				</span>
+				<span class="spine-year"><%= year %></span>
+				<span class="stack-pages" />
+				<span class="stack-cover" />
+			</a>
+		</li>
+</script>
+{% endblock scripts %}
