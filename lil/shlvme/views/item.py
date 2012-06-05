@@ -112,7 +112,12 @@ def user_create(request):
         fill_with_get(add_item_form, request.GET)
         fill_with_get(creator_form, request.GET)
         
-        tag_formset = TagFormset(queryset=Tag.objects.none())
+        # TODO: generalize this. we shoudl be able to handle any reasonable number of key/val pairs passed in
+        initial_data = []
+        if request.GET.get('key') and request.GET.get('value'):
+            initial_data.append({'key': request.GET.get('key'),'value': request.GET.get('value')})
+        
+        tag_formset = TagFormset(queryset=Tag.objects.none(), initial=initial_data)
 
     elif request.method == 'POST':
         add_item_form = AddItemForm(request.user, request.POST)
