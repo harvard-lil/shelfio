@@ -1,6 +1,5 @@
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
-from amazonproduct import API
 import re
 import logging
 import urllib
@@ -8,6 +7,9 @@ import urllib2
 import json
 from xml.etree.ElementTree import fromstring, ElementTree
 from BeautifulSoup import BeautifulSoup
+import bottlenose
+from lxml import objectify
+
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +36,7 @@ def incoming(request):
     encoded_params = urllib.urlencode(details)
 
     return redirect(reverse('user_item_create') + '?' + encoded_params)
-    
+
 def get_amazon_details(url):
     """Given an Amazon URL, get title, creator, etc. from imdapi.com
     """
@@ -43,37 +45,40 @@ def get_amazon_details(url):
 
     aws_key = AMZ['KEY']
     aws_secret_key = AMZ['SECRET_KEY']
-    api = API(aws_key, aws_secret_key, 'us')
+    aws_associate_tag = AMZ['ASSOCIATE_TAG']
     
     details = {}
     
-    looked_up_item = api.item_lookup(asin, IdType='ASIN', AssociateTag= AMZ['ASSOCIATE_TAG'], ResponseGroup='Large')
-
-    if looked_up_item['Items']['Item']['ItemAttributes'] is not None:
-        item_attributes = looked_up_item['Items']['Item']['ItemAttributes']
-        
-        if hasattr(item_attributes, 'Author'):
-            details['creator'] = item_attributes['Author']
-        if hasattr(item_attributes, 'Title'):
-            details['title'] = item_attributes['Title']
-        if hasattr(item_attributes, 'ISBN'):
-            details['isbn'] = item_attributes['ISBN']
-        if hasattr(item_attributes, 'NumberOfPages'):
-            details['measurement_page_numeric'] = item_attributes['NumberOfPages']
-        if hasattr(item_attributes, 'ItemDimensions') and hasattr(item_attributes['ItemDimensions'], 'Length'):
-            amz_length = int(item_attributes['ItemDimensions']['Length'])
+    amazon = bottlenose.Amazon(aws_key, aws_secret_key, aws_associate_tag)
+    response = amazon.ItemLookup(ItemId=asin, ResponseGroup="Large", IdType="ASIN")
+    
+    root = objectify.fromstring(response)
+    
+    if root.Items.Item.ItemAttributes is not None:
+        if root.Items.Item.ItemAttributes.Author is not None:
+            details['creator'] = root.Items.Item.ItemAttributes.Author
+        if root.Items.Item.ItemAttributes.Title is not None:
+            details['title'] = root.Items.Item.ItemAttributes.Title
+        if root.Items.Item.ItemAttributes.ISBN is not None:
+            details['key'] = 'isbn'
+            details['value'] = root.Items.Item.ItemAttributes.ISBN.text
+            print details['value']
+        if root.Items.Item.ItemAttributes.NumberOfPages is not None:
+            details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
+        if root.Items.Item.ItemAttributes.ItemDimensions is not None and root.Items.Item.ItemAttributes.ItemDimensions['Length'] is not None :
+            amz_length = int(root.Items.Item.ItemAttributes.ItemDimensions['Length'])
             height_in_inches = (amz_length / 100) * 2.54
             details['measurement_height_numeric'] = height_in_inches
-        if hasattr(item_attributes, 'Author'):
-            details['format'] = 'book' #item_attributes['ProductGroup']
-        if hasattr(item_attributes, 'PublicationDate'):
-            pub_date =item_attributes['PublicationDate']
+        if root.Items.Item.ItemAttributes.ProductGroup is not None:
+            details['format'] = 'book'
+        if root.Items.Item.ItemAttributes.PublicationDate is not None:
+            pub_date = root.Items.Item.ItemAttributes.PublicationDate
             
             if len(pub_date) > 4: 
                 details['pub_date'] = pub_date[0:5]
         
+        
     return details
-
 
 def get_imdb_details(url):
     """Given an IMDB URL, get title, creator, etc. from imdapi.com
