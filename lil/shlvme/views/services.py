@@ -65,9 +65,9 @@ def get_amazon_details(url):
             print details['value']
         if root.Items.Item.ItemAttributes.NumberOfPages is not None:
             details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
-        if root.Items.Item.ItemAttributes.ItemDimensions is not None and root.Items.Item.ItemAttributes.ItemDimensions['Length'] is not None :
-            amz_length = int(root.Items.Item.ItemAttributes.ItemDimensions['Length'])
-            height_in_inches = (amz_length / 100) * 2.54
+        if root.Items.Item.ItemAttributes.PackageDimensions is not None and root.Items.Item.ItemAttributes.PackageDimensions['Length'] is not None :
+            amz_length = int(root.Items.Item.ItemAttributes.PackageDimensions['Length'])
+            height_in_inches = (amz_length / 100.00) * 2.54
             details['measurement_height_numeric'] = height_in_inches
         if root.Items.Item.ItemAttributes.ProductGroup is not None:
             details['format'] = 'book'
