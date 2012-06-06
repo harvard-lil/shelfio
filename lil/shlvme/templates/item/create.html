@@ -1,16 +1,18 @@
 {% extends "layouts/base.html" %}
 
+{% block title %}Add Item | Shlv.me{% endblock %}
+
 {% block content %}
 	<article class="medium-centered">
 		<form action="." method="post">
 			{% csrf_token %}
 			<h1>Add Item to Shelf</h1>
 			
-			<p id="shelf-select">
+			<div id="shelf-select">
 			  {{ add_item_form.shelf.errors }}
         <label for="id_shelf">Shelf</label>
         {{ add_item_form.shelf }}
-      </p>
+      </div>
 
       <div id="preview-item" class="stackview clearfix"></div>
       
@@ -21,12 +23,29 @@
 			  {{ add_item_form.title.errors }}
         <label for="id_title">Title</label>
         {{ add_item_form.title }}
+      </p> 
+      <p>
+			  {{ creator_form.creator.errors }}
+        <label for="id_creator">Creator</label>
+        {{ creator_form.creator }}
+      </p>
+      <p>
+			  {{ add_item_form.pub_date.errors }}
+        <label for="id_pub_date">Year</label>
+        {{ add_item_form.pub_date }}
       </p>
       <p>
 			  {{ add_item_form.format.errors }}
         <label for="id_format">Format</label>
         {{ add_item_form.format }}
       </p>
+      <label for="id_shelfrank">Shelfrank</label>
+			<div id="shelfrank-slider"></div>
+			<div id="legend">
+			  <ul class="legend-box">
+			    <li class="one"></li><li class="two"></li><li class="three"></li><li class="four"></li><li class="five"></li><li class="six"></li><li class="seven"></li><li class="eight"></li><li class="nine"></li><li class="ten"></li>
+			  </ul>
+			</div>
       <p>
 			  {{ add_item_form.measurement_page_numeric.errors }}
         <label for="id_measurement_page_numeric">Pages</label>
@@ -42,31 +61,12 @@
         {{ add_item_form.shelfrank }}
       </p>
       <p>
-			  {{ add_item_form.pub_date.errors }}
-        <label for="id_pub_date">Year</label>
-        {{ add_item_form.pub_date }}
-      </p>
-      <p>
 			  {{ add_item_form.link.errors }}
         <label for="id_link">Link</label>
         {{ add_item_form.link }}
-      </p>
-			<!--{# Include the hidden fields #}
-      {% for hidden in add_item_form.hidden_fields %}
-      {{ hidden }}
-      {% endfor %}
-      {# Include the visible fields #}
-      {% for field in add_item_form.visible_fields %}
-          <p>
-              {{ field.errors }}
-              {{ field.label_tag }} {{ field }}
-          </p>
-      {% endfor %}
-      {{ add_item_form.as_p }}-->
-			{{ creator_form.as_p }}
-			<label for="id_shelfrank">Shelfrank:</label>
-			<div id="shelfrank-slider"></div>
+      </p>		
 			</div>
+
 			<p>
 				<input type="submit" value="Add Item" class="button positive icon-ok immediate">
 			</p>
@@ -76,9 +76,9 @@
 {% endblock content %}
 
 {% block scripts %}
-	{{ block.super }}
+	{{ block.super }}	
 	<script type="text/javascript" src="{{ STATIC_PREFIX }}script/form.js"></script>	
-	<script type="text/html" id="item_tmpl">
+	<script type="text/html" id="book_tmpl">
     <li class="stack-item stack-book heat<%= heat %>" style="width:<%= book_height %>; height:<%= book_thickness %>;">
 			<a href="<%= link %>" target="_blank">
 				<span class="spine-text">
@@ -90,5 +90,29 @@
 				<span class="stack-cover" />
 			</a>
 		</li>
-</script>
+  </script>
+  <script type="text/html" id="soundrecording_tmpl">
+    <li class="stack-item stack-soundrecording heat<%= heat %>">
+			<a href="<%= link %>" target="_blank">
+					<span class="spine-text">
+						<span class="spine-title"><%= title %></span>
+					</span>
+					<span class="spine-year"><%= year %></span>
+					<span class="sound-edge"></span>
+					<span class="sound-cover"></span>
+			</a>
+		</li>
+  </script>
+  <script type="text/html" id="videofilm_tmpl">
+    <li class="stack-item stack-videofilm heat<%= heat %>" style="width:330px;">
+			<a href="<%= link %>" target="_blank">
+				<span class="spine-text">\
+					<span class="spine-title"><%= title %></span>
+				</span>
+				<span class="spine-year"><%= year %></span>
+				<span class="videofilm-edge" />
+				<span class="videofilm-cover" />
+			</a>
+		</li>
+  </script>
 {% endblock scripts %}

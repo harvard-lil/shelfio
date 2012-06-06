@@ -111,7 +111,7 @@ class AddItemForm(forms.ModelForm):
             self.fields['shelf'].empty_label = None
     class Meta:
         model = Item
-        widgets = { 'shelfrank' : forms.HiddenInput() }
+        widgets = { 'shelfrank' : forms.HiddenInput(), 'pub_date' : forms.TextInput(attrs={'size':4, 'maxlength':4}) }
 
 class CreatorForm(forms.Form):
     creator = forms.CharField(max_length=1000)

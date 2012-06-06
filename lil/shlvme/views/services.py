@@ -60,10 +60,10 @@ def get_amazon_details(url):
             details['isbn'] = item_attributes['ISBN']
         if hasattr(item_attributes, 'NumberOfPages'):
             details['measurement_page_numeric'] = item_attributes['NumberOfPages']
-        if hasattr(item_attributes, 'ItemDimensions') and hasattr(item_attributes['ItemDimensions'], 'Length'):
-            amz_length = int(item_attributes['ItemDimensions']['Length'])
-            height_in_inches = (amz_length / 100) * 2.54
-            details['measurement_height_numeric'] = height_in_inches
+        if hasattr(item_attributes, 'PackageDimensions') and hasattr(item_attributes['PackageDimensions'], 'Length'):
+            amz_length = int(item_attributes['PackageDimensions']['Length'])
+            height_in_cm = (amz_length / 100.00) * 2.54
+            details['measurement_height_numeric'] = height_in_cm
         if hasattr(item_attributes, 'Author'):
             details['format'] = 'book' #item_attributes['ProductGroup']
         if hasattr(item_attributes, 'PublicationDate'):

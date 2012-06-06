@@ -1,7 +1,7 @@
 $(function () { 
   buildItem();
       
-  $('form p input').on('change', function() {
+  $('form p input').on('propertychange keyup input paste', function() {
     buildItem();
   });
   
@@ -13,7 +13,7 @@ $(function () {
   $( "#shelfrank-slider" ).slider({
     value: $('#id_shelfrank').val(),
     min: 0,
-    max: 100,
+    max: 99,
     step: 1,
     slide: function( event, ui ) {
         //Its setting the slider value to the element with id "amount"
@@ -21,9 +21,22 @@ $(function () {
         buildItem();
     }
   });
+  
+  /*$('select#valueA').selectToUISlider({
+				labels: 10,
+				sliderOptions: {
+					stop: function(event) { 
+					  var val = $('select#valueA').attr('value');
+						$( "#id_shelfrank" ).val(val);
+						buildItem();
+					} 
+				}
+			});*/
       
 	function buildItem() {
     var docs = {};
+    var template = $('#id_format').val() + '_tmpl';
+    template = template.toLowerCase().replace("/", "");
 		docs.title = $('#id_title').val();
 		docs.book_thickness = get_thickness($('#id_measurement_page_numeric').val());
 		docs.book_height = get_height($('#id_measurement_height_numeric').val());
@@ -32,7 +45,7 @@ $(function () {
 		docs.link = $('#id_link').val();
 		docs.author = $('#id_creator').val();
 		var results = document.getElementById("preview-item");
-		results.innerHTML = tmpl("item_tmpl", docs);
+		results.innerHTML = tmpl(template, docs);
 		$('.stackview').css('height',docs.book_thickness);
 	}
 			
@@ -51,9 +64,9 @@ $(function () {
       
   function get_height (measurement_height_numeric) {
     var height = parseInt(measurement_height_numeric, 10),
-        min = 20,
-        max = 39,
-		    multiple = 12;
+        min = 17,
+        max = 35,
+		    multiple = 13;
     
     if (isNaN(height)) {
       height = min;
