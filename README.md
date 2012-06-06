@@ -79,6 +79,11 @@ cp local_settings.example.py local_settings.py
 Start the Django web server:
 python manage.py runserver hlsl7.law.harvard.edu:8000
 
+###Update site name
+Set the Django site name in the database by updating the django_site table:
+
+update django_site set domain = 'shlv.me'; update django_site set name = 'shlv.me';
+
 ## License
 
 Dual licensed under the MIT license (below) and [GPL license](http://www.gnu.org/licenses/gpl-3.0.html).
