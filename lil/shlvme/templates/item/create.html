@@ -64,6 +64,11 @@
       {% endfor %}
       {{ add_item_form.as_p }}-->
 			{{ creator_form.as_p }}
+			
+			{% for form in tag_formset %}
+				{{ form.as_p }}
+			{% endfor %}
+			
 			<label for="id_shelfrank">Shelfrank:</label>
 			<div id="shelfrank-slider"></div>
 			</div>

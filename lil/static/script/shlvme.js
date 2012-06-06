@@ -25,8 +25,8 @@ var BASE_URL = '/shlvme/';
 		});
 		
 		function populateItemDetails($item) {
-		  var data = $item.data('stackviewItem');
-
+		  	var data = $item.data('stackviewItem');
+			console.log(data);
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
 			$('#active-item').html(tmpl($('#item-details').html(), data));

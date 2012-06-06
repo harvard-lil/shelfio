@@ -6,9 +6,18 @@
 		</header>
 
 		<section>
-			{% if isbn %}
-		  	<img src="http://covers.openlibrary.org/b/isbn/<%=isbn%>-M.jpg" alt="<%=title%>" />
-			{% endif %}
+			<% for ( var i = 0; i < tag.length; i++ ) { 
+				for ( property in tag[i] ) {
+					if (property.toLowerCase() === "isbn") {
+						var isbn = tag[i]["isbn"];
+					}
+				}
+			 } %>
+			
+			<% if (isbn) { %>
+		  		<img src="http://covers.openlibrary.org/b/isbn/<%=isbn%>-M.jpg" alt="<%=title%>" />
+			<% } %>
+
 			<ul>
 				<li>
 					<h4>Creators:</h4>
@@ -18,16 +27,17 @@
 					<h4>Published:</h4>
 					<%=pub_date%>
 				</li>
-				{% if isbn %}
 				<li>
-					<h4>ISBN:</h4>
-					<%=isbn%>
-				</li>
-				<li>
-					<h4>Item Created:</h4>
+					<h4>Added to shelf:</h4>
 					<%=creation_date%>
 				</li>
-				{% endif %}
+				
+				<% for ( var i = 0; i < tag.length; i++ ) { %>
+					<% for ( property in tag[i] ) { %>
+						<h4><%=property%>:</h4>
+    					<li><%=tag[i][property]%></li>
+  					<% } %>
+  				<% } %>
 			</ul>
 		</section>
 

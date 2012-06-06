@@ -28,11 +28,9 @@ sudo python setup.py install
 
 If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
 
-Install the Amazon Product API package, http://packages.python.org/python-amazon-product-api/
+Install Bottlenose so that we can get  Amazon Product API data, https://github.com/dlo/bottlenose
 
-curl -LO http://pypi.python.org/packages/source/p/python-amazon-product-api/python-amazon-product-api-0.2.5.tar.gz
-tar xvfz python-amazon-product-api-0.2.5.tar.gz
-sudo python setup.py install
+sudo easy_install bottlenose
 
 Install lxml:
 
