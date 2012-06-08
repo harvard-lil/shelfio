@@ -54,11 +54,14 @@ def get_amazon_details(url):
     
     amazon = bottlenose.Amazon(aws_key, aws_secret_key, aws_associate_tag)
     response = amazon.ItemLookup(ItemId=asin, ResponseGroup="Large", IdType="ASIN")
-    
+        
     root = objectify.fromstring(response)
     
     if hasattr(root.Items.Item.ItemAttributes, 'Author'):
         details['creator'] = root.Items.Item.ItemAttributes.Author
+    elif hasattr(root.Items.Item.ItemAttributes, 'Artist'):
+        details['creator'] = root.Items.Item.ItemAttributes.Artist
+        
     if hasattr(root.Items.Item.ItemAttributes, 'Title'):
         details['title'] = root.Items.Item.ItemAttributes.Title
     if hasattr(root.Items.Item.ItemAttributes, 'ISBN'):
@@ -71,7 +74,10 @@ def get_amazon_details(url):
         height_in_inches = (amz_length / 100.00) * 2.54
         details['measurement_height_numeric'] = height_in_inches
     if hasattr(root.Items.Item.ItemAttributes, 'ProductGroup'):
-        details['format'] = 'book'
+        if root.Items.Item.ItemAttributes.ProductGroup.text == 'Music':
+            details['format'] = 'soundrecording'
+        else:
+            details['format'] = 'book'
     if hasattr(root.Items.Item.ItemAttributes, 'PublicationDate'):
         pub_date = get_year_from_raw_date(root.Items.Item.ItemAttributes.PublicationDate.text)
 
