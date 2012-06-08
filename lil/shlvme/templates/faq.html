@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<article class="thin-centered">
+		<h1>FAQ</h1>
+		<h2>Whahuh? What is Shlv.me?</h2>
+		<p>Shlv.me is an application that helps you build and share shelves of books, movies, albums, and most anything on the web.</p>
+		
+		<h2>I've installed the Shlv.me bookmarklet, what does this do for me?</h2>
+		<p>The Shlv.me bookmarklet helps you grab content from Amazon, IMDB, GoodReads and MusicBrainz easily. </p>
+		
+		<h2>Oh man, I'm lost, you have a bookmarklet?</h1>
+		<p>Yes and it's a good one. Find it on our <a href="{% url about %}">About page</a></p>
+		
+		<h2>Your bookmarklet doesn't support my favorite site. Bummer. Will you consider supporting it?</h1>
+		<p>If your site is amazing, we'll roll in support. <a href="mailto:lil@librarylab.law.harvard.edu">Shoot us an email</a> and give us the details.</p>
+		
+		<h2>To hell with you and your bookmarklet, I want to link to your "add item" form. Is that cool?</h1>
+		<p>Yes. It's pretty straightforard. Use this as a template: http://localhost:8000/shlvme/add-item/?measurement_page_numeric=544&title=The+Information%3A+A+History%2C+A+Theory%2C+A+Flood&format=book&creator=James+Gleick&value=1400096235&link=http%3A%2F%2Fwww.amazon.com%2Fgp%2Fproduct%2F1400096235%2F&key=isbn&measurement_height_numeric=20&pub_date=2012</p>
+		
+		<h2>Do you sell my email address?</h2>
+		<p>Heck no! We hate spammers as much as you do. We'd never share your contact information.</p>
+		
+		<h2>How much does this cost?</h2>
+		<p>It's free to you. Development is courtesy of the <a href="http://librarylab.law.harvard.edu">Harvard Library Innovation Lab</a>.</p>
+		
+		<h2>This FAQ doesn't answer my questions and I need to talk to someone. Do you have an email address?</h2>
+		<p>Yup. Find us at <a href="mailto:lil@librarylab.law.harvard.edu">Harvard Library Innovation Lab</a> an email.</p>
+		
+	</article>
+{% endblock content %}
