@@ -9,7 +9,7 @@ from xml.etree.ElementTree import fromstring, ElementTree
 from BeautifulSoup import BeautifulSoup
 import bottlenose
 from lxml import objectify
-from shlvme.utils import get_year_from_raw_date
+from lil.shlvme.utils import get_year_from_raw_date
 
 logger = logging.getLogger(__name__)
 
@@ -56,7 +56,7 @@ def get_amazon_details(url):
     response = amazon.ItemLookup(ItemId=asin, ResponseGroup="Large", IdType="ASIN")
         
     root = objectify.fromstring(response)
-    
+       
     if hasattr(root.Items.Item.ItemAttributes, 'Author'):
         details['creator'] = root.Items.Item.ItemAttributes.Author
     elif hasattr(root.Items.Item.ItemAttributes, 'Artist'):
