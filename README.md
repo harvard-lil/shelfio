@@ -58,6 +58,15 @@ python manage.py loaddata shlvme/fixtures/bootstrap.json
 
 (this should create a user with the username of 'willy' and the password of 'pass')
 
+###Setup mail
+If you want the "reset password" functionality to work, you'll need a mail server.
+
+If you're running an ubuntu system and want to run mail locally:
+
+apt-get install mailutils
+
+Be sure you mail options are pointing to the right place in settings.py 
+
 ###Install shlv.me
 
 Clone the repo:
