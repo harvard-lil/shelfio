@@ -4,7 +4,7 @@
 	<article class="half-half welcome">
 		<section class="right-column">
 			<h1>Shlv.me</h1>
-			<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+			<p>Build and share shelves of books, movies, albums, and most anything on the web.</p>
 			<p><a href="{% url process_register %}" class="button positive icon-ok immediate">Get Started</a></p>
 			<video src="http://clips.vorwaerts-gmbh.de/VfE_html5.mp4" width="100%" controls></video>
 		</section>
@@ -21,20 +21,175 @@
 	<script type="text/javascript">
 		$('.welcome-stack').stackView({
 			data: [
-				{
-					format: 'book',
-					title: 'Test Title',
-					creator: [
-						'Test Author'
-					],
-					pub_date: "1942",
-					link: '#',
-					shelfrank: 50,
-					measurement_height_numeric: 30
-				}
+				 {
+            "title": "Blankets",
+            "creator": [
+                "Craig Thompson"
+            ],
+            "measurement_page_numeric": 582,
+            "measurement_height_numeric": 25,
+            "shelfrank": 13,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
+        },
+        {
+            "title": "Persepolis",
+            "creator": [
+                "Marjane Satrapi"
+            ],
+            "measurement_page_numeric": 153,
+            "measurement_height_numeric": 24,
+            "shelfrank": 64,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009098946"
+        },
+        {
+            "title": "Summer blonde",
+            "creator": [
+                "Adrian Tomine"
+            ],
+            "measurement_page_numeric": 132,
+            "measurement_height_numeric": 26,
+            "shelfrank": 22,
+            "pub_date": "2002",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
+        },
+        {
+            "title": "American elf",
+            "creator": [
+                "James Kochalka"
+            ],
+            "measurement_page_numeric": 496,
+            "measurement_height_numeric": 22,
+            "shelfrank": 1,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
+        },
+        {
+            "title": "Pyongyang",
+            "creator": [
+                "Guy Delisle"
+            ],
+            "measurement_page_numeric": 192,
+            "measurement_height_numeric": 23,
+            "shelfrank": 10,
+            "pub_date": "2005",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
+        },
+         {
+            "title": "Blankets",
+            "creator": [
+                "Craig Thompson"
+            ],
+            "measurement_page_numeric": 582,
+            "measurement_height_numeric": 25,
+            "shelfrank": 13,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
+        },
+        {
+            "title": "Persepolis",
+            "creator": [
+                "Marjane Satrapi"
+            ],
+            "measurement_page_numeric": 153,
+            "measurement_height_numeric": 24,
+            "shelfrank": 64,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009098946"
+        },
+        {
+            "title": "Summer blonde",
+            "creator": [
+                "Adrian Tomine"
+            ],
+            "measurement_page_numeric": 132,
+            "measurement_height_numeric": 26,
+            "shelfrank": 22,
+            "pub_date": "2002",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
+        },
+        {
+            "title": "American elf",
+            "creator": [
+                "James Kochalka"
+            ],
+            "measurement_page_numeric": 496,
+            "measurement_height_numeric": 22,
+            "shelfrank": 1,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
+        },
+        {
+            "title": "Pyongyang",
+            "creator": [
+                "Guy Delisle"
+            ],
+            "measurement_page_numeric": 192,
+            "measurement_height_numeric": 23,
+            "shelfrank": 10,
+            "pub_date": "2005",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
+        },
+         {
+            "title": "Blankets",
+            "creator": [
+                "Craig Thompson"
+            ],
+            "measurement_page_numeric": 582,
+            "measurement_height_numeric": 25,
+            "shelfrank": 13,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
+        },
+        {
+            "title": "Persepolis",
+            "creator": [
+                "Marjane Satrapi"
+            ],
+            "measurement_page_numeric": 153,
+            "measurement_height_numeric": 24,
+            "shelfrank": 64,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009098946"
+        },
+        {
+            "title": "Summer blonde",
+            "creator": [
+                "Adrian Tomine"
+            ],
+            "measurement_page_numeric": 132,
+            "measurement_height_numeric": 26,
+            "shelfrank": 22,
+            "pub_date": "2002",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
+        },
+        {
+            "title": "American elf",
+            "creator": [
+                "James Kochalka"
+            ],
+            "measurement_page_numeric": 496,
+            "measurement_height_numeric": 22,
+            "shelfrank": 1,
+            "pub_date": "2003",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
+        },
+        {
+            "title": "Pyongyang",
+            "creator": [
+                "Guy Delisle"
+            ],
+            "measurement_page_numeric": 192,
+            "measurement_height_numeric": 23,
+            "shelfrank": 10,
+            "pub_date": "2005",
+            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
+        }
+				
 			],
 
-			ribbon: 'Placeholder Stack'
+			ribbon: 'Popular in Shlv.me'
 		})
 	</script>
 {% endblock scripts %}
