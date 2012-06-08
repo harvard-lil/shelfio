@@ -77,7 +77,7 @@ def get_amazon_details(url):
         details['measurement_height_numeric'] = height_in_inches
     if hasattr(root.Items.Item.ItemAttributes, 'ProductGroup'):
         if root.Items.Item.ItemAttributes.ProductGroup.text == 'Music':
-            details['format'] = 'soundrecording'
+            details['format'] = 'Sound Recording'
         elif root.Items.Item.ItemAttributes.ProductGroup.text == 'DVD':
             details['format'] = 'Video/Film'
         else:
@@ -152,7 +152,7 @@ def get_musicbrainz_details(url):
         date_element = tree.find('*/{0}first-release-date'.format(namespace))
 
     details['title'] = title_element.text
-    details['format'] = 'soundrecording'
+    details['format'] = 'Sound Recording'
     details['creator'] = name_element.text
     details['pub_date'] = get_year_from_raw_date(date_element.text)
     
