@@ -61,6 +61,8 @@ def get_amazon_details(url):
         details['creator'] = root.Items.Item.ItemAttributes.Author
     elif hasattr(root.Items.Item.ItemAttributes, 'Artist'):
         details['creator'] = root.Items.Item.ItemAttributes.Artist
+    elif hasattr(root.Items.Item.ItemAttributes, 'Director'):
+        details['creator'] = root.Items.Item.ItemAttributes.Director
         
     if hasattr(root.Items.Item.ItemAttributes, 'Title'):
         details['title'] = root.Items.Item.ItemAttributes.Title
@@ -76,6 +78,8 @@ def get_amazon_details(url):
     if hasattr(root.Items.Item.ItemAttributes, 'ProductGroup'):
         if root.Items.Item.ItemAttributes.ProductGroup.text == 'Music':
             details['format'] = 'soundrecording'
+        elif root.Items.Item.ItemAttributes.ProductGroup.text == 'DVD':
+            details['format'] = 'Video/Film'
         else:
             details['format'] = 'book'
     if hasattr(root.Items.Item.ItemAttributes, 'PublicationDate'):
