@@ -5,6 +5,10 @@ $(function () {
     buildItem();
   });
   
+  $('form p select').on('change', function() {
+    buildItem();
+  });
+  
   $('#customize').on('click', function(e) {
     $('#customizations').slideToggle();
     e.preventDefault();
@@ -36,7 +40,7 @@ $(function () {
 	function buildItem() {
     var docs = {};
     var template = $('#id_format').val() + '_tmpl';
-    template = template.toLowerCase().replace("/", "");
+    template = template.toLowerCase().replace("/", "").replace(" ", "");
 		docs.title = $('#id_title').val();
 		docs.book_thickness = get_thickness($('#id_measurement_page_numeric').val());
 		docs.book_height = get_height($('#id_measurement_height_numeric').val());
