@@ -11,13 +11,6 @@ select {
   width:200px;
 }
 
-.format-select {
-  height:60px;
-  width: 175px;
-  float: left;
-  padding: 0px auto;
-}
-
 #shelfrank-slider {
   margin-top:10px;
   width:250px;
@@ -27,12 +20,11 @@ select {
     margin: -17px 0 0 -21px;
     width: 300px;
     z-index: 1;
-}
-
-#legend li {
-    display: inline-block;
-    height: 18px;
-    width: 28px;
+    li {
+      display: inline-block;
+      height: 18px;
+      width: 28px;
+    }
 }
 
 #legend ul.legend-box li.one {

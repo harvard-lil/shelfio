@@ -32,6 +32,9 @@ def incoming(request):
     elif re.search(r'musicbrainz\.org', url):
         details = get_musicbrainz_details(url)
         
+    elif re.search(r'goodreads\.com', url):
+        details = get_goodreads_details(url)
+        
     details['link'] = url
     encoded_params = urllib.urlencode(details)
 
@@ -67,7 +70,7 @@ def get_amazon_details(url):
             details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
         if root.Items.Item.ItemAttributes.PackageDimensions is not None and root.Items.Item.ItemAttributes.PackageDimensions['Length'] is not None :
             amz_length = int(root.Items.Item.ItemAttributes.PackageDimensions['Length'])
-            height_in_inches = (amz_length / 100.00) * 2.54
+            height_in_inches = '{0:.2g}'.format((amz_length / 100.0) * 2.54)
             details['measurement_height_numeric'] = height_in_inches
         if root.Items.Item.ItemAttributes.ProductGroup is not None:
             details['format'] = 'book'
@@ -148,4 +151,39 @@ def get_musicbrainz_details(url):
     details['creator'] = name_element.text
     details['pub_date'] = date_element.text
     
+    return details
+
+def get_goodreads_details(url):
+    """Given a goodreads URL, get title, creator, etc.
+    """
+    
+    # Look for something like http://www.goodreads.com/book/show/40694.Ray_Bradbury_s_Fahrenheit_451
+
+    details = {}
+    
+    #TODO: we should do some validation/error handling here
+    url = url + '.xml'
+    url_params = {'key' : GOODREADS['KEY']}
+    data = urllib.urlencode(url_params)
+    url = url + '?' + data
+    req = urllib2.Request(url)
+    response = urllib2.urlopen(req)
+    raw_response = response.read()
+
+    root = objectify.fromstring(raw_response)
+    
+    details['format'] = 'book'
+    
+    if root.book.find('title'):
+        details['title'] = root.book.title
+    if root.book.authors.author.find('name'):
+        details['creator'] = root.book.authors.author.name
+    if root.book.work.find('original_publication_year'):
+        details['pub_date'] = root.book.work.original_publication_year
+    if root.book.find('isbn'):
+        details['key'] = 'isbn'
+        details['value'] = root.book.isbn
+    if root.book.find('num_pages.text'):
+        details['measurement_page_numeric'] = root.book.num_pages
+
     return details

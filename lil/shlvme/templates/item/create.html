@@ -37,18 +37,6 @@
       <p>
 			  {{ add_item_form.format.errors }}
         <label for="id_format">Format</label>
-        <span class="format-select">
-          <img src="{{ STATIC_PREFIX }}images/choose-book.png" />
-          BOOK
-        </span>
-        <span class="format-select">
-          <img src="{{ STATIC_PREFIX }}images/choose-video.png" />
-          VIDEO/FILM
-        </span>
-        <span class="format-select">
-          <img src="{{ STATIC_PREFIX }}images/choose-sound.png" />
-          SOUND RECORDING
-        </span>
         {{ add_item_form.format }}
       </p>
       <label for="id_shelfrank">Shelfrank</label>
@@ -77,11 +65,9 @@
         <label for="id_link">Link</label>
         {{ add_item_form.link }}
       </p>
-			
 			{% for form in tag_formset %}
 				{{ form.as_p }}
 			{% endfor %}
-			
 			</div>
 
 			<p>
