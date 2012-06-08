@@ -67,8 +67,7 @@ def get_amazon_details(url):
     if hasattr(root.Items.Item.ItemAttributes, 'Title'):
         details['title'] = root.Items.Item.ItemAttributes.Title
     if hasattr(root.Items.Item.ItemAttributes, 'ISBN'):
-        details['key'] = 'isbn'
-        details['value'] = root.Items.Item.ItemAttributes.ISBN.text
+        details['isbn'] = root.Items.Item.ItemAttributes.ISBN.text
     if hasattr(root.Items.Item.ItemAttributes, 'NumberOfPages'):
         details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
     if hasattr(root.Items.Item.ItemAttributes, 'PackageDimensions') and hasattr(root.Items.Item.ItemAttributes.PackageDimensions, 'Length'):
@@ -186,8 +185,7 @@ def get_goodreads_details(url):
     if hasattr(root.book.work, 'original_publication_year'):
         details['pub_date'] = get_year_from_raw_date(root.book.work.original_publication_year)
     if hasattr(root.book, 'isbn'):
-        details['key'] = 'isbn'
-        details['value'] = root.book.isbn
+        details['isbn'] = root.book.isbn
     if hasattr(root.book, 'num_pages') and len(root.book.num_pages.text) > 0:
         details['measurement_page_numeric'] = root.book.num_pages
 

@@ -4,7 +4,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
-from lil.shlvme.models import Shelf, Item, Creator, Tag, AddItemForm, CreatorForm
+from lil.shlvme.models import Shelf, Item, Creator, AddItemForm, CreatorForm
 import json
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -103,9 +103,7 @@ def user_create(request):
     
     context = {}
     context.update(csrf(request))
-    
-    TagFormset = modelformset_factory(Tag, exclude=('item'))
-    
+       
     if request.method == 'GET':
         add_item_form = AddItemForm(request.user)
         creator_form = CreatorForm()
@@ -116,27 +114,15 @@ def user_create(request):
         initial_data = []
         if request.GET.get('key') and request.GET.get('value'):
             initial_data.append({'key': request.GET.get('key'),'value': request.GET.get('value')})
-        
-        tag_formset = TagFormset(queryset=Tag.objects.none(), initial=initial_data)
 
     elif request.method == 'POST':
         add_item_form = AddItemForm(request.user, request.POST)
         creator_form = CreatorForm(request.POST)
-        
-        #This fixes a Django bug (?) http://stackoverflow.com/questions/9850744/django-modelformset-factory-invalid-return-request-post-data-to-forms
-        forms_mgmt = {'form-TOTAL_FORMS': u'1', 'form-INITIAL_FORMS': u'0', 'form-MAX_NUM_FORMS': u''}
-        data_dict = dict(request.POST.items() + forms_mgmt.items())
-        tag_formset = TagFormset(data_dict)       
-        
-        if add_item_form.is_valid() and creator_form.is_valid() and tag_formset.is_valid():
+                
+        if add_item_form.is_valid() and creator_form.is_valid():
             item = add_item_form.save()
             _save_creators(creator_form, item)
 
-            for tag_form in tag_formset:
-                tag = tag_form.save(commit=False)
-                tag.item = item
-                tag.save()
-            
             success_text = '%(item)s added to %(shelf)s.' % {
                 'item': add_item_form.cleaned_data['title'],
                 'shelf': add_item_form.cleaned_data['shelf'].name
@@ -150,8 +136,7 @@ def user_create(request):
     context.update({
         'user': request.user,
         'add_item_form': add_item_form,
-        'creator_form': creator_form,
-        'tag_formset': tag_formset
+        'creator_form': creator_form
     })
     return render_to_response('item/create.html', context)
 
@@ -164,12 +149,7 @@ def serialize_item(item):
     creators = Creator.objects.filter(item=item)
     creators_list = [creator.name for creator in creators]
     serialized['creator'] = creators_list
-    tags = Tag.objects.filter(item=item)
-    tag_list = []
-    for tag in tags:
-        tag_list.append({tag.key : tag.value})
-        
-    serialized['tag'] = tag_list
+    
     return serialized
 
 def _save_creators(creator_form, item):

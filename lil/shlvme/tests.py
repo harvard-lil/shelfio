@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
-from lil.shlvme.models import Shelf, Item, Creator, Tag 
+from lil.shlvme.models import Shelf, Item, Creator 
 
 class MacroTestCase(unittest.TestCase):
     def setUp(self):
@@ -41,9 +41,6 @@ class MacroTestCase(unittest.TestCase):
         
         item = Item.objects.get()
         self.assertEqual('test-title', item.title)
-        
-        # Add a tag to the item
-        response = self.client.post(reverse('api_tag'), {'item-uuid': item.item_uuid, 'tag-key': 'test-tag-key', 'tag-value': 'test-tag-value'})
         
         
 class ImdbTestCase(unittest.TestCase):

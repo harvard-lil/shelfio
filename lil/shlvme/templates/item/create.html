@@ -57,6 +57,11 @@
         {{ add_item_form.measurement_height_numeric }}
       </p>
       <p>
+			  {{ add_item_form.isbn.errors }}
+        <label for="id_isbn">ISBN</label>
+        {{ add_item_form.isbn }}
+      </p>
+      <p>
 			  {{ add_item_form.shelfrank.errors }}
         {{ add_item_form.shelfrank }}
       </p>
@@ -65,10 +70,14 @@
         <label for="id_link">Link</label>
         {{ add_item_form.link }}
       </p>
-			{% for form in tag_formset %}
-				{{ form.as_p }}
-			{% endfor %}
-			</div>
+		<p>
+			{{ add_item_form.notes.errors }}
+        	<label for="id_notes">Notes</label>
+        	{{ add_item_form.notes }}
+      </p>
+      
+      
+      </div>
 
 			<p>
 				<input type="submit" value="Add Item" class="button positive icon-ok immediate">

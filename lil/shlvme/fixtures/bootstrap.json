@@ -52,25 +52,6 @@
 			"creator_uuid": "5c0ce090-7230-11e1-b0c4-0800200c9a66",
 			"name": "Suki Hawley"
     	}
-	},
-	{
-		"model": "shlvme.tag",
-		"pk": 1,
-		"fields": {
-			"item": 1,
-			"tag_uuid": "a849c8b0-7230-11e1-b0c4-0800200c9a66",
-			"key": "would-recommend",
-			"value": "hell, yes"
-    	}
-	},
-	{
-		"model": "shlvme.tag",
-		"pk": 2,
-		"fields": {
-			"item": 1,
-			"tag_uuid": "c995cd20-7230-11e1-b0c4-0800200c9a66",
-			"key": "consumed",
-			"value": "may, 2005"
-    	}
+	}
 	}
 ]

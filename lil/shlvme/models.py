@@ -41,10 +41,12 @@ class Item(models.Model):
     link = models.URLField()
     measurement_page_numeric = models.PositiveIntegerField(default=300)
     measurement_height_numeric = models.DecimalField(default='25.5', max_digits=5, decimal_places=2)
-    format = models.CharField(max_length=200)
+    format = models.CharField(max_length=200, default='book')
     shelfrank = models.PositiveIntegerField(default=random.randint(0, 100))
     creation_date = models.DateTimeField(auto_now=True)
     pub_date = models.PositiveIntegerField(default=utils.get_current_year())
+    isbn = models.CharField(max_length=200, null=True, blank=True)
+    notes = models.CharField(max_length=2000, null=True, blank=True)
     sort_order = models.PositiveIntegerField(editable=False) 
 
     def __unicode__(self):
@@ -70,15 +72,6 @@ class Creator(models.Model):
     
     def __unicode__(self):
         return self.name
-    
-class Tag(models.Model):
-    item = models.ForeignKey(Item)
-    tag_uuid = UUIDField(auto=True)
-    key = models.CharField(max_length=200)
-    value = models.CharField(max_length=200)
-    
-    def __unicode__(self):
-        return self.key
     
 #Forms:
 class AddToShelfConfirmForm(forms.Form):
@@ -115,7 +108,7 @@ class AddItemForm(forms.ModelForm):
             self.fields['shelf'].empty_label = None
     class Meta:
         model = Item
-        widgets = { 'shelfrank' : forms.HiddenInput(), 'format' : forms.Select(choices=FORMAT_CHOICES), 'pub_date' : forms.TextInput(attrs={'size':4, 'maxlength':4}) }
+        widgets = { 'shelfrank' : forms.HiddenInput(), 'format' : forms.Select(choices=FORMAT_CHOICES), 'pub_date' : forms.TextInput(attrs={'size':4, 'maxlength':4}), 'notes': forms.Textarea(attrs={'rows': '4'}) }
 
 class CreatorForm(forms.Form):
     creator = forms.CharField(max_length=1000)

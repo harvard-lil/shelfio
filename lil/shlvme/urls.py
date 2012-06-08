@@ -15,8 +15,6 @@ urlpatterns = patterns('lil.shlvme.views',
     url(r'^api/item/$', 'item.api_item_create', name='api_item_create'), # http://shlv.me/api/item
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/$', 'item.api_item_by_uuid', name='api_item_by_uuid'), # http://shlv.me/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/reorder/$', 'item.api_item_reorder', name='api_item_reorder'), # http://shlv.me/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66/reorder
-    url(r'^api/tag/$', 'tag.api_tag', name='api_tag'), # http://shlv.me/api/item
-    url(r'^api/tag/(?P<url_tag_uuid>[a-zA-Z0-9\-]+)/$', 'tag.api_tag', name='api_tag'), # http://shlv.me/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
 
     # Services
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),    
