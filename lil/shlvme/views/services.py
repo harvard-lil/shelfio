@@ -9,7 +9,7 @@ from xml.etree.ElementTree import fromstring, ElementTree
 from BeautifulSoup import BeautifulSoup
 import bottlenose
 from lxml import objectify
-
+from shlvme.utils import get_year_from_raw_date
 
 logger = logging.getLogger(__name__)
 
@@ -57,29 +57,24 @@ def get_amazon_details(url):
     
     root = objectify.fromstring(response)
     
-    if root.Items.Item.ItemAttributes is not None:
-        if root.Items.Item.ItemAttributes.Author is not None:
-            details['creator'] = root.Items.Item.ItemAttributes.Author
-        if root.Items.Item.ItemAttributes.Title is not None:
-            details['title'] = root.Items.Item.ItemAttributes.Title
-        if root.Items.Item.ItemAttributes.ISBN is not None:
-            details['key'] = 'isbn'
-            details['value'] = root.Items.Item.ItemAttributes.ISBN.text
-            print details['value']
-        if root.Items.Item.ItemAttributes.NumberOfPages is not None:
-            details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
-        if root.Items.Item.ItemAttributes.PackageDimensions is not None and root.Items.Item.ItemAttributes.PackageDimensions['Length'] is not None :
-            amz_length = int(root.Items.Item.ItemAttributes.PackageDimensions['Length'])
-            height_in_inches = (amz_length / 100.00) * 2.54
-            details['measurement_height_numeric'] = height_in_inches
-        if root.Items.Item.ItemAttributes.ProductGroup is not None:
-            details['format'] = 'book'
-        if root.Items.Item.ItemAttributes.PublicationDate is not None:
-            pub_date = root.Items.Item.ItemAttributes.PublicationDate
-            
-            if len(pub_date) > 4: 
-                details['pub_date'] = pub_date[0:5]
-        
+    if hasattr(root.Items.Item.ItemAttributes, 'Author'):
+        details['creator'] = root.Items.Item.ItemAttributes.Author
+    if hasattr(root.Items.Item.ItemAttributes, 'Title'):
+        details['title'] = root.Items.Item.ItemAttributes.Title
+    if hasattr(root.Items.Item.ItemAttributes, 'ISBN'):
+        details['key'] = 'isbn'
+        details['value'] = root.Items.Item.ItemAttributes.ISBN.text
+    if hasattr(root.Items.Item.ItemAttributes, 'NumberOfPages'):
+        details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
+    if hasattr(root.Items.Item.ItemAttributes, 'PackageDimensions') and hasattr(root.Items.Item.ItemAttributes.PackageDimensions, 'Length'):
+        amz_length = int(root.Items.Item.ItemAttributes.PackageDimensions['Length'])
+        height_in_inches = (amz_length / 100.00) * 2.54
+        details['measurement_height_numeric'] = height_in_inches
+    if hasattr(root.Items.Item.ItemAttributes, 'ProductGroup'):
+        details['format'] = 'book'
+    if hasattr(root.Items.Item.ItemAttributes, 'PublicationDate'):
+        pub_date = get_year_from_raw_date(root.Items.Item.ItemAttributes.PublicationDate.text)
+
         
     return details
 
@@ -149,7 +144,7 @@ def get_musicbrainz_details(url):
     details['title'] = title_element.text
     details['format'] = 'soundrecording'
     details['creator'] = name_element.text
-    details['pub_date'] = date_element.text
+    details['pub_date'] = get_year_from_raw_date(date_element.text)
     
     return details
 
@@ -174,16 +169,16 @@ def get_goodreads_details(url):
     
     details['format'] = 'book'
     
-    if root.book.find('title'):
+    if hasattr(root.book, 'title'):
         details['title'] = root.book.title
-    if root.book.authors.author.find('name'):
+    if hasattr(root.book.authors.author, 'name'):
         details['creator'] = root.book.authors.author.name
-    if root.book.work.find('original_publication_year'):
-        details['pub_date'] = root.book.work.original_publication_year
-    if root.book.find('isbn'):
+    if hasattr(root.book.work, 'original_publication_year'):
+        details['pub_date'] = get_year_from_raw_date(root.book.work.original_publication_year)
+    if hasattr(root.book, 'isbn'):
         details['key'] = 'isbn'
         details['value'] = root.book.isbn
-    if root.book.find('num_pages.text'):
+    if hasattr(root.book, 'num_pages') and len(root.book.num_pages.text) > 0:
         details['measurement_page_numeric'] = root.book.num_pages
 
     return details
