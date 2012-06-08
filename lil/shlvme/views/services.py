@@ -63,7 +63,7 @@ def get_amazon_details(url):
         details['creator'] = root.Items.Item.ItemAttributes.Artist
     elif hasattr(root.Items.Item.ItemAttributes, 'Director'):
         details['creator'] = root.Items.Item.ItemAttributes.Director
-        
+
     if hasattr(root.Items.Item.ItemAttributes, 'Title'):
         details['title'] = root.Items.Item.ItemAttributes.Title
     if hasattr(root.Items.Item.ItemAttributes, 'ISBN'):
@@ -73,7 +73,7 @@ def get_amazon_details(url):
         details['measurement_page_numeric'] = root.Items.Item.ItemAttributes.NumberOfPages
     if hasattr(root.Items.Item.ItemAttributes, 'PackageDimensions') and hasattr(root.Items.Item.ItemAttributes.PackageDimensions, 'Length'):
         amz_length = int(root.Items.Item.ItemAttributes.PackageDimensions['Length'])
-        height_in_inches = (amz_length / 100.00) * 2.54
+        height_in_inches = '{0:.2g}'.format((amz_length / 100.0) * 2.54)
         details['measurement_height_numeric'] = height_in_inches
     if hasattr(root.Items.Item.ItemAttributes, 'ProductGroup'):
         if root.Items.Item.ItemAttributes.ProductGroup.text == 'Music':
@@ -83,7 +83,7 @@ def get_amazon_details(url):
         else:
             details['format'] = 'book'
     if hasattr(root.Items.Item.ItemAttributes, 'PublicationDate'):
-        pub_date = get_year_from_raw_date(root.Items.Item.ItemAttributes.PublicationDate.text)
+        details['pub_date'] = get_year_from_raw_date(root.Items.Item.ItemAttributes.PublicationDate.text)
 
         
     return details

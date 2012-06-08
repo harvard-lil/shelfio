@@ -65,13 +65,9 @@
         <label for="id_link">Link</label>
         {{ add_item_form.link }}
       </p>
-			
 			{% for form in tag_formset %}
 				{{ form.as_p }}
 			{% endfor %}
-			
-			<label for="id_shelfrank">Shelfrank:</label>
-			<div id="shelfrank-slider"></div>
 			</div>
 
 			<p>
