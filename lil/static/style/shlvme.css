@@ -721,6 +721,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .icon-delete:after {
   content: "\f056"; }
 
+.icon-trash:after {
+  padding-left: 1px;
+  content: "\f014"; }
+
 .icon-login:after {
   content: "\f090"; }
 
