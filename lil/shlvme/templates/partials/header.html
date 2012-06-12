@@ -10,9 +10,9 @@
 		<ul>
 			{% if user.is_authenticated %}
 				<li><a class="icon-user" href="{% url welcome %}">{{ user.username }}</a></li>
-				<li><a class="icon-logout" href="{% url process_logout %}">Logout</a></li>
+				<li><a class="icon-logout" href="{% url auth_logout %}">Logout</a></li>
 			{% else %}
-				<li><a class="icon-login" href="{% url process_login %}">Login</a></li>
+				<li><a class="icon-login" href="{% url auth_login %}">Login</a></li>
 				<li><a class="icon-register" href="{% url process_register %}">Register</a></li>
 			{% endif %}
 		</ul>

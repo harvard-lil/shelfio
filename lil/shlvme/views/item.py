@@ -5,7 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllow
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
 from lil.shlvme.models import Shelf, Item, Creator, AddItemForm, CreatorForm
+from django.contrib.auth.views import redirect_to_login
 import json
+import urllib
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.context_processors import csrf
@@ -96,11 +98,13 @@ def api_item_reorder(request, url_item_uuid):
 
     return HttpResponse(status=404)
 
-def user_create(request):    
+def user_create(request):
+        
     if not request.user.is_authenticated():
         messages.warning(request, 'You need to sign in to add items.')
-        return redirect(reverse('process_login'))
-    
+        #return redirect(reverse('process_login'))
+        return redirect_to_login(urllib.quote_plus(request.get_full_path()))
+   
     context = {}
     context.update(csrf(request))
        
@@ -109,11 +113,6 @@ def user_create(request):
         creator_form = CreatorForm()
         fill_with_get(add_item_form, request.GET)
         fill_with_get(creator_form, request.GET)
-        
-        # TODO: generalize this. we shoudl be able to handle any reasonable number of key/val pairs passed in
-        initial_data = []
-        if request.GET.get('key') and request.GET.get('value'):
-            initial_data.append({'key': request.GET.get('key'),'value': request.GET.get('value')})
 
     elif request.method == 'POST':
         add_item_form = AddItemForm(request.user, request.POST)
