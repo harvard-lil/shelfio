@@ -69,7 +69,19 @@
 		border-top:1px solid $minorGray;
 		font-size:12px;
 		line-height:3;
+		padding-top:6px;
+		
+		> .branding {
+		  float:right;
+		}
+		
+		.branding img {
+		  float:right;
+		  padding: 0 0 0 5px;
+	    width:45px;
+	  }
 	}
+	
 }
 
 .half-half {

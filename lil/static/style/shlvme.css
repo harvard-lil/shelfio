@@ -517,7 +517,14 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   .global-footer > p {
     border-top: 1px solid #e5e5e5;
     font-size: 12px;
-    line-height: 3; }
+    line-height: 3;
+    padding-top: 6px; }
+    .global-footer > p > .branding {
+      float: right; }
+    .global-footer > p .branding img {
+      float: right;
+      padding: 0 0 0 5px;
+      width: 45px; }
 
 .half-half > .right-column {
   float: right;
