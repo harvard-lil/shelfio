@@ -1,7 +1,7 @@
 {% if is_owner or shelf.is_public %}
 	<article class="shelf-overview island" data-uuid="{{ shelf.shelf_uuid }}">
 		<header>
-			<h2>{{ shelf.name }}</h2>
+			<h2><a href="{% url user_shelf user_name shelf.slug %}">{{ shelf.name }}</a></h2>
 		</header>
 
 		<section>
