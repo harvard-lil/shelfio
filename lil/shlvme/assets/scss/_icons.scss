@@ -20,6 +20,7 @@
 }
 
 .icon-trash:after {
+  font-size:20px;
 	padding-left:1px;
 	content:"\f014";
 }
@@ -54,4 +55,16 @@
 
 .icon-external:after {
 	content:"\f08e";
+}
+
+.icon-twitter:after {
+  padding-left:1px;
+  font-size:20px;
+	content:"\f081";
+}
+
+.icon-facebook:after {
+  padding-left:1px;
+  font-size:20px;
+	content:"\f082";
 }

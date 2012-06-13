@@ -6,7 +6,7 @@
 	padding:0 10px;
 	cursor:pointer;
 	background:rgba(255,255,255,.8);
-	border-radius:50px;
+	border-radius:10px;
 	box-shadow:-1px -1px 1px rgba(255,255,255,.2),
 	           1px 1px 1px rgba(0,0,0,.2);
 	position:relative;
@@ -46,6 +46,11 @@
 			background:$negativeColor;
 		}
 	}
+}
+
+.button-small {
+  line-height:1.1;
+	padding:4px 8px;
 }
 
 .profile-image {

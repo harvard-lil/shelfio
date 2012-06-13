@@ -1,9 +1,18 @@
 {% extends "layouts/base.html" %}
 
+{% block extrahead %}
+  <meta content="{{ shelf_name }} on Shlv.me" property="og:title">
+  <meta content="{{ shelf_name }} on Shlv.me" property="og:description">
+{% endblock %}
+
 {% block content %}
 	<article class="half-half shelf">
 		<section class="left-column">
 			<div id="active-stack"></div>
+			<div class="share">
+			  <p>Share this shelf: <a class="button button-small neutral icon-twitter" href=""></a> <a class="button button-small neutral icon-facebook" href="" targer="_blank"></a>
+        </p>
+      </div>
 		</section>
 
 		<section class="right-column">
@@ -27,6 +36,12 @@
 		    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
 		    ribbon: '{{ shelf_name }}'
 			});
+			
+			var status = "http://twitter.com/home?status=Look at my shelf on Shlv.me " + encodeURIComponent('{{ shelf_name }}') + " " +  document.location;
+			$('.icon-twitter').attr("href", status);
+			
+			var wall = "http://www.facebook.com/sharer.php?u=" + document.location + "&t=" + encodeURIComponent('{{ shelf_name }}') + "-%2F290727117624%3Froken%3DcOjrtQ";
+			$('.icon-facebook').attr("href", wall);
 		});
 	</script>	
 {% endblock scripts %}

@@ -556,7 +556,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   padding: 0 10px;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.8);
-  border-radius: 50px;
+  border-radius: 10px;
   box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2);
   position: relative; }
   .button, .button:visited {
@@ -573,6 +573,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     background: #555555; }
   .button.negative:hover, .button.negative:focus, .button.negative.immediate {
     background: #a51c30; }
+
+.button-small {
+  line-height: 1.1;
+  padding: 4px 8px; }
 
 .profile-image {
   background: #fff;
@@ -729,6 +733,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   content: "\f056"; }
 
 .icon-trash:after {
+  font-size: 20px;
   padding-left: 1px;
   content: "\f014"; }
 
@@ -755,6 +760,16 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .icon-external:after {
   content: "\f08e"; }
+
+.icon-twitter:after {
+  padding-left: 1px;
+  font-size: 20px;
+  content: "\f081"; }
+
+.icon-facebook:after {
+  padding-left: 1px;
+  font-size: 20px;
+  content: "\f082"; }
 
 .ui-dialog-titlebar {
   display: none; }
@@ -794,6 +809,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   -ms-transform: translate(15px, 0);
   -o-transform: translate(15px, 0);
   transform: translate(15px, 0); }
+
+.share {
+  font-size: 14px; }
 
 .item-details section > ul {
   list-style: none;
