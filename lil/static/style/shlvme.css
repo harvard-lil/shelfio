@@ -623,6 +623,8 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   .shelf-overview h2 {
     line-height: 1;
     padding: 12px 0; }
+    .shelf-overview h2 a {
+      color: #ffffff; }
 
 .shelf-meta {
   list-style: none;
