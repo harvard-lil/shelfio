@@ -7,6 +7,7 @@ import urllib2
 import json
 from xml.etree.ElementTree import fromstring, ElementTree
 from BeautifulSoup import BeautifulSoup
+from urlparse import urlparse
 import bottlenose
 from lxml import objectify
 from lil.shlvme.utils import get_year_from_raw_date
@@ -34,6 +35,8 @@ def incoming(request):
         
     elif re.search(r'goodreads\.com', url):
         details = get_goodreads_details(url)
+    else:
+        details = get_web_resource(url)
         
     details['link'] = url
     encoded_params = urllib.urlencode(details)
@@ -189,4 +192,33 @@ def get_goodreads_details(url):
     if hasattr(root.book, 'num_pages') and len(root.book.num_pages.text) > 0:
         details['measurement_page_numeric'] = root.book.num_pages
 
+    return details
+
+def get_web_resource(url):
+    """Someone is trying to add a webpage to a shelf (or
+     we can't figure out what they're trying to add"""
+   
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    to_open = opener.open(url)
+    response = to_open.read()
+    
+    # Use Beautiful Soup to create a workable object from the source
+    soup = BeautifulSoup(response)
+    
+    title = soup.title.string
+
+    parsed_url = urlparse(url)
+    creator = parsed_url[1]
+
+    details = {}
+    
+    details['format'] = 'webpage'
+    
+    if title:
+        details['title'] = title
+    if creator:
+        details['creator'] = creator
+    
+    
     return details
