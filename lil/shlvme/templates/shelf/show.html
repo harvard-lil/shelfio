@@ -10,7 +10,7 @@
 		<section class="left-column">
 			<div id="active-stack"></div>
 			<div class="share">
-			  <p>Share this shelf: <a class="button button-small neutral icon-twitter" href=""></a> <a class="button button-small neutral icon-facebook" href="" targer="_blank"></a>
+			  <p>Share this shelf: <a class="button button-small neutral icon-twitter" href="" target="_blank"></a> <!--<a class="button button-small neutral icon-facebook" href="" target="_blank"></a>-->
         </p>
       </div>
 		</section>
@@ -40,7 +40,7 @@
 			var status = "http://twitter.com/home?status=Look at my shelf on Shlv.me " + encodeURIComponent('{{ shelf_name }}') + " " +  document.location;
 			$('.icon-twitter').attr("href", status);
 			
-			var wall = "http://www.facebook.com/sharer.php?u=" + document.location + "&t=" + encodeURIComponent('{{ shelf_name }}') + "-%2F290727117624%3Froken%3DcOjrtQ";
+			var wall = "https://www.facebook.com/dialog/feed?app_id=123050457758183&link=https://developers.facebook.com/docs/reference/dialogs/&picture=http://images.amazon.com/images/P/0375422307.01.ZTZZZZZZ.jpg&name=" + encodeURIComponent('{{ shelf_name }}') + " &caption=Shlv.me&%20description=Check out this shelf on Shlv.me&redirect_uri=http://www.example.com/response";
 			$('.icon-facebook').attr("href", wall);
 		});
 	</script>	
