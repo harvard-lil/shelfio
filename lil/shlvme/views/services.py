@@ -10,7 +10,7 @@ from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 import bottlenose
 from lxml import objectify
-from lil.shlvme.utils import get_year_from_raw_date
+from lil.shlvme.utils import get_year_from_raw_date, get_numeric_page_count
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,10 @@ def incoming(request):
         
     elif re.search(r'goodreads\.com', url):
         details = get_goodreads_details(url)
+        
+    elif re.search(r'openlibrary\.org', url):
+        details = get_openlibrary_details(url)
+        
     else:
         details = get_web_resource(url)
         
@@ -191,6 +195,64 @@ def get_goodreads_details(url):
         details['isbn'] = root.book.isbn
     if hasattr(root.book, 'num_pages') and len(root.book.num_pages.text) > 0:
         details['measurement_page_numeric'] = root.book.num_pages
+
+    return details
+
+def get_openlibrary_details(url):
+    """Given an openlibrary URL, get title, creator, etc.
+    """
+    
+    # Look for something like http://openlibrary.org/works/OL16501593W/Too_Big_to_Know
+    # or http://openlibrary.org/books/OL24258898M/Rabbit_Run
+
+    details = {}
+    
+    # Get the JSON representation of the web resource
+    matches = re.search(r'(.*OL.*)\/', url)
+    base_ol_url = matches.group(1)
+    base_ol_url = base_ol_url + '.json'
+        
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    to_open = opener.open(base_ol_url)
+    response = to_open.read()
+
+    serialized_response = json.loads(response)
+    
+    if 'title' in serialized_response:
+        details['title'] = serialized_response['title']
+        
+    if 'publish_date' in serialized_response:
+        details['pub_date'] = serialized_response['publish_date']
+
+    if 'number_of_pages' in serialized_response:
+        details['measurement_page_numeric'] = serialized_response['number_of_pages']
+    elif 'pagination' in serialized_response:
+        details['measurement_page_numeric'] = get_numeric_page_count(serialized_response['pagination'])
+        
+    if 'isbn_10' in serialized_response:
+        details['isbn'] = serialized_response['isbn_10'][0]
+    elif 'isbn_13' in serialized_response:
+        details['isbn'] = serialized_response['isbn_13'][0]
+
+    # TODO: Determine if this key in list business is the best approach. feels clunky.
+
+    # The work/book returns the path to the author, get it here:
+    if "key" in serialized_response["authors"][0]:
+        authors_url_path =  serialized_response["authors"][0]["key"]
+        
+    elif "author" in serialized_response["authors"][0] and "key" in serialized_response["authors"][0]["author"]:
+        authors_url_path =  serialized_response["authors"][0]["author"]["key"]
+        
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    to_open = opener.open('http://openlibrary.org' + authors_url_path + '.json')
+    response = to_open.read()
+
+    serialized_response = json.loads(response)
+
+    if 'name' in serialized_response:
+        details['creator'] = serialized_response['name']
 
     return details
 

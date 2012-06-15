@@ -1,4 +1,5 @@
 import datetime
+import re
 
 
 def get_current_year():
@@ -20,3 +21,13 @@ def get_year_from_raw_date(raw_date):
         return raw_date[0:4]
     else:
         return raw_date
+    
+def get_numeric_page_count(page_count):
+    """MARC tracks pagecounts, but they come in wild forms. Try to extract a number"""
+    matches = re.search(r'([0-9]+)', page_count)
+    
+    if matches.group(1) and matches.group(1) > 0:
+        return matches.group(1)
+
+    return None
+    
