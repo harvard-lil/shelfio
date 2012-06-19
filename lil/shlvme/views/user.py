@@ -66,7 +66,7 @@ def user_home(request, user_name):
                 user=request.user,
                 name=new_shelf_form.cleaned_data['name'],
                 description=new_shelf_form.cleaned_data['description'],
-                is_public=new_shelf_form.cleaned_data['is_public'],
+                is_private=new_shelf_form.cleaned_data['is_private'],
             )
             try:
                 new_shelf.save()
@@ -95,7 +95,7 @@ def _get_user_data(request, user_name):
             #'email': target_user.email
         })
     else:
-        shelf_query.exclude(is_public=True)
+        shelf_query.exclude(is_private=True)
 
     for shelf in shelf_query:
         shelf_to_serialize = {
@@ -104,7 +104,7 @@ def _get_user_data(request, user_name):
             'slug': shelf.slug,
             'description': shelf.description,
             'creation_date': shelf.creation_date,
-            'is_public': shelf.is_public
+            'is_private': shelf.is_private
         }
         shelves.append(shelf_to_serialize)
 

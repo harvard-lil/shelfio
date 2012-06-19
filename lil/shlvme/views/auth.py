@@ -22,7 +22,7 @@ def process_register(request):
                     user= new_user,
                     name='Misc',
                     description= "%s's miscellaneous shelf" % new_user.username,
-                    is_public=True,
+                    is_private=False,
                 )
             shelf.save()
             

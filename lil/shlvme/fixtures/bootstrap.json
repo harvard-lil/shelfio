@@ -19,7 +19,7 @@
 			"name": "fav-movies",
 			"slug": "fav-movies",
 			"description": "These are the movies that I've watched over 20 times.",
-			"is_public": true
+			"is_private": false
     	}
 	},
 	{

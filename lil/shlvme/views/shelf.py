@@ -21,7 +21,7 @@ def api_shelf_create(request):
                     user=request.user,
                     name=form.cleaned_data['name'],
                     description=form.cleaned_data['description'],
-                    is_public=form.cleaned_data['is_public'],
+                    is_private=form.cleaned_data['is_private'],
                 )
                 shelf.save()
             except ValidationError, e:
@@ -53,7 +53,7 @@ def api_shelf_by_name(request, url_user_name, url_shelf_slug):
     return api_shelf(request, shelf)
 
 def api_shelf(request, shelf):
-    if request.user != shelf.user and not shelf.is_public:
+    if request.user != shelf.user and not shelf.is_private:
         return HttpResponse(status=404)
 
     # Edit shelf
@@ -137,7 +137,7 @@ def _update_shelf_data(shelf, updates):
             if key in updatables:
                 setattr(shelf, key, val)
 
-        setattr(shelf, 'is_public', updates.has_key('is_public'))
+        setattr(shelf, 'is_private', updates.has_key('is_private'))
         
         shelf.save()
         return shelf
@@ -154,7 +154,7 @@ def _serialize_shelf(shelf):
         'name': shelf.name,
         'description': shelf.description,
         'creation_date': shelf.creation_date,
-        'is_public': shelf.is_public,
+        'is_private': shelf.is_private,
         'slug': shelf.slug,
         'docs': item_list,
         'start': -1,

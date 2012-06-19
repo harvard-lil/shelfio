@@ -21,7 +21,7 @@ class Shelf(models.Model):
     slug = models.SlugField(max_length=200)
     description = models.CharField(max_length=1000)
     creation_date = models.DateTimeField(auto_now=True)
-    is_public = models.BooleanField()
+    is_private = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.name
@@ -98,7 +98,7 @@ class NewShelfForm(forms.Form):
         required=False,
         widget=forms.Textarea(attrs={'rows': '4'}),
     )
-    is_public = forms.BooleanField(required=False)
+    is_private = forms.BooleanField(required=False)
 
 class AddItemForm(forms.ModelForm):
     def __init__(self, user, *args, **kwargs):

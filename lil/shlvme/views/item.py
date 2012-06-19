@@ -47,7 +47,7 @@ def api_item_by_uuid(request, url_item_uuid):
             return HttpResponse(status=500)
 
         shelf = Shelf.objects.get(shelf_uuid=item.shelf.shelf_uuid)
-        if shelf.is_public or shelf.user == request.user:
+        if not shelf.is_rivate or shelf.user == request.user:
             serialized_item = serialize_item(item)
             return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
         return HttpResponse(status=404)

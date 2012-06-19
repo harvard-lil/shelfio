@@ -1,4 +1,4 @@
-{% if is_owner or shelf.is_public %}
+{% if is_owner or not shelf.is_private %}
 	<article class="shelf-overview island" data-uuid="{{ shelf.shelf_uuid }}">
 		<header>
 			<h2><a href="{% url user_shelf user_name shelf.slug %}">{{ shelf.name }}</a></h2>
@@ -13,8 +13,13 @@
 
 		<footer>
 			<ul class="shelf-overview-actions">
-				<li><a href="{% url user_shelf user_name shelf.slug %}" class="button positive icon-view">View</a></li>
 				{% if is_owner %}
+					{% if shelf.is_private %}
+						<li class="is_private"> Private</li>
+					{% else %}
+						<li class="is_private"> Public</li>
+					{% endif %}					
+					
 					<li><a href="#edit-shelf" class="button neutral edit-shelf icon-edit">Edit</a></li>
 					<li>
 						<form action="{% url user_shelf user_name shelf.slug %}" method="post" class="single-button">
