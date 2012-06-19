@@ -17,7 +17,7 @@ urlpatterns = patterns('lil.shlvme.views',
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/reorder/$', 'item.api_item_reorder', name='api_item_reorder'), # http://shlv.me/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66/reorder
 
     # Services
-    url(r'^services/incoming/$', 'services.incoming', name='incoming'),    
+    url(r'^services/incoming/$', 'services.incoming', name='incoming'),
 
     # Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
