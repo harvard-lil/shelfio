@@ -109,6 +109,7 @@ def user_create(request):
     context.update(csrf(request))
        
     if request.method == 'GET':
+        
         add_item_form = AddItemForm(request.user)
         creator_form = CreatorForm()
         fill_with_get(add_item_form, request.GET)
@@ -133,6 +134,7 @@ def user_create(request):
             ))
 
     context.update({
+        'messages': messages.get_messages(request),
         'user': request.user,
         'add_item_form': add_item_form,
         'creator_form': creator_form

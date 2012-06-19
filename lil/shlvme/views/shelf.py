@@ -97,7 +97,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'HTTP_REFERER',
         referer_fallback,
     )
-    print api_response.status_code
+
     if api_response.status_code == 204:
         messages.info(request, shelf_name + ' has been deleted.')
         return redirect(referer)
@@ -136,9 +136,9 @@ def _update_shelf_data(shelf, updates):
         for key, val in updates.items():
             if key in updatables:
                 setattr(shelf, key, val)
-        print shelf.is_public
+
         setattr(shelf, 'is_public', updates.has_key('is_public'))
-        print shelf.is_public
+        
         shelf.save()
         return shelf
     else:

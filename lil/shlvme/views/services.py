@@ -1,5 +1,7 @@
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.template import RequestContext
 import re
 import logging
 import urllib
@@ -20,32 +22,56 @@ except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 
 def incoming(request):
+    """Regex the url and if we find something we support, pass it off to that
+       handler. If it bombs, catch the exception and send to to the generic
+       webpage handler (add it as a webpage instead of book or DVD or ...)"""
+       
     url = request.GET.get('loc', None)
 
     details = {}
     
     if re.search(r'amazon\.com', url):
-        details = get_amazon_details(url)
+        try:
+            details = get_amazon_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, "We tried hard to process the Amazon page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
 
     elif re.search(r'imdb\.com', url):
-        details = get_imdb_details(url)
+        try:
+            details = get_imdb_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, "We tried hard to process the IMDB page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
 
     elif re.search(r'musicbrainz\.org', url):
-        details = get_musicbrainz_details(url)
+        try:
+            details = get_musicbrainz_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, "We tried hard to process the MusicBrainz page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
         
     elif re.search(r'goodreads\.com', url):
-        details = get_goodreads_details(url)
+        try:
+            details = get_goodreads_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, "We tried hard to process the Goodreads page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
         
     elif re.search(r'openlibrary\.org', url):
-        details = get_openlibrary_details(url)
+        try:
+            details = get_openlibrary_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, "We tried hard to process the Open Library page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
         
     else:
         details = get_web_resource(url)
         
     details['link'] = url
     encoded_params = urllib.urlencode(details)
-
-    return redirect(reverse('user_item_create') + '?' + encoded_params)
+    
+    return redirect(reverse('user_item_create') + '?' + encoded_params, context_instance=RequestContext(request))
 
 def get_amazon_details(url):
     """Given an Amazon URL, get title, creator, etc. from imdapi.com
@@ -281,6 +307,5 @@ def get_web_resource(url):
         details['title'] = title
     if creator:
         details['creator'] = creator
-    
     
     return details
