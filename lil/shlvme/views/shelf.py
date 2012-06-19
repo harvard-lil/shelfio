@@ -53,7 +53,7 @@ def api_shelf_by_name(request, url_user_name, url_shelf_slug):
     return api_shelf(request, shelf)
 
 def api_shelf(request, shelf):
-    if request.user != shelf.user and not shelf.is_private:
+    if request.user != shelf.user and shelf.is_private:
         return HttpResponse(status=404)
 
     # Edit shelf
@@ -88,7 +88,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
     shelf_name = target_shelf.name
     api_response = api_shelf(request, target_shelf)
-
+    
     if request.user.is_authenticated():
         referer_fallback = reverse('user_home', args=[request.user.username])
     else:
