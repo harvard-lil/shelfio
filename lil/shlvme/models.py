@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import auth
 import random
@@ -82,6 +83,15 @@ class AddToShelfConfirmForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)
+    
+class UserCreationFormWithEmail(UserCreationForm): 
+
+    def __init__(self, *args, **kwargs): 
+        super(UserCreationFormWithEmail, self).__init__(*args, **kwargs) 
+
+    class Meta: 
+        model = User 
+        fields = ('username', 'email',)
 
 class EmailInput(TextInput):
     input_type = 'email'

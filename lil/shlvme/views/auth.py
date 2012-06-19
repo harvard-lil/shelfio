@@ -1,10 +1,9 @@
-from django.contrib.auth.forms import UserCreationForm
 from django.http import  HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.contrib import auth
-from lil.shlvme.models import Shelf
+from lil.shlvme.models import Shelf, UserCreationFormWithEmail
 
 # TODO: replace this registration method with the django auth one (but make sure we're not doing the email activation bullshit) 
 
@@ -14,7 +13,7 @@ def process_register(request):
     c.update(csrf(request))
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserCreationFormWithEmail(request.POST)
         if form.is_valid():
             new_user = form.save()
             # Create a default shelf for the user
@@ -37,6 +36,6 @@ def process_register(request):
             c.update({'form': form})
             return render_to_response('register.html', c)
     else:
-        form = UserCreationForm()
+        form = UserCreationFormWithEmail()
         c.update({'form': form})
         return render_to_response("register.html", c)
