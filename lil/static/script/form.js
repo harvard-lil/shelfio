@@ -38,8 +38,12 @@ $(function () {
 			});*/
       
 	function buildItem() {
+	  var format = $('#id_format').val();
+	  $('#book-fields').show();
+	  if(format != 'book')
+	    $('#book-fields').hide();
     var docs = {};
-    var template = $('#id_format').val() + '_tmpl';
+    var template = format + '_tmpl';
     template = template.toLowerCase().replace("/", "").replace(" ", "");
 		docs.title = $('#id_title').val();
 		docs.book_thickness = get_thickness($('#id_measurement_page_numeric').val());
