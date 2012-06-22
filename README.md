@@ -6,14 +6,15 @@ Build and share shelves of books, movies, albums, and most anything on the web
 
 ###Install Django
 
-curl -LO https://www.djangoproject.com/download/1.4/tarball/
-tar xvfz Django-1.4.tar.gz
-cd Django-1.4
-sudo python setup.py install
+    curl -LO https://www.djangoproject.com/download/1.4/tarball/
+    tar xvfz Django-1.4.tar.gz
+    cd Django-1.4
+    sudo python setup.py install
 
 Django should be ready to roll, but give it a test (no errors == good):
-python
->>> import django
+
+    python
+    import django
 
 ###Install required shlv.me packages and Django
 
@@ -21,16 +22,16 @@ Install the MySQL driver
 
 If you're using MySQL to power Django, you'll need the driver:
 
-curl -LO http://downloads.sourceforge.net/project/mysql-python/mysql-python/1.2.3/MySQL-python-1.2.3.tar.gz
-tar xvzf MySQL-python-1.2.3.tar.gz
-cd MySQL-python-1.2.3
-sudo python setup.py install
+    curl -LO http://downloads.sourceforge.net/project/mysql-python/mysql-python/1.2.3/MySQL-python-1.2.3.tar.gz
+    tar xvzf MySQL-python-1.2.3.tar.gz
+    cd MySQL-python-1.2.3
+    sudo python setup.py install
 
 If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
 
 Install Bottlenose so that we can get  Amazon Product API data, https://github.com/dlo/bottlenose
 
-sudo easy_install bottlenose
+    sudo easy_install bottlenose
 
 Install lxml:
 
@@ -40,21 +41,21 @@ http://lxml.de/installation.html
 
 Install Beautiful Soup:
 
-easy_install BeautifulSoup
+    easy_install BeautifulSoup
 
 ###Create your database and load some data to get started
 
 If you're using MySQL your database creation process might look something like this (these DB credentials should match what you have in settings.py):
 
-mysql -u root -psomepasshere
-mysql> create database shlvme_matt; grant all on shlvme_matt.* to shlvme_matt@'%' identified by 'shlvme_matt';
-mysql -u shlvme_matt -psomepasshere shlvme_matt
+    mysql -u root -psomepasshere
+    mysql> create database shlvme_dev; grant all on shlvme_dev.* to shlvme_dev@'%' identified by 'shlvme_dev';
+    mysql -u shlvme_dev -psomepasshere shlvme_dev
 
 Create your tables:
-python manage.py syncdb
+    python manage.py syncdb
 
 Load some data:
-python manage.py loaddata shlvme/fixtures/bootstrap.json
+    python manage.py loaddata shlvme/fixtures/bootstrap.json
 
 (this should create a user with the username of 'willy' and the password of 'pass')
 
@@ -63,35 +64,42 @@ If you want the "reset password" functionality to work, you'll need a mail serve
 
 If you're running an ubuntu system and want to run mail locally:
 
-apt-get install mailutils
+    apt-get install mailutils
 
 Be sure you mail options are pointing to the right place in settings.py 
 
 ###Install shlv.me
 
 Clone the repo:
-git clone git://github.com/harvard-lil/shlvme.git
+
+    git clone git://github.com/harvard-lil/shlvme.git
 
 Get the develop branch:
-git checkout -b develop origin/develop
-git pull
+
+    git checkout -b develop origin/develop
+    git pull
 
 Config your Django project settings:
-cd lil
-cp settings.py.example settings.py
+
+    cd lil
+    cp settings.py.example settings.py
+
 (At a minimum, youll probably update LOGGING, DATABASES and SECRET_KEY)
 
 Configure your Django app (local settings):
-cd shlvme
-cp local_settings.example.py local_settings.py
+
+    cd shlvme
+    cp local_settings.example.py local_settings.py
 
 Start the Django web server:
-python manage.py runserver hlsl7.law.harvard.edu:8000
+
+    python manage.py runserver example.com:8000
 
 ###Update site name
 Set the Django site name in the database by updating the django_site table:
 
-update django_site set domain = 'shlv.me'; update django_site set name = 'shlv.me';
+    mysql -u shlvme_dev -psomepasshere shlvme_dev
+    update django_site set domain = 'shlv.me'; update django_site set name = 'shlv.me';
 
 ## License
 
