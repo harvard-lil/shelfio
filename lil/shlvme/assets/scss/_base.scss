@@ -9,6 +9,10 @@ body {
 	color:$standardGray;
 }
 
+body.embed {
+  background: transparent;
+}
+
 h1 {
 	font-size:48px;
 	line-height:1;

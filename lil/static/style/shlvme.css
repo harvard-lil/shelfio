@@ -81,13 +81,13 @@ body {
  * Also: hot pink! (or customize the background color to match your design)
  */
 ::-moz-selection {
-  background: #a51c30;
-  color: #fff;
+  background: #c6d8ee;
+  color: #444444;
   text-shadow: none; }
 
 ::selection {
-  background: #a51c30;
-  color: #fff;
+  background: #c6d8ee;
+  color: #444444;
   text-shadow: none; }
 
 /* =============================================================================
@@ -438,6 +438,9 @@ body {
   background: url(../images/paper.png) white;
   color: #444444; }
 
+body.embed {
+  background: transparent; }
+
 h1 {
   font-size: 48px;
   line-height: 1;
@@ -560,7 +563,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2);
   position: relative; }
   .button, .button:visited {
-    color: #888888; }
+    color: #666666; }
   .button:hover, .button:focus {
     text-decoration: none; }
     .boxshadow .button:hover, .boxshadow .button:focus {
@@ -800,6 +803,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   vertical-align: middle;
   font-size: 16px; }
 
+.embed > .stackview {
+  height: 400px; }
+
 .shelf h1 {
   margin-bottom: 0; }
 .shelf h2 {
@@ -812,8 +818,14 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   -o-transform: translate(15px, 0);
   transform: translate(15px, 0); }
 
-.share {
+.share > .button-small {
   font-size: 14px; }
+.share textarea {
+  font-size: 12px;
+  width: 375px;
+  height: 40px;
+  overflow: hidden;
+  font-family: monospace; }
 
 .item-details section > ul {
   list-style: none;
@@ -822,7 +834,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   .item-details section > ul > li {
     margin-bottom: 12px; }
 .item-details section > img {
-  max-height: 230px;
+  max-height: 220px;
   float: right; }
 .item-details > header {
   padding-top: 12px;
@@ -931,7 +943,7 @@ select {
   color: #333333; }
 
 .ui-widget-content a {
-  color: #333333; }
+  color: #666666; }
 
 .ui-widget-header {
   border: 1px solid #e78f08;

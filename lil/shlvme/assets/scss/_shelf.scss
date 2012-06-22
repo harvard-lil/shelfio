@@ -1,3 +1,7 @@
+.embed > .stackview {
+  height:400px;
+}
+
 .shelf {
 	h1 {
 		margin-bottom:0;
@@ -11,8 +15,17 @@
 	@include translate(15px, 0);
 }
 
-.share {
-  font-size:14px;
+.share { 
+  > .button-small {
+    font-size:14px;
+  }
+  textarea {
+    font-size:12px;
+    width:375px;
+    height:40px;
+    overflow:hidden;
+    font-family:monospace;
+  }
 }
 
 .item-details {
@@ -27,7 +40,7 @@
 	}
 	
 	section > img {
-	  max-height: 230px;
+	  max-height: 220px;
 	  float:right;
 	}
 

@@ -46,8 +46,8 @@ body { margin: 0; }
  * Also: hot pink! (or customize the background color to match your design)
  */
 
-::-moz-selection { background: $crimson; color: #fff; text-shadow: none; }
-::selection { background: $crimson; color: #fff; text-shadow: none; }
+::-moz-selection { background: $selectColor; color: $standardGray; text-shadow: none; }
+::selection { background: $selectColor; color: $standardGray; text-shadow: none; }
 
 
 /* =============================================================================

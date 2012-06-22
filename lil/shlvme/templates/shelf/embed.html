@@ -1,0 +1,28 @@
+{% extends "layouts/embed-base.html" %}
+
+{% block extrahead %}
+  <meta content="{{ shelf_name }} on Shlv.me" property="og:title">
+  <meta content="{{ shelf_name }} on Shlv.me" property="og:description">
+{% endblock %}
+
+{% block content %}
+
+			<div id="active-stack"></div>
+
+{% endblock content %}
+
+{% block templates %}
+	{% include "clientside/item-details.html" %}
+{% endblock templates %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script type="text/javascript">
+    $(function () { 
+			$('#active-stack').stackView({
+		    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
+		    ribbon: '{{ shelf_name }}'
+			});
+		});
+	</script>	
+{% endblock scripts %}

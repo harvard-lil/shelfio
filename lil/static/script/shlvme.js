@@ -31,6 +31,16 @@ var BASE_URL = '/shlvme/';
 			$('#active-item').html(tmpl($('#item-details').html(), data));
 			bindConfirmations('#active-item');
 		}
+		
+		/*
+		   /shlvme/:user/:shelf
+
+		   Delete an item. Requires confirmation first.
+		*/
+		$b.delegate('a.embed', 'click', function(e) {
+			$('.share textarea').slideToggle().select();
+			e.preventDefault();
+		});
 
 		/*
 		   /shlvme/:user/:shelf

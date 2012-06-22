@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.context_processors import csrf
+from django.contrib.sites.models import Site
 from lil.shlvme.views.item import serialize_item
 
 @csrf_exempt
@@ -115,6 +116,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
         'shelf_name': shelf_name,
         'shelf_slug': shelf['slug'],
+        'shelf_domain' : Site.objects.get_current().domain,
         'shelf_description': shelf['description']
     }
     context.update(csrf(request))
@@ -125,6 +127,23 @@ def user_shelf(request, url_user_name, url_shelf_slug):
 
     context.update({ 'messages': messages.get_messages(request) })
     return render_to_response('shelf/show.html', context)
+    
+def embed_shelf(request, url_user_name, url_shelf_slug):
+    """An embeddable shelf."""
+    target_user = get_object_or_404(User, username=url_user_name)
+    target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
+    shelf_name = target_shelf.name
+    api_response = api_shelf(request, target_shelf)
+
+    shelf = json.loads(api_response.content)
+    context = {
+        'shelf_user': target_user,
+        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
+        'shelf_name': shelf_name,
+        'shelf_slug': shelf['slug'],
+    }
+
+    return render_to_response('shelf/embed.html', context)
 
 def _serialize_shelves_with_items(shelves):
     return [_serialize_shelf(shelf) for shelf in shelves]
