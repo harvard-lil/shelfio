@@ -8,17 +8,17 @@
 	<section>
 		<p>
 			{{ new_shelf_form.name.errors }}
-			<label for="id_name">Shelf Name:</label>
+			<label for="id_name">Shelf Name - http://shlv.me/</label>
 			{{ new_shelf_form.name }}
 		</p>
 		<p>
 			{{ new_shelf_form.description.errors }}
-			<label for="id_description">Shelf Description:</label>
+			<label for="id_description">Shelf Description</label>
 			{{ new_shelf_form.description }}
 		</p>
 		<p>
 			{{ new_shelf_form.is_private.errors }}
-			<label>Make shelf private: {{ new_shelf_form.is_private }}</label>
+			<label>Make shelf private {{ new_shelf_form.is_private }}</label>
 		</p>
 
 		<p>
@@ -27,3 +27,4 @@
 		</p>
 	</section>
 </form>
+

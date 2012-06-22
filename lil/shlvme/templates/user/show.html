@@ -27,3 +27,14 @@
 {% block templates %}
 	{% include "clientside/edit-shelf-form.html" %}
 {% endblock templates %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript">
+	$('input[name=name]').on('propertychange keyup input paste', function() {
+		var shelfname = $(this).val()
+		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+    	$(this).prev().html('http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+ 	});
+</script>
+{% endblock scripts %}

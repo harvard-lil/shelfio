@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
@@ -84,14 +85,63 @@ class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)
     
-class UserCreationFormWithEmail(UserCreationForm): 
+"""class UserRegForm(forms.Form):
+    username = forms.CharField(max_length=100)
+    email = forms.CharField(max_length=300)
+    password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)"""
+    
+class UserRegForm(forms.ModelForm):
+    """
+    stripped down user reg form
+    This is mostly a django.contrib.auth.forms.UserCreationForm
+    """
+    error_messages = {
+        'duplicate_username': "A user with that username already exists.",
+        'duplicate_email': "A user with that email address already exists.",
+    }
+    username = forms.RegexField(label="Username", max_length=30,
+        regex=r'^[\w.@+-]+$',
+        help_text = "30 characters or fewer. Letters, digits and "
+                      "@/./+/-/_ only.",
+        error_messages = {
+            'invalid': "This value may contain only letters, numbers and "
+                         "@/./+/-/_ characters."})
+    
+    
+    
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
-    def __init__(self, *args, **kwargs): 
-        super(UserCreationFormWithEmail, self).__init__(*args, **kwargs) 
+    class Meta:
+        model = User
+        fields = ("username", "email", "password")
 
-    class Meta: 
-        model = User 
-        fields = ('username', 'email',)
+    def clean_username(self):
+        # Since User.username is unique, this check is redundant,
+        # but it sets a nicer error message than the ORM. See #13147.
+        username = self.cleaned_data["username"]
+        try:
+            User.objects.get(username=username)
+        except User.DoesNotExist:
+            return username
+        raise forms.ValidationError(self.error_messages['duplicate_username'])
+    
+    def clean_email(self):
+        # Since User.email is unique, this check is redundant,
+        # but it sets a nicer error message than the ORM.
+        
+        email = self.cleaned_data["email"]
+        try:
+            User.objects.get(email=email)
+        except User.DoesNotExist:
+            return email
+        raise forms.ValidationError(self.error_messages['duplicate_email'])
+
+    def save(self, commit=True):
+        user = super(UserRegForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
 
 class EmailInput(TextInput):
     input_type = 'email'

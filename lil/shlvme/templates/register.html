@@ -11,3 +11,12 @@
 		</form>
 	</article>
 {% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script type="text/javascript">
+	$('form p input').on('propertychange keyup input paste', function() {
+    	$('form label:first').html('http://shlv.me/' + $(this).val());
+ 	});
+</script>
+{% endblock scripts %}
