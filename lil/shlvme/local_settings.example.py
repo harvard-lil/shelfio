@@ -7,3 +7,7 @@ AMZ = {
 GOODREADS = {
     'KEY': 'yourgoodreadskey'
 }
+
+LIBRARYTHING = {
+    'KEY': 'f3969009dec1570dc38b5509559d9619'
+}
