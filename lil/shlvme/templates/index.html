@@ -10,187 +10,19 @@
 		</section>
 
 		<section class="left-column">
-			<div class="welcome-stack"></div>
+			<div id="welcome-stack"></div>
 		</section>
 	</article>
 {% endblock content %}
 
 {% block scripts %}
 	{{ block.super }}
-	<script src="http://api.html5media.info/1.1.5/html5media.min.js"></script>
 	<script type="text/javascript">
-		$('.welcome-stack').stackView({
-			data: [
-				 {
-            "title": "Blankets",
-            "creator": [
-                "Craig Thompson"
-            ],
-            "measurement_page_numeric": 582,
-            "measurement_height_numeric": 25,
-            "shelfrank": 13,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
-        },
-        {
-            "title": "Borat",
-            "creator": [
-                "Larry Charles"
-            ],
-            "measurement_page_numeric": 153,
-            "measurement_height_numeric": 24,
-            "shelfrank": 64,
-            "pub_date": "2006",
-            "format": "Video/Film",
-            "link": "http://www.imdb.com/title/tt0443453/",
-        },
-        {
-            "title": "Summer blonde",
-            "creator": [
-                "Adrian Tomine"
-            ],
-            "measurement_page_numeric": 132,
-            "measurement_height_numeric": 26,
-            "shelfrank": 22,
-            "pub_date": "2002",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
-        },
-        {
-            "title": "American elf",
-            "creator": [
-                "James Kochalka"
-            ],
-            "measurement_page_numeric": 496,
-            "measurement_height_numeric": 22,
-            "shelfrank": 1,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
-        },
-        {
-            "title": "Pyongyang",
-            "creator": [
-                "Guy Delisle"
-            ],
-            "measurement_page_numeric": 192,
-            "measurement_height_numeric": 23,
-            "shelfrank": 10,
-            "pub_date": "2005",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
-        },
-         {
-            "title": "Blankets",
-            "creator": [
-                "Craig Thompson"
-            ],
-            "measurement_page_numeric": 582,
-            "measurement_height_numeric": 25,
-            "shelfrank": 13,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
-        },
-        {
-            "title": "Persepolis",
-            "creator": [
-                "Marjane Satrapi"
-            ],
-            "measurement_page_numeric": 153,
-            "measurement_height_numeric": 24,
-            "shelfrank": 64,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009098946"
-        },
-        {
-            "title": "Summer blonde",
-            "creator": [
-                "Adrian Tomine"
-            ],
-            "measurement_page_numeric": 132,
-            "measurement_height_numeric": 26,
-            "shelfrank": 22,
-            "pub_date": "2002",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
-        },
-        {
-            "title": "American elf",
-            "creator": [
-                "James Kochalka"
-            ],
-            "measurement_page_numeric": 496,
-            "measurement_height_numeric": 22,
-            "shelfrank": 1,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
-        },
-        {
-            "title": "Pyongyang",
-            "creator": [
-                "Guy Delisle"
-            ],
-            "measurement_page_numeric": 192,
-            "measurement_height_numeric": 23,
-            "shelfrank": 10,
-            "pub_date": "2005",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
-        },
-         {
-            "title": "Blankets",
-            "creator": [
-                "Craig Thompson"
-            ],
-            "measurement_page_numeric": 582,
-            "measurement_height_numeric": 25,
-            "shelfrank": 13,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009189638"
-        },
-        {
-            "title": "Persepolis",
-            "creator": [
-                "Marjane Satrapi"
-            ],
-            "measurement_page_numeric": 153,
-            "measurement_height_numeric": 24,
-            "shelfrank": 64,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009098946"
-        },
-        {
-            "title": "Summer blonde",
-            "creator": [
-                "Adrian Tomine"
-            ],
-            "measurement_page_numeric": 132,
-            "measurement_height_numeric": 26,
-            "shelfrank": 22,
-            "pub_date": "2002",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009028779"
-        },
-        {
-            "title": "American elf",
-            "creator": [
-                "James Kochalka"
-            ],
-            "measurement_page_numeric": 496,
-            "measurement_height_numeric": 22,
-            "shelfrank": 1,
-            "pub_date": "2003",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|010194772"
-        },
-        {
-            "title": "Pyongyang",
-            "creator": [
-                "Guy Delisle"
-            ],
-            "measurement_page_numeric": 192,
-            "measurement_height_numeric": 23,
-            "shelfrank": 10,
-            "pub_date": "2005",
-            "link": "http://holliscatalog.harvard.edu/?itemid=|library/m/aleph|009780723"
-        }
-				
-			],
-
-			ribbon: 'Popular in Shlv.me'
-		})
-	</script>
+    	$(function () {
+    		$('#welcome-stack').stackView({
+			    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
+			    ribbon: '{{ shelf_name }}'
+			}); 
+		});
+	</script>	
 {% endblock scripts %}

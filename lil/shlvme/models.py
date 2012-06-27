@@ -4,7 +4,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import auth
-import random
+import random, math
 from lil.shlvme import utils
 from lil.shlvme.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
@@ -24,7 +24,7 @@ class Shelf(models.Model):
     description = models.CharField(max_length=1000)
     creation_date = models.DateTimeField(auto_now=True)
     is_private = models.BooleanField(default=False)
-
+    
     def __unicode__(self):
         return self.name
 
@@ -65,8 +65,8 @@ class Item(models.Model):
 
     class Meta:
         ordering = ['-sort_order']
-        models.CharField(max_length=200)
-        
+        models.CharField(max_length=200)   
+    
 class Creator(models.Model):
     item = models.ForeignKey(Item)
     creator_uuid = UUIDField(auto=True)

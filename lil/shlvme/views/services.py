@@ -35,35 +35,35 @@ def incoming(request):
             details = get_amazon_details(url)
         except:
             details = get_web_resource(url)
-            messages.warning(request, "We tried hard to process the Amazon page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
+            messages.warning(request, get_processing_message('Amazon'))
 
     elif re.search(r'imdb\.com', url):
         try:
             details = get_imdb_details(url)
         except:
             details = get_web_resource(url)
-            messages.warning(request, "We tried hard to process the IMDB page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
+            messages.warning(request, get_processing_message('IMDB'))
 
     elif re.search(r'musicbrainz\.org', url):
         try:
             details = get_musicbrainz_details(url)
         except:
             details = get_web_resource(url)
-            messages.warning(request, "We tried hard to process the MusicBrainz page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
+            messages.warning(request, get_processing_message('MusicBrainz'))
         
     elif re.search(r'goodreads\.com', url):
         try:
             details = get_goodreads_details(url)
         except:
             details = get_web_resource(url)
-            messages.warning(request, "We tried hard to process the Goodreads page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
+            messages.warning(request, get_processing_message('Goodreads'))
         
     elif re.search(r'openlibrary\.org', url):
         try:
             details = get_openlibrary_details(url)
         except:
             details = get_web_resource(url)
-            messages.warning(request, "We tried hard to process the Open Library page you just sent us, but we think we missed some things. Sorry. Here's our best guess.")
+            messages.warning(request, get_processing_message('Open Library'))
         
     else:
         details = get_web_resource(url)
@@ -309,3 +309,6 @@ def get_web_resource(url):
         details['creator'] = creator
     
     return details
+
+def get_processing_message(site_name):
+    return "We tried our best to process the %s page, but we had some problems. Sorry. Here's our best guess." % site_name

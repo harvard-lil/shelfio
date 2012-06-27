@@ -109,6 +109,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         return redirect(referer)
 
     shelf = json.loads(api_response.content)
+    
     context = {
         'user': request.user,
         'shelf_user': target_user,
