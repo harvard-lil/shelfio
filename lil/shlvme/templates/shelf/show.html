@@ -30,9 +30,9 @@
 	{% include "clientside/item-details.html" %}
 {% endblock templates %}
 
-{% block scripts %}
-	{{ block.super }}
-	<script type="text/javascript">
+{% block extrascripts %}
+  <script src="{{ STATIC_PREFIX }}script/shlvme.js"></script>
+  <script type="text/javascript">
     $(function () { 
 			$('#active-stack').stackView({
 		    data: {% autoescape off %}{{ shelf_items }}{% endautoescape %},
@@ -46,4 +46,4 @@
 			$('.icon-facebook').attr("href", wall);
 		});
 	</script>	
-{% endblock scripts %}
+{% endblock extrascripts %}
