@@ -72,7 +72,7 @@ $(function () {
       
   function get_height (measurement_height_numeric) {
     var height = parseInt(measurement_height_numeric, 10),
-        min = 17,
+        min = 25,
         max = 35,
 		    multiple = 13;
     

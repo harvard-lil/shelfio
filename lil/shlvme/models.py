@@ -14,7 +14,8 @@ from django.core.exceptions import ValidationError
 
 FORMAT_CHOICES = (('book', 'Book'),
                             ('Video/Film', 'Video'),
-                            ('Sound Recording', 'Music'))
+                            ('Sound Recording', 'Music'),
+                            ('webpage', 'Webpage'))
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
