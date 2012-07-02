@@ -642,6 +642,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     .shelf-meta > li:first-child {
       margin-left: 0; }
 
+.delete-shelf {
+  float: left;
+  padding: 6px 0; }
+
 .profile-info {
   list-style: none;
   font-size: 12px;
