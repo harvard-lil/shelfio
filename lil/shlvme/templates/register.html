@@ -8,7 +8,8 @@
 			{% csrf_token %}
 			<div>
 				<label for="id_username">Username</label>
-				<input id="id_username" type="text" name="username" maxlength="30" value="{{form.data.username}}"> <span id="input_preview"></span>
+				<input id="id_username" type="text" name="username" maxlength="30" value="{{form.data.username}}">
+				<span id="input_preview"></span>
 				{{ form.username.errors }}
 			</div>
 			<p>
@@ -29,7 +30,11 @@
 {% block scripts %}
 {{ block.super }}
 <script type="text/javascript">	
+	$('input[name=username]').focus();
+
  	$('input[name=username]').on('propertychange keyup input paste', function() {
+ 		$('#input_preview').fadeIn("fast");
+ 	
 		// Show the user what the url of the shelfname will be
 		var user_url = $(this).val()
 		var slugged_user_url = user_url.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
