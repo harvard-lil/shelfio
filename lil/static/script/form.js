@@ -1,6 +1,6 @@
 $(function () { 
   buildItem();
-      
+  
   $('form p input').on('propertychange keyup input paste', function() {
     buildItem();
   });
@@ -86,5 +86,57 @@ $(function () {
 	function get_heat (scaled_value) {
 		return scaled_value === 100 ? 10 : Math.floor(scaled_value / 10) + 1;
 	}
+	
+			/*
+		   Global
+
+		   Static modal activations.
+		*/
+		$('.modal').each(function(i, el) {
+			var $modal = $(el),
+			    $links = $('a[href="#' + $modal.attr('id') + '"]'),
+			    $closers = $modal.find('.modal-close');
+			    $submit = $modal.find('.modal-submit');
+
+			$modal.dialog({
+				autoOpen:false,
+				modal:true,
+				resizable:false,
+				draggable:false
+			});
+
+			$links.click(function(e) {
+				$modal.dialog('open');
+				e.preventDefault();
+			});
+
+			$closers.click(function(e) {
+				$modal.dialog('close');
+				e.preventDefault();
+			});
+			
+			$submit.click(function(e) {
+				$modal.dialog('close');
+				$("#id_shelf option[value='new']").remove();
+				$('#id_shelf').append(new Option($('#new_shelf_option').val(), 'new', true, true));
+				$('#new_shelf_name').val($('#new_shelf_option').val());
+				$('#new_shelf_description').val($('#id_description').val());
+				$('#new_shelf_is_private').val('');
+				if($('#id_is_private:checked').val() == 'private')
+				  $('#new_shelf_is_private').val($('#id_is_private:checked').val());
+				e.preventDefault();
+			});
+
+			if ($modal.find('.errorlist').length) {
+				$modal.dialog('open');
+			}
+		});
+		
+		$('input[name=name]').on('propertychange keyup input paste', function() {
+		// Show the user what the url of the shelfname will be
+		var shelfname = $(this).val()
+		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+    	$(this).prev().html('http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+ 	});
       
 });

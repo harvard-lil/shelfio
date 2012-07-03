@@ -3,12 +3,17 @@ select {
 }
  
 #preview-item {
+  float:right;
+}
+
+#add-shelf {
   float:left;
+  margin-top:20px;
 }
 
 #shelf-select {
-  float:left;
   width:200px;
+  float:left;
 }
 
 #shelfrank-slider {

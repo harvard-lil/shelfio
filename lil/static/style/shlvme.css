@@ -858,11 +858,15 @@ select {
   padding-right: 10px; }
 
 #preview-item {
-  float: left; }
+  float: right; }
+
+#add-shelf {
+  float: left;
+  margin-top: 20px; }
 
 #shelf-select {
-  float: left;
-  width: 200px; }
+  width: 200px;
+  float: left; }
 
 #shelfrank-slider {
   margin-top: 10px;

@@ -4,17 +4,22 @@
 
 {% block content %}
 	<article class="medium-centered">
+
+      {% include "partials/new-shelf-mini.html" %}
+
 		<form action="." method="post">
 			{% csrf_token %}
 			<h1>Add Item to Shelf</h1>
+			
+			<div id="preview-item" class="stackview clearfix"></div>
 			
 			<div id="shelf-select">
 			  {{ add_item_form.shelf.errors }}
         <label for="id_shelf">Shelf</label>
         {{ add_item_form.shelf }}
       </div>
-
-      <div id="preview-item" class="stackview clearfix"></div>
+      
+      <a id="add-shelf" href="#new-shelf" title="New Shelf" class="button positive immediate">+</a>
       
       <div style="clear:both;"></div>
       
@@ -72,12 +77,14 @@
         <label for="id_link">Link</label>
         {{ add_item_form.link }}
       </p>
-		<p>
+		  <p>
 			{{ add_item_form.notes.errors }}
         	<label for="id_notes">Notes</label>
         	{{ add_item_form.notes }}
       </p>
-      
+      <input type="hidden" id="new_shelf_name" />
+      <input type="hidden" id="new_shelf_description" />
+      <input type="hidden" id="new_shelf_is_private" />
       
       </div>
 

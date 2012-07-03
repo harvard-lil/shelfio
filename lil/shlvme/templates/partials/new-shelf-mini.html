@@ -1,0 +1,28 @@
+<form id="new-shelf" class="modal island contained-form ui-dialog-content ui-widget-content" action="" style="display: none; width: auto; min-height: 148px; height: auto;" scrolltop="0" scrollleft="0">
+	<header>
+		<h3>New Shelf</h3>
+	</header>
+
+	
+	<section>
+		<p>
+			
+			<label for="new_shelf_option">http://shlv.me/{{ user.username }}/</label>
+			<input type="text" maxlength="200" name="name" id="new_shelf_option">
+		</p>
+		<p>
+			
+			<label for="id_description">Shelf Description</label>
+			<textarea name="description" cols="40" rows="4" id="id_description"></textarea>
+		</p>
+		<p>
+			
+			<label>Make shelf private <input type="checkbox" id="id_is_private" name="is_private" value="private"></label>
+		</p>
+
+		<p>
+		  <a class="button neutral modal-close">Cancel</a>
+			<a class="button positive icon-ok modal-submit" type="submit">Create Shelf</a>
+		</p>
+	</section>
+</form>

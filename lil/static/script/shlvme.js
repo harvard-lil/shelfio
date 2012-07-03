@@ -35,7 +35,7 @@ var BASE_URL = '/shlvme/';
 		/*
 		   /shlvme/:user/:shelf
 
-		   Delete an item. Requires confirmation first.
+		   Show embed code
 		*/
 		$b.delegate('a.embed', 'click', function(e) {
 			$('.share textarea').slideToggle().select();
