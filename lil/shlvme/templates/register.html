@@ -6,7 +6,22 @@
 		
 		<form action="." method="post">
 			{% csrf_token %}
-			{{ form.as_p }}
+			<div>
+				<label for="id_username">Username</label>
+				<input id="id_username" type="text" name="username" maxlength="30" value="{{form.data.username}}">
+				<span id="input_preview"></span>
+				{{ form.username.errors }}
+			</div>
+			<p>
+				<label for="id_email">Email address</label>
+				<input id="id_email" type="text" name="email" maxlength="30" value="{{form.data.email}}">
+				{{ form.email.errors }}
+			</p>
+			<p>
+				<label for="id_password">Password</label>
+				<input id="id_password" type="text" name="password" maxlength="30">
+				{{ form.password.errors }}
+			</p>
 			<button type="submit" class="button positive icon-ok immediate">Create Account</button>
 		</form>
 	</article>
@@ -14,9 +29,16 @@
 
 {% block scripts %}
 {{ block.super }}
-<script type="text/javascript">
-	$('form p input').on('propertychange keyup input paste', function() {
-    	$('form label:first').html('http://shlv.me/' + $(this).val());
+<script type="text/javascript">	
+	$('input[name=username]').focus();
+
+ 	$('input[name=username]').on('propertychange keyup input paste', function() {
+ 		$('#input_preview').fadeIn("fast");
+ 	
+		// Show the user what the url of the shelfname will be
+		var user_url = $(this).val()
+		var slugged_user_url = user_url.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+    	$('#input_preview').html('http://shlv.me/' + slugged_user_url);
  	});
 </script>
 {% endblock scripts %}
