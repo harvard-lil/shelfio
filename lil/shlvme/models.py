@@ -107,6 +107,12 @@ class UserRegForm(forms.ModelForm):
             'invalid': "This value may contain only letters, numbers and "
                          "@/./+/-/_ characters."})
     
+    email = forms.RegexField(label="Email", required=True, max_length=254,
+        regex=r'^[\w.@+-]+$',
+        help_text = "Letters, digits and @/./+/-/_ only. 254 characters or fewer.",
+        error_messages = {
+            'invalid': "This value may contain only letters, numbers and "
+                         "@/./+/-/_ characters."})
     
     
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
