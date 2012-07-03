@@ -5,8 +5,6 @@ from django.core.context_processors import csrf
 from django.contrib import auth
 from lil.shlvme.models import Shelf, UserRegForm
 
-# TODO: replace this registration method with the django auth one (but make sure we're not doing the email activation bullshit) 
-
 def process_register(request):
     """Register a new user"""
     c = {}
