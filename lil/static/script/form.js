@@ -1,6 +1,17 @@
 $(function () { 
   buildItem();
   
+  var shelf = decodeURI((RegExp('shelf=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]);
+  if(shelf != 'null') {
+    $('#shelf-select option:contains("' + shelf + '")').prop('selected', true);
+    $('#customizations').show();
+  }
+  
+  if ($(".errorlist").length > 0) {
+    $('#customizations').show();
+  }
+    
+  
   $('form p input').on('propertychange keyup input paste', function() {
     buildItem();
   });
@@ -20,7 +31,6 @@ $(function () {
     max: 99,
     step: 1,
     slide: function( event, ui ) {
-        //Its setting the slider value to the element with id "amount"
         $( "#id_shelfrank" ).val( ui.value );
         buildItem();
     }

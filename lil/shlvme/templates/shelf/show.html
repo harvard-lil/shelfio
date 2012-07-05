@@ -18,7 +18,7 @@
 		</section>
 
 		<section class="right-column">
-			<h1>{{ shelf_name }}</h1>
+			<h1>{{ shelf_name }} <a href="{% url user_item_create %}?shelf={{ shelf_name }}" title="Add Item" class="button positive immediate">+</a></h1>
 			<h2>by <a href="{% url user_home shelf_user.username %}">{{ shelf_user.username }}</a></h2>
 			<p>{{ shelf_description }}</p>
 			<div id="active-item"></div>

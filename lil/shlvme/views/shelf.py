@@ -118,7 +118,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'shelf_name': shelf_name,
         'shelf_slug': shelf['slug'],
         'shelf_domain' : Site.objects.get_current().domain,
-        'shelf_description': shelf['description']
+        'shelf_description': shelf['description'],
     }
     context.update(csrf(request))
 

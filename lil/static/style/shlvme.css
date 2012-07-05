@@ -812,6 +812,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .shelf h1 {
   margin-bottom: 0; }
+  .shelf h1 .button {
+    vertical-align: middle;
+    font-size: 16px; }
 .shelf h2 {
   margin-top: 0; }
 
@@ -862,10 +865,11 @@ select {
 
 #add-shelf {
   float: left;
-  margin-top: 20px; }
+  margin-top: 20px;
+  margin-right: 10%;
+  margin-left: 10px; }
 
 #shelf-select {
-  width: 200px;
   float: left; }
 
 #shelfrank-slider {

@@ -9,6 +9,12 @@
 
 		<form action="." method="post">
 			{% csrf_token %}
+			{% if add_item_form.errors %}
+      <ul class="errorlist">
+        <li>Please fix the error(s) below.</li>
+      </ul>
+      {% endif %}
+      
 			<h1>Add Item to Shelf</h1>
 			
 			<div id="preview-item" class="stackview clearfix"></div>
@@ -51,6 +57,11 @@
 			    <li class="one"></li><li class="two"></li><li class="three"></li><li class="four"></li><li class="five"></li><li class="six"></li><li class="seven"></li><li class="eight"></li><li class="nine"></li><li class="ten"></li>
 			  </ul>
 			</div>
+			      <p>
+			  {{ add_item_form.link.errors }}
+        <label for="id_link">Link</label>
+        {{ add_item_form.link }}
+      </p>
 			<div id="book-fields">
       <p>
 			  {{ add_item_form.measurement_page_numeric.errors }}
@@ -71,11 +82,6 @@
       <p>
 			  {{ add_item_form.shelfrank.errors }}
         {{ add_item_form.shelfrank }}
-      </p>
-      <p>
-			  {{ add_item_form.link.errors }}
-        <label for="id_link">Link</label>
-        {{ add_item_form.link }}
       </p>
 		  <p>
 			{{ add_item_form.notes.errors }}
