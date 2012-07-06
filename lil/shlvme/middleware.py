@@ -4,7 +4,8 @@ from urlparse import parse_qs
 # Concept borrowed from the node.js Connect middleware by the same name.
 class MethodOverrideMiddleware(object):
     def process_request(self, request):
+        request.rfc5789_method = {}
         if '_method' in request.POST.keys():
-            request.method = request.POST['_method'].upper()
-        request.originalMethod = request.method
+            request.rfc5789_method = request.POST['_method'].upper()
+
         return None

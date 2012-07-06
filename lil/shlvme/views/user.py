@@ -21,7 +21,7 @@ def api_user(request, url_user_name):
         return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), mimetype='application/json')
     
     # If the user updates her profile, handle it here
-    if (request.method == 'POST' or request.method == 'PATCH'):
+    if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
         if not request.user.is_authenticated():
             return HttpResponse(status=401)
         elif request.user.username != url_user_name:
@@ -43,7 +43,7 @@ def user_home(request, user_name):
     context.update({ 'profileform': EditProfileForm(context)})
 
     # Modify user profile
-    if request.method in ['PATCH', 'PUT']:
+    if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():

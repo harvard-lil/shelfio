@@ -65,7 +65,7 @@ def api_item_by_uuid(request, url_item_uuid):
             return HttpResponse(status=204)
         return HttpResponse(status=404)
 
-    if request.method in ['PUT', 'PATCH', 'POST']:
+    if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
         pass
 
 
