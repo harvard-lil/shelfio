@@ -4,5 +4,4 @@ from django.core.urlresolvers import reverse
 
 def not_found(request):
     """The application-wide 404 page."""
-    print '404 page served up'
     return render_to_response('404.html', {'user': request.user})

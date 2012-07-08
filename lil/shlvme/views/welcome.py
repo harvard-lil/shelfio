@@ -10,29 +10,33 @@ from lil.shlvme.models import Shelf
 
 def welcome(request):
     """The application-wide welcome page."""
-    if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('user_home', args=[request.user.username]))
-    else:
-        # TODO: this is a temporary method for getting a shelf from the front page. implement a better approach 
-        num_public_shelves = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1).count()
-        random_shelf = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1)[random.randint(0, num_public_shelves - 1)]
-                
-        api_response = api_shelf(request, random_shelf)
-            
-        shelf = json.loads(api_response.content)
-        print shelf
-
-        context = {
-            'user': request.user,
-            #'shelf_user': target_user,
-            #'is_owner': request.user == target_user,
-            'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
-            'shelf_name': random_shelf.user.username + '\'s ' + random_shelf.name,
-            #'shelf_slug': shelf['slug'],
-            #'shelf_domain' : Site.objects.get_current().domain,
-            #'shelf_description': shelf['description']
-        }
-        #context.update(csrf(request))
     
-        
+    if request.user.is_authenticated():
+        # If no referrer or a referrer outside of shlvme or if user just logge din, send user to user page
+        # TODO: clean up this logic. it's nasty.
+        if 'HTTP_REFERER' not in request.META or request.META['HTTP_REFERER'].find('shlv') == -1 or request.META['HTTP_REFERER'].find('login') >= 0:
+            return HttpResponseRedirect(reverse('user_home', args=[request.user.username]))
+        else:
+            context = _create_full_welcome_context(request)
+            return render_to_response('index.html',  context)
+    else:
+        context = _create_full_welcome_context(request)
         return render_to_response('index.html',  context)
+        
+        
+def _create_full_welcome_context(request):
+    # TODO: this is a temporary method for getting a shelf from the front page. implement a better approach 
+    num_public_shelves = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1).count()
+    random_shelf = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1)[random.randint(0, num_public_shelves - 1)]
+            
+    api_response = api_shelf(request, random_shelf)
+        
+    shelf = json.loads(api_response.content)
+
+    context = {
+        'user': request.user,
+        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
+        'shelf_name': random_shelf.user.username + '\'s ' + random_shelf.name,
+    }
+
+    return context

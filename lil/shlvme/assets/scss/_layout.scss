@@ -5,10 +5,11 @@
 }
 
 .global-header {
-	background:url(../images/fabric_header.png) $globalHeader;
+	/* background:url(../images/fabric_header.png) $globalHeader; */
+	background-color: #000;
 	margin-bottom:48px;
-	text-shadow:1px 1px 1px rgba(255,255,255,.6);
-	box-shadow:0 5px 10px rgba(0,0,0,.2), inset 0 15px 20px rgba(255,255,255,.5);
+	/* text-shadow:1px 1px 1px rgba(255,255,255,.6); */
+	/*box-shadow:0 5px 10px rgba(0,0,0,.2), inset 0 15px 20px rgba(255,255,255,.5); */
 	border-bottom:1px solid rgba(128,128,128,.1);
 	position:relative;
 	z-index:3;
@@ -54,7 +55,8 @@
 	}
 
 	a {
-		color:rgba(0,0,0,.5);
+		/* color:rgba(0,0,0,.5); */
+		color: #FFF;
 		text-decoration:none;
 	}
 }

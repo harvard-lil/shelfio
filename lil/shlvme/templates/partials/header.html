@@ -1,15 +1,11 @@
 <header class="global-header">
 	<nav>
 		<h1>
-			{% if user.is_authenticated %}
-				<a href="{% url user_home user.username %}">Shlv.me</a>
-			{% else %}
-				<a href="{% url welcome %}">Shlv.me</a>
-			{% endif %}</h1>
-
+			<a href="{% url welcome %}">Shlv.me</a>
+		</h1>
 		<ul>
 			{% if user.is_authenticated %}
-				<li><a class="icon-user" href="{% url welcome %}">{{ user.username }}</a></li>
+				<li><a class="icon-user" href="{% url welcome %}{{ user.username }}">{{ user.username }}</a></li>
 				<li><a class="icon-logout" href="{% url auth_logout %}">Logout</a></li>
 			{% else %}
 				<li><a class="icon-login" href="{% url auth_login %}">Login</a></li>

@@ -4,14 +4,20 @@
 	<article class="half-half welcome">
 		<section class="right-column">
 			<h1>Shlv.me</h1>
-			<p>Build and share shelves of books, movies, albums, and most anything on the web</p>
-			<p><a href="{% url process_register %}" class="button positive icon-ok immediate">Get Started</a></p>
-			
-			
-			<p>Easy in - You send things to Shlv.me using a dead-simple bookmarklet</p>
-			<p>From anywhere - When you add an item to a shelf we grab details for you, saving your fingers from extra typing</p>
-			<p>You are not a commodity - Shlv.me is a library service. We don't make money. We don't sell your info</p>
-			<p>Easy out - We provide you with short, sharable links to your shelves and provide you embeddable versions for your blog</p> 
+			<h2>Build and share shelves of books, movies, albums, and most anything on the web</h2>
+			<p id="call-to-action">
+				{% if not user.is_authenticated %}
+				<a href="{% url process_register %}" class="button positive icon-ok immediate">Get Started</a>
+				{% endif %}
+			</p>
+			<h3>Easy in</h3>
+			<p class="selling-desc">You send things to Shlv.me using a dead-simple bookmarklet</p>
+			<h3>From anywhere</h3>
+			<p class="selling-desc">When you add an item to a shelf we extract the details for you, saving your fingers some typing</p>
+			<h3>You are not a commodity</h3>
+			<p class="selling-desc">Shlv.me is the product of a library. We don't make money. We don't sell your info</p>
+			<h3>Easy out</h3>
+			<p class="selling-desc">We provide you with short links and embeddable versions of your shelves. Share with your friends</p> 
 		</section>
 
 		<section class="left-column">
