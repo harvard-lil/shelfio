@@ -5,7 +5,11 @@
 		</header>
 
 		<section>
-			<p>{{ shelf.description }}</p>
+			{% if shelf.description  %}
+				{{ shelf.description }}
+			{% else %}
+				(No description)
+			{% endif %}
 			<ul class="shelf-meta">
 				<li class="date">Created on {{ shelf.creation_date|date:"F jS, Y" }}</li>
 			</ul>

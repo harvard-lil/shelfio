@@ -10,14 +10,15 @@
     }
     h3 {
         font-size: 17px;
-        color: #891850;
-        margin: 13px 0 0 0;
-        line-height: 1.3;
+        color: $capeCodRed;
+        margin: 15px 0 0 0;
+        line-height: 1.1;
     }
     .selling-desc {
-		margin: 0 0 0 6px;
+		margin: 2px 0 0 2px;
+		font-size: 16px;
     }
     #call-to-action {
-		margin: 30px 0 30px 6px;
+		margin: 30px 0 30px 2px;
     }
 }

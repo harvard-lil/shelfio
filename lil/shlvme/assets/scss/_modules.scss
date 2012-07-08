@@ -57,7 +57,7 @@
 	background:#fff;
 	border-radius:5px;
 	overflow:hidden;
-	box-shadow:0 0 15px #ccc;
+	box-shadow:0 0 9px #ccc;
 
 	> img {
 		display:block;
@@ -67,11 +67,15 @@
 	}
 
 	> figcaption {
-		background:url(../images/fabric_header.png) $globalHeader;
+		/*background:url(../images/fabric_header.png) $globalHeader; */
+		background-color: $grayWhisp;
 		text-align:center;
-		color:rgba(0,0,0,.5);
-		line-height:2.25;
-		text-shadow:1px 1px 1px rgba(255,255,255,.6);
+		/*color:rgba(0,0,0,.5);*/
+		color:$richBlue;
+		border-top:1px solid $islandBorder;
+		line-height:2.0;
+		font-size:21px;
+		/*text-shadow:1px 1px 1px rgba(255,255,255,.6);*/
 		font-weight:bold;
 	}
 }
@@ -80,16 +84,17 @@
 	@extend .clearfix;
 	$gutter: 10px;
 	border:1px solid $islandBorder;
-	border-radius:5px;
+	border-radius:2px;
 	overflow:hidden;
 	background:#fff;
-	box-shadow:0 0 15px #ccc;
+	/* box-shadow:0 0 15px #ccc; */
 
 	> header {
-		background:url(../images/fabric_island.png) $islandHeader;
-		color:#fff;
+		/*background:url(../images/fabric_island.png) $islandHeader;*/
+		background-color: $grayWhisp;
 		padding:0 $gutter;
-		box-shadow:inset 0 15px 20px rgba(255,255,255,.2);
+		/*box-shadow:inset 0 15px 20px rgba(255,255,255,.2);*/
+		border-bottom: 1px solid $islandBorder;
 
 		> h2, h3, h4 {
 			margin:0;
@@ -97,13 +102,13 @@
 	}
 
 	> section {
-		padding:12px $gutter;
+		padding:4px $gutter;
 	}
 
 	> footer {
 		@extend .clearfix;
-		border-top:1px solid $islandBorder;
-		background:$islandFooter;
+		/*border-top:1px solid $islandBorder;*/
+		/*background:$islandFooter;*/
 		padding:0 $gutter;
 	}
 }
@@ -117,9 +122,10 @@
 
 	h2 {
 		line-height:1;
-		padding:12px 0;
+		padding:6px 0 6px 0;
+		font-size: 20px;
 		a {
-		  color:#ffffff;
+		  color: $capeCodRed;
 		}
 	}
 }
