@@ -561,7 +561,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   padding: 0 10px;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: -1px -1px 1px rgba(255, 255, 255, 0.2), 1px 1px 1px rgba(0, 0, 0, 0.2);
   position: relative; }
   .button, .button:visited {
@@ -598,7 +598,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     background-color: #f4f4f4;
     text-align: center;
     /*color:rgba(0,0,0,.5);*/
-    color: #004e7d;
+    color: #000;
     border-top: 1px solid #d4d4d4;
     line-height: 2.0;
     font-size: 21px;
@@ -624,7 +624,15 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   .island > footer {
     /*border-top:1px solid $islandBorder;*/
     /*background:$islandFooter;*/
-    padding: 0 10px; }
+    margin: 10px 0 0 0;
+    padding: 0 6px 6px 10px;
+    font-size: 11px; }
+  .island .shelf-date {
+    position: relative;
+    left: 0px;
+    bottom: -7px; }
+  .island .shelf-edit {
+    float: right; }
 
 .shelf-overview {
   margin-bottom: 24px; }
@@ -649,6 +657,10 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     margin-left: 12px; }
     .shelf-meta > li:first-child {
       margin-left: 0; }
+
+.shelf-overview-actions {
+  font-size: 11px;
+  padding: 0; }
 
 .delete-shelf {
   float: left;

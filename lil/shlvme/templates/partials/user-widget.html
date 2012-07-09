@@ -13,6 +13,9 @@
 		{% if email %}
 			<li><strong>Email:</strong> {{ email }}</li>
 		{% endif %}
+		{% if user.is_authenticated %}
+			<li><strong>Joined Shelv.me on:</strong> {{ date_joined|date:"F jS, Y" }}</li>
+		{% endif %}
 		
 		<li class="edit-profile"><a href="#edit-profile" class="button neutral icon-edit">Edit profile</a></li>
 	</ul>
@@ -26,7 +29,6 @@
 		</header>
 		
 		<section>
-			<p><strong>Joined Shelv.me on:</strong> {{ date_joined|date:"F jS, Y" }}</p>
 			<a href="{% url auth_password_change %}" class="button positive icon-external">Change Password</a>
 			<p>Profile images are managed by <a href="http://gravatar.com">Gravatar</a>. To edit your profile pic, head on over to <a href="http://gravatar.com">Gravatar</a></p>
 		</section>

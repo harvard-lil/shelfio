@@ -6,7 +6,7 @@
 	padding:0 10px;
 	cursor:pointer;
 	background:rgba(255,255,255,.8);
-	border-radius:10px;
+	border-radius:3px;
 	box-shadow:-1px -1px 1px rgba(255,255,255,.2),
 	           1px 1px 1px rgba(0,0,0,.2);
 	position:relative;
@@ -71,7 +71,7 @@
 		background-color: $grayWhisp;
 		text-align:center;
 		/*color:rgba(0,0,0,.5);*/
-		color:$richBlue;
+		color:#000;
 		border-top:1px solid $islandBorder;
 		line-height:2.0;
 		font-size:21px;
@@ -109,7 +109,17 @@
 		@extend .clearfix;
 		/*border-top:1px solid $islandBorder;*/
 		/*background:$islandFooter;*/
-		padding:0 $gutter;
+		margin: 10px 0 0 0;
+		padding: 0 6px 6px 10px;
+		font-size: 11px
+	}
+	.shelf-date {
+		position: relative;
+		left: 0px;
+		bottom: -7px;
+	}
+	.shelf-edit {
+		float:right;
 	}
 }
 
@@ -151,6 +161,8 @@
 
 .shelf-overview-actions {
 	@extend .right-actions;
+	font-size: 11px;
+	padding: 0;
 }
 
 .delete-shelf {

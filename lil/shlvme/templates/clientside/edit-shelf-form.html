@@ -4,7 +4,7 @@
 		<input type="hidden" name="_method" value="put">
 
 		<header>
-			<h3>Edit Shelf</h3>
+			<h3>Admin Shelf</h3>
 		</header>
 
 		<section>
@@ -28,4 +28,12 @@
 			</p>
 		</section>
 	</form>
+	/*
+	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="single-button">
+		{% csrf_token %}
+		<input type="hidden" name="_method" value="delete">
+		<button type="submit" class="button button-small negative icon-trash" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It"></button>
+	</form>
+	*/
+	
 </script>
