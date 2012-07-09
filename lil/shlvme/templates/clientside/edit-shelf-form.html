@@ -21,19 +21,29 @@
 			<p>
 				<label>Make shelf private: <input type="checkbox" name="is_private"<%=is_private ? 'checked="checked"' : ''%>></label>
 			</p>
-
+			
+			<p>
+			  <a class="button button-small negative icon-trash" id="delete-button">Delete Shelf</a>
+			</p>
+			
 			<p>
 			  <a class="button neutral" id="cancel-edit">Cancel</a>
 				<button type="submit" class="button positive icon-ok">Save Shelf</button>
 			</p>
 		</section>
 	</form>
-	/*
+</script>
+
+<script type="text/x-template" id="delete-shelf">
 	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="single-button">
-		{% csrf_token %}
-		<input type="hidden" name="_method" value="delete">
-		<button type="submit" class="button button-small negative icon-trash" data-confirm-type="negative" data-confirm-message='Are you sure you want to delete the "{{ shelf.name }}" shelf?' data-confirm-reject="Never Mind" data-confirm-accept="Delete It"></button>
+		<section>
+			{% csrf_token %}
+			<input type="hidden" name="_method" value="delete">
+			<p>Whoa! Delete the shelf and lose all of its contents?</p>
+			<p>
+			  <a class="confirm-reject button neutral icon-reject" id="cancel-delete">Do not delete</a>
+				<button type="submit" class="confirm-accept button negative icon-accept">Delete</button>
+			</p> 
+		</section>
 	</form>
-	*/
-	
 </script>

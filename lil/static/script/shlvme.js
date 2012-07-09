@@ -163,6 +163,28 @@ var BASE_URL = '/shlvme/';
 					$(this).closest('form').dialog('destroy').remove();
 					event.preventDefault();
 				});
+				
+				// Delete a shelf
+				$('#delete-button').click(function(event) {
+					$(this).closest('form').dialog('destroy').remove();
+					event.preventDefault();
+
+					template = $('#delete-shelf').html();
+					
+					$(tmpl(template, data)).appendTo('body').dialog({
+						modal:true,
+						resizable:false,
+						draggable:false
+					});
+					
+					$('#cancel-delete').click(function(event) {
+					$(this).closest('form').dialog('destroy').remove();
+					event.preventDefault();
+				});
+					
+					
+				});
+				
 			});
 
 			e.preventDefault();

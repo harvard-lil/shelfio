@@ -58,7 +58,7 @@ def api_shelf(request, shelf):
         return HttpResponse(status=404)
 
     # Edit shelf
-    elif request.method in ['PUT', 'POST'] and request.user.is_authenticated():
+    elif request.rfc5789_method in ['PUT', 'POST'] and request.user.is_authenticated():
         try:
             serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
@@ -67,9 +67,10 @@ def api_shelf(request, shelf):
             json.dumps(serialized, cls=DjangoJSONEncoder),
             mimetype='application/json',
         )
+        
 
     # Delete shelf
-    elif request.method == 'DELETE' and request.user.is_authenticated():
+    elif request.rfc5789_method == 'DELETE' and request.user.is_authenticated():
         shelf.delete()
         return HttpResponse(status=204)
 
