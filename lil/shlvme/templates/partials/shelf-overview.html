@@ -1,13 +1,15 @@
 {% if is_owner or not shelf.is_private %}
 	<article class="shelf-overview island" data-uuid="{{ shelf.shelf_uuid }}">
 		<header>
-			<h2><a href="{% url user_shelf user_name shelf.slug %}">{{ shelf.name }}</a>
+			<h2><a href="{% url user_shelf user_name shelf.slug %}">{{ shelf.name }}</a></h2>
 			{% if is_owner %}
+				<span style="float:right">
 				{% if shelf.is_private %}
-	            	<span style="float:right">Private</span>
+    				<span class="icon-lock"></span>
 				{% else %}
-					<span style="float:right">Public</span></h2>
+					<span class="icon-unlock"></span>
 				{% endif %}
+				</span>
 			{% endif %}
 			</h2>
 		</header>

@@ -29,12 +29,15 @@
 		</header>
 		
 		<section>
-			<a href="{% url auth_password_change %}" class="button positive icon-external">Change Password</a>
-			<p>Profile images are managed by <a href="http://gravatar.com">Gravatar</a>. To edit your profile pic, head on over to <a href="http://gravatar.com">Gravatar</a></p>
-		</section>
-			
+			<div class="edit-profile-section">
+				<label>Change password:</label>
+				<p class="profile-text"><a href="{% url auth_password_change %}">Change your password here</a></p>
+			</div>
+			<div class="edit-profile-section">
+				<label>Change profile pic:</label>
+				<p class="profile-text">Profile images are managed by <a href="http://gravatar.com" target="_blank">Gravatar</a>. Be sure your Shlv.me email matches your Gravatar.</p>
+			</div>
 
-		<section>
 			{{ profileform.as_p }}
 			<p>
 				<button type="submit" class="button positive icon-ok">Ok</button>

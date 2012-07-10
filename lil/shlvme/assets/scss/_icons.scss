@@ -20,8 +20,8 @@
 }
 
 .icon-trash:after {
-  font-size:20px;
-	padding-left:1px;
+  /*font-size:20px;
+	padding-left:4px;*/
 	content:"\f014";
 }
 
@@ -67,4 +67,12 @@
   padding-left:1px;
   font-size:20px;
 	content:"\f082";
+}
+
+.icon-unlock:after {
+	content:"\f09c";
+}
+
+.icon-lock:after {
+	content:"\f023";
 }
