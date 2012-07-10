@@ -79,6 +79,25 @@ def user_home(request, user_name):
     context['messages'] = messages.get_messages(request);
     return render_to_response('user/show.html', context)
 
+@csrf_exempt
+def helpers(request, user_name):
+    """Some user helpers"""
+    
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+    
+    """ We reappropriate is_staff. If is_staff is false, we display a welcome message. When the user closes it, we 
+        grab that POST here and flip the switch on is_staff"""
+        
+    if request.POST['show-welcome'] == 'False':
+        # Is this really the best way to get a user? Weird.
+        user = User.objects.get(username=request.user.username)
+        user.is_staff = True
+        user.save()
+
+        #user.save()
+        return HttpResponse(status=204)
+
 def _get_user_data(request, user_name):
     context = {}
     target_user = get_object_or_404(User, username=user_name)

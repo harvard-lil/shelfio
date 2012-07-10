@@ -11,6 +11,24 @@
 				<a href="#new-shelf" title="New Shelf" class="button positive immediate">+</a>
 			</h1>
 			
+			{% if is_owner and not user.is_staff %}
+				{% comment %} NOTE: We're reappropriating is_staff. We use it to indicate if we should display welcome stuff. {% endcomment %}
+				<article class="shelf-overview island"  id="welcome-notes">
+					<header>
+						<h2>Welcome aboard, grab the bookmarklet</h2>
+		    			<span id="kill-welcome" class="icon-remove"></span>
+					</header>
+			
+					<section>
+						<p>It's easy to get started, just drag the following button to your bookarks bar</p>
+						<a class="button neutral" href="javascript:(function(){%20window.open(%22http://shlv.me/services/incoming?loc=%22+encodeURIComponent(%20location.href));%20})();">Shlv.me+</a>
+						<p>When you're viewing a page you want to add to a Shlv.me, just click on the Shlv.me+ bookmark.</p>
+						<p>Happy shelving.</p>
+					</section>
+	
+				</article>
+			{% endif %}
+			
 			{% for shelf in docs %}
 				{% include "partials/shelf-overview.html" %}
 			{% empty %}
@@ -36,6 +54,26 @@
 		var shelfname = $(this).val()
 		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
     	$(this).prev().html('http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+ 	});
+</script>
+<script type="text/javascript">
+	$('#kill-welcome').on('click', function() {
+		// We display a welcome message to the user until she kills it
+		
+		$.ajax({
+				url: '/shlvme/' + $('.icon-user').html() + '/helpers/',
+				type: 'POST',
+				data: {
+					'show-welcome': 'False'
+				},
+				statusCode: {
+					204: function() {
+						$('#welcome-notes').fadeOut()
+					}
+				}
+			})
+		
+		
  	});
 </script>
 {% endblock scripts %}

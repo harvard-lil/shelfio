@@ -18,7 +18,7 @@ urlpatterns = patterns('lil.shlvme.views',
 
     # Services
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),
-
+    
     # Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
     url(r'^about/$', 'about.about', name='about'),
@@ -37,6 +37,7 @@ urlpatterns = patterns('lil.shlvme.views',
     url(r'^password/reset/done/$', auth_views.password_reset_done, {'template_name': 'registration/password_reset_done.html'}, name='auth_password_reset_done'),
     
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user.user_home', name='user_home'),
+    url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/helpers/$', 'user.helpers', name='user_helpers'),
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.user_shelf', name='user_shelf'),
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/embed/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.embed_shelf', name='embed_shelf'),
 )

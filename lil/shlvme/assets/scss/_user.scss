@@ -2,3 +2,30 @@
 	vertical-align:middle;
 	font-size:16px;
 }
+
+#welcome-notes {
+	background-color: $barelyBlue;
+	margin-bottom:70px;
+}
+
+#welcome-notes p {
+	padding: 8px 0 8px 4px;
+}
+
+#welcome-notes a {
+	margin:10px 0 10px 40px;
+	color:$capeCodRed;
+}
+
+#welcome-notes header {
+	background-color: $barelyBlue;
+	border:none;
+	margin: 8px 0 8px 0;
+}
+
+#kill-welcome {
+	cursor:pointer;
+	margin-top: -4px;	
+	float:right;
+}
+

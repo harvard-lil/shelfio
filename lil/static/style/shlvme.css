@@ -820,6 +820,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .icon-lock:after {
   content: "\f023"; }
 
+.icon-remove:after {
+  content: "\f00d"; }
+
 .ui-dialog-titlebar {
   display: none; }
 
@@ -860,6 +863,27 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .user h1 .button, .user h1 .button-small {
   vertical-align: middle;
   font-size: 16px; }
+
+#welcome-notes {
+  background-color: #e4f4ff;
+  margin-bottom: 70px; }
+
+#welcome-notes p {
+  padding: 8px 0 8px 4px; }
+
+#welcome-notes a {
+  margin: 10px 0 10px 40px;
+  color: #e43e3e; }
+
+#welcome-notes header {
+  background-color: #e4f4ff;
+  border: none;
+  margin: 8px 0 8px 0; }
+
+#kill-welcome {
+  cursor: pointer;
+  margin-top: -4px;
+  float: right; }
 
 .embed > .stackview {
   height: 400px; }
