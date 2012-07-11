@@ -31,11 +31,11 @@
 		<section>
 			<div class="edit-profile-section">
 				<label>Change password:</label>
-				<p class="profile-text"><a href="{% url auth_password_change %}">Change your password here</a></p>
+				<p class="profile-text">Change your password? <a href="{% url auth_password_change %}">The password managment page is what you want.</a></p>
 			</div>
 			<div class="edit-profile-section">
 				<label>Change profile pic:</label>
-				<p class="profile-text">Profile images are managed by <a href="http://gravatar.com" target="_blank">Gravatar</a>. Be sure your Shlv.me email matches your Gravatar.</p>
+				<p class="profile-text">Profile images are managed by <a href="http://gravatar.com" target="_blank">Gravatar</a>. Be sure your Shlv.me email matches your Gravatar email.</p>
 			</div>
 
 			{{ profileform.as_p }}

@@ -51,10 +51,14 @@
 <script type="text/javascript">
 	$('input[name=name]').on('propertychange keyup input paste', function() {
 		// Show the user what the url of the shelfname will be
+		
+		$('#input_preview').fadeIn("fast");
+		
 		var shelfname = $(this).val()
 		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
-    	$(this).prev().html('http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+    	$('#input_preview').html(' -- http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
  	});
+ 	
 </script>
 <script type="text/javascript">
 	$('#kill-welcome').on('click', function() {

@@ -24,17 +24,19 @@
 					<h4>Added to shelf:</h4>
 					<%=creation_date%>
 				</li>
-				<li>
-					<h4>Notes:</h4>
-					<%=notes%>
-				</li>
+				<% if (notes) { %>
+					<li>
+						<h4>Notes:</h4>
+						<%=notes%>
+					</li>
+				<% } %>
 			</ul>
 		</section>
 
 		{% if is_owner %}
 			<footer>
 				<ul class="item-actions">
-					<li><a href="/shlvme/api/item/<%=item_uuid%>/" class="button button-small negative delete-item icon-trash" data-confirm-message="Are you sure you want to delete <%=title%>?" data-confirm-type="negative" data-confirm-accept="Delete Item" data-confirm-reject="Never Mind"></a></li>
+					<li><a href="/shlvme/api/item/<%=item_uuid%>/" class="button-small negative delete-item icon-trash" data-confirm-message="Are you sure you want to delete <%=title%>?" data-confirm-type="negative" data-confirm-accept="Delete Item" data-confirm-reject="Never Mind"></a></li>
 				</ul>
 			</footer>
 		{% endif %}
