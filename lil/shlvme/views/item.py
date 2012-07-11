@@ -52,7 +52,7 @@ def api_item_by_uuid(request, url_item_uuid):
             return HttpResponse(json.dumps(serialized_item, cls=DjangoJSONEncoder), mimetype='application/json')    
         return HttpResponse(status=404)
     
-    if request.method == 'DELETE':
+    if request.rfc5789_method == 'DELETE':
         try:
             item = Item.objects.get(item_uuid=url_item_uuid)
         except Item.DoesNotExist:

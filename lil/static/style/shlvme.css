@@ -555,10 +555,11 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 .button, .button-small {
   display: inline-block;
+  font-size: 16px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   text-decoration: none;
   line-height: 1.875;
-  padding: 0 10px;
+  padding: 0 8px 0 8px;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 3px;
@@ -646,7 +647,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     font-size: 20px;
     display: inline; }
     .shelf-overview h2 a {
-      color: #e43e3e;
+      color: #004e7d;
       line-height: 1.3; }
 
 .shelf-meta {
@@ -761,7 +762,17 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   font-weight: normal; }
 
 #new-shelf {
-  min-width: 600px; }
+  width: 600px;
+  left: 10px; }
+
+.share a {
+  margin: 5px; }
+
+.share .icon-twitter {
+  line-height: 1.1;
+  padding: 1px 8px 1px 4px;
+  font-size: 22px;
+  top: 1px; }
 
 .icon:after, [class^="icon-"]:after, [class*=" icon-"]:after {
   font-family: 'FontAwesome', serif;
@@ -841,6 +852,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .confirm-actions {
   padding: 12px 0; }
 
+#delete-confirm {
+  padding-left: 10px; }
+
 .welcome h1 {
   margin: 0;
   font-size: 72px; }
@@ -850,7 +864,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   line-height: 1.4; }
 .welcome h3 {
   font-size: 17px;
-  color: #e43e3e;
+  color: #004e7d;
   margin: 15px 0 0 0;
   line-height: 1.1; }
 .welcome .selling-desc {
@@ -872,7 +886,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 
 #welcome-notes a {
   margin: 10px 0 10px 40px;
-  color: #e43e3e; }
+  color: #004e7d; }
 
 #welcome-notes header {
   background-color: #e4f4ff;
@@ -926,7 +940,7 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .item-details h3 {
   padding: 0;
   line-height: 1.2;
-  color: #e43e3e; }
+  color: #004e7d; }
 .item-details h4 {
   margin: 0; }
 
@@ -934,6 +948,9 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   float: right;
   margin: 0 0 5px 10px;
   font-size: 13px; }
+
+#active-item .icon-trash {
+  padding-right: 12px; }
 
 select {
   padding-right: 10px; }

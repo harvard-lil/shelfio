@@ -28,6 +28,9 @@ var BASE_URL = '/shlvme/';
 		  var data = $item.data('stackviewItem');
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
+			
+			data.creation_date = new Date(data.creation_date).toDateString();
+
 			$('#active-item').html(tmpl($('#item-details').html(), data));
 			bindConfirmations('#active-item');
 		}

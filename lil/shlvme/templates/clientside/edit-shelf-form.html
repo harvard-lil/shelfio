@@ -36,13 +36,13 @@
 
 <script type="text/x-template" id="delete-shelf">
 	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="single-button">
-		<section>
+		<section id="delete-confirm">
 			{% csrf_token %}
 			<input type="hidden" name="_method" value="delete">
-			<p>Whoa! Delete the shelf and lose all of its contents?</p>
+			<p>Whoa! Are you sure you want to delete the shelf and lose all of its contents?</p>
 			<p>
-			  <a class="confirm-reject button neutral icon-reject" id="cancel-delete">Do not delete</a>
-				<button type="submit" class="confirm-accept button negative icon-accept">Delete</button>
+			  <a class="confirm-reject button neutral" id="cancel-delete">Do not delete shelf</a>
+				<button type="submit" class="confirm-accept button negative">Delete shelf</button>
 			</p> 
 		</section>
 	</form>

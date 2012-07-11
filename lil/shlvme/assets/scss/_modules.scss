@@ -1,9 +1,10 @@
 .button {
 	display:inline-block;
+	font-size:16px;
 	border:1px solid $buttonBorderColor;
 	text-decoration:none;
 	line-height:1.875;
-	padding:0 10px;
+	padding:0 8px 0 8px;
 	cursor:pointer;
 	background:rgba(255,255,255,.8);
 	border-radius:3px;
@@ -317,5 +318,17 @@
 }
 
 #new-shelf {
-	min-width: 600px;
+	width: 600px;
+	left:10px;
+}
+
+.share a {
+	margin:5px;	
+}
+
+.share .icon-twitter {
+	line-height: 1.1;
+	padding: 1px 8px 1px 4px;
+	font-size: 22px;
+	top: 1px;
 }
