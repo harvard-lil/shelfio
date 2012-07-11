@@ -569,8 +569,8 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
     color: #666666; }
   .button:hover, .button-small:hover, .button:focus, .button-small:focus {
     text-decoration: none; }
-    .boxshadow .button:hover, .boxshadow .button-small:hover, .boxshadow .button:focus, .boxshadow .button-small:focus {
-      box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.5), inset 1px 5px 12px rgba(0, 0, 0, 0.3); }
+  .boxshadow .button:active, .boxshadow .button-small:active {
+    box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.2), 1px 1px 1px rgba(255, 255, 255, 0.5), inset 1px 5px 12px rgba(0, 0, 0, 0.3); }
   .button:hover, .button-small:hover, .button:focus, .button-small:focus, .button.immediate, .immediate.button-small {
     color: #fff; }
   .button.positive:hover, .positive.button-small:hover, .button.positive:focus, .positive.button-small:focus, .button.positive.immediate, .positive.immediate.button-small {
@@ -687,16 +687,16 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
 .edit-profile-section {
   margin-top: 12px; }
 
-.profile-text {
-  font-size: 12px;
-  margin-top: 0px; }
-
 .contained-form {
   display: inline-block; }
   .contained-form p {
     margin: 10px 0 5px 0; }
     .contained-form p:first-child {
       margin-top: 0; }
+
+p.profile-text {
+  font-size: 12px;
+  margin-top: 2px; }
 
 .flash-messages {
   list-style: none;
@@ -773,6 +773,12 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
   padding: 1px 8px 1px 4px;
   font-size: 22px;
   top: 1px; }
+
+.privacy-policy h3 {
+  margin: 25px 0 0 0; }
+
+.privacy-policy p {
+  margin: 3px 0 10px 0; }
 
 .icon:after, [class^="icon-"]:after, [class*=" icon-"]:after {
   font-family: 'FontAwesome', serif;
