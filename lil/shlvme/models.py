@@ -45,7 +45,7 @@ class Item(models.Model):
     measurement_page_numeric = models.PositiveIntegerField(default=300)
     measurement_height_numeric = models.DecimalField(default='25.5', max_digits=5, decimal_places=2)
     format = models.CharField(max_length=200, default='book')
-    shelfrank = models.PositiveIntegerField(default=random.randint(0, 100))
+    shelfrank = models.PositiveIntegerField(default=random.randint(1, 99))
     creation_date = models.DateTimeField(auto_now=True)
     pub_date = models.PositiveIntegerField(default=utils.get_current_year())
     isbn = models.CharField(max_length=200, null=True, blank=True)

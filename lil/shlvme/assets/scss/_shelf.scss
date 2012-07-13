@@ -66,6 +66,8 @@
 
 .item-actions {
 	@extend .right-actions;
+	clear:both;
+	margin-right: 5px;
 }
 
 .view-item {

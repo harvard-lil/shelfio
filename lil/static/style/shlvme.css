@@ -950,6 +950,10 @@ p.profile-text {
 .item-details h4 {
   margin: 0; }
 
+.item-actions {
+  clear: both;
+  margin-right: 5px; }
+
 .view-item {
   float: right;
   margin: 0 0 5px 10px;
