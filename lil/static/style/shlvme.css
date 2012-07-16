@@ -884,9 +884,8 @@ p.profile-text {
   font-size: 16px; }
 
 #welcome-notes {
-  background-color: #ffc0db;
-  margin-bottom: 70px;
-  border: 2px solid #444444; }
+  background-color: #e3b0f7;
+  margin-bottom: 70px; }
 
 #welcome-notes p {
   padding: 8px 0 8px 4px; }
@@ -896,7 +895,7 @@ p.profile-text {
   color: #004e7d; }
 
 #welcome-notes header {
-  background-color: #ffc0db;
+  background-color: #e3b0f7;
   border: none;
   margin: 8px 0 8px 0; }
 
