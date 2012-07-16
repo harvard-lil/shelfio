@@ -29,7 +29,11 @@ def api_shelf_create(request):
                 return HttpResponse('A shelf by that name already exists.', status=409)
         else:
             return HttpResponse('Shelf name is required.', status=400)
-        return HttpResponse(status=201)
+        
+
+        serialized = _serialize_shelf(shelf)
+        
+        return HttpResponse(json.dumps(serialized, cls=DjangoJSONEncoder), mimetype='application/json', status=201,)
 
     # POST but not authenticated
     elif request.method == 'POST':
@@ -171,6 +175,7 @@ def _serialize_shelf(shelf):
 
     return {
         'shelf_uuid': str(shelf.shelf_uuid),
+        'shelf_id': str(shelf.id),
         'user_name': shelf.user.username,
         'name': shelf.name,
         'description': shelf.description,

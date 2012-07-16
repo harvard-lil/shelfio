@@ -126,14 +126,36 @@ $(function () {
 			});
 			
 			$submit.click(function(e) {
+				
+				var is_private = false;
+				if($('#id_is_private:checked').val() == 'private') {
+					is_private = true;
+				}
+				
+				$.ajax({
+					url: '/shlvme/api/shelf/',
+					type: 'POST',
+					data: {
+						'name': $('#new_shelf_option').val(),
+						'description': $('#id_description').val(),
+						'is_private': is_private,
+					},
+					statusCode: {
+						201: function(data) {
+							$('#id_shelf').append(new Option($('#new_shelf_option').val(), data.shelf_id, true, true));
+							
+						}
+					}
+				})
+				
 				$modal.dialog('close');
-				$("#id_shelf option[value='new']").remove();
+				
+				/*$("#id_shelf option[value='new']").remove();
 				$('#id_shelf').append(new Option($('#new_shelf_option').val(), 'new', true, true));
-				$('#new_shelf_name').val($('#new_shelf_option').val());
-				$('#new_shelf_description').val($('#id_description').val());
-				$('#new_shelf_is_private').val('');
-				if($('#id_is_private:checked').val() == 'private')
-				  $('#new_shelf_is_private').val($('#id_is_private:checked').val());
+				$('#id_new_shelf_name').val($('#new_shelf_option').val());
+				$('#id_new_shelf_description').val($('#id_description').val());
+				$('#id_new_shelf_is_private').val('');*/
+				
 				e.preventDefault();
 			});
 

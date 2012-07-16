@@ -1,5 +1,6 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
+from django.core.exceptions import ValidationError
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
@@ -116,6 +117,20 @@ def user_create(request):
         fill_with_get(creator_form, request.GET)
 
     elif request.method == 'POST':
+        # A user can create a new shelf while adding an item      
+        if 'new_shelf_name' in request.POST:
+            new_shelf = Shelf(
+                user=request.user,
+                name = request.POST['new_shelf_name'],
+                description = request.POST['new_shelf_description'],
+                is_private = request.POST['new_shelf_is_private'],
+            )
+            try:
+                new_shelf.save()
+            except ValidationError:
+                messages.error(request, 'A shelf with that name already exists.')
+            return redirect(request.path)
+        
         add_item_form = AddItemForm(request.user, request.POST)
         creator_form = CreatorForm(request.POST)
                 
