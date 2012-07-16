@@ -1,2 +1,2 @@
 Create a new bookmark in your browser:
-javascript:(function(){ window.open(%22http://localhost:8000/shlvme/services/incoming?loc=%22+encodeURIComponent(location.href)); })();
+javascript:(function(){ window.open(%22http://localhost:8000/services/incoming?loc=%22+encodeURIComponent(location.href)); })();

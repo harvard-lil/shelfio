@@ -6,5 +6,5 @@ admin.autodiscover()
 handler404 = 'lil.shlvme.views.commons.not_found'
 
 urlpatterns = patterns('',
-    url(r'^shlvme/', include('lil.shlvme.urls'))
+    url(r'^', include('lil.shlvme.urls'))
 )

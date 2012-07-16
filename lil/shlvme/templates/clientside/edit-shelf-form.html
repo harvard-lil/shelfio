@@ -1,5 +1,5 @@
 <script type="text/x-template" id="edit-shelf">
-	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="island contained-form">
+	<form action="/{{ user.username }}/<%=slug%>/" method="post" class="island contained-form">
 		{% csrf_token %}
 		<input type="hidden" name="_method" value="put">
 
@@ -35,7 +35,7 @@
 </script>
 
 <script type="text/x-template" id="delete-shelf">
-	<form action="/shlvme/{{ user.username }}/<%=slug%>/" method="post" class="single-button">
+	<form action="/{{ user.username }}/<%=slug%>/" method="post" class="single-button">
 		<section id="delete-confirm">
 			{% csrf_token %}
 			<input type="hidden" name="_method" value="delete">

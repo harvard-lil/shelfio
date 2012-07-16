@@ -133,7 +133,7 @@ $(function () {
 				}
 				
 				$.ajax({
-					url: '/shlvme/api/shelf/',
+					url: '/api/shelf/',
 					type: 'POST',
 					data: {
 						'name': $('#new_shelf_option').val(),

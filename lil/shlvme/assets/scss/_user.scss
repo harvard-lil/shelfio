@@ -4,8 +4,9 @@
 }
 
 #welcome-notes {
-	background-color: $barelyBlue;
+	background-color: $pepto;
 	margin-bottom:70px;
+	border: 2px solid $standardGray;
 }
 
 #welcome-notes p {
@@ -18,9 +19,20 @@
 }
 
 #welcome-notes header {
-	background-color: $barelyBlue;
+	background-color: $pepto;
 	border:none;
 	margin: 8px 0 8px 0;
+}
+
+#welcome-notes .button {
+	background-color: #fff;
+	color: #000;
+	font-size: 20px;
+	cursor: move;
+	border: 1px solid #000;
+	box-shadow:none;
+	border-radius:1px;
+	text-decoration:none;
 }
 
 #kill-welcome {
@@ -28,4 +40,3 @@
 	margin-top: -4px;	
 	float:right;
 }
-

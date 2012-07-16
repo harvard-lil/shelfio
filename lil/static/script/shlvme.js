@@ -1,4 +1,4 @@
-var BASE_URL = '/shlvme/';
+var BASE_URL = '/';
 
 (function($) {
 	$(function() {
