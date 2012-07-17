@@ -874,7 +874,7 @@ p.profile-text {
   margin: 15px 0 0 0;
   line-height: 1.1; }
 .welcome .selling-desc {
-  margin: 2px 0 0 2px;
+  margin: 2px 0 0 0;
   font-size: 16px; }
 .welcome #call-to-action {
   margin: 30px 0 30px 2px; }
@@ -884,8 +884,9 @@ p.profile-text {
   font-size: 16px; }
 
 #welcome-notes {
-  background-color: #e4bef7;
-  margin-bottom: 70px; }
+  background-color: #fff;
+  margin-bottom: 70px;
+  border: 2px solid #3db2ff; }
 
 #welcome-notes p {
   padding: 8px 0 8px 4px; }
@@ -895,9 +896,10 @@ p.profile-text {
   color: #004e7d; }
 
 #welcome-notes header {
-  background-color: #e4bef7;
+  background-color: #3db2ff;
   border: none;
-  margin: 8px 0 8px 0; }
+  color: #fff;
+  line-height: 35px; }
 
 #welcome-notes .button, #welcome-notes .button-small {
   background-color: #fff;
@@ -911,8 +913,37 @@ p.profile-text {
 
 #kill-welcome {
   cursor: pointer;
-  margin-top: -4px;
+  margin-top: -2px;
   float: right; }
+
+.about .button, .about .button-small {
+  background-color: #fff;
+  color: #000;
+  font-size: 20px;
+  cursor: move;
+  border: 1px solid #000;
+  box-shadow: none;
+  border-radius: 1px;
+  text-decoration: none; }
+  .about .button:hover, .about .button-small:hover {
+    background-color: white; }
+
+/* TODO: this bookmarklet button styling happens in at least three different places. consolidate */
+.bookmark .button, .bookmark .button-small {
+  margin: 10px 0 10px 30px;
+  background-color: #fff;
+  color: #000;
+  font-size: 20px;
+  cursor: move;
+  border: 1px solid #000;
+  box-shadow: none;
+  border-radius: 1px;
+  text-decoration: none; }
+  .bookmark .button:hover, .bookmark .button-small:hover {
+    background-color: white; }
+
+.bookmark ul {
+  margin: 15px 0 0 20px; }
 
 .embed > .stackview {
   height: 400px; }

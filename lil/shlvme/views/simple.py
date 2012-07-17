@@ -9,3 +9,8 @@ If it's a simple view, let's put it here
 def privacy(request):
     """The application-wide privacy policy page."""
     return render_to_response('privacy.html', {'user': request.user})
+
+
+def bookmark(request):
+    """The application-wide bookmark page."""
+    return render_to_response('bookmark.html', {'user': request.user})

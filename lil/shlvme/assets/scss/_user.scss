@@ -4,8 +4,9 @@
 }
 
 #welcome-notes {
-	background-color: $pahurple;
+	background-color: #fff;
 	margin-bottom:70px;
+	border: 2px solid $pahurple;
 }
 
 #welcome-notes p {
@@ -20,7 +21,8 @@
 #welcome-notes header {
 	background-color: $pahurple;
 	border:none;
-	margin: 8px 0 8px 0;
+	color:#fff;
+	line-height: 35px;
 }
 
 #welcome-notes .button {
@@ -36,6 +38,42 @@
 
 #kill-welcome {
 	cursor:pointer;
-	margin-top: -4px;	
+	margin-top: -2px;
 	float:right;
+}
+
+.about .button {
+	background-color: #fff;
+	color: #000;
+	font-size: 20px;
+	cursor: move;
+	border: 1px solid #000;
+	box-shadow:none;
+	border-radius:1px;
+	text-decoration:none;
+	
+	&:hover {
+		background-color:white;
+	}
+}
+
+/* TODO: this bookmarklet button styling happens in at least three different places. consolidate */
+.bookmark .button {
+	margin: 10px 0 10px 30px;
+	background-color: #fff;
+	color: #000;
+	font-size: 20px;
+	cursor: move;
+	border: 1px solid #000;
+	box-shadow:none;
+	border-radius:1px;
+	text-decoration:none;
+	
+	&:hover {
+		background-color:white;
+	}
+}
+
+.bookmark ul {
+	margin: 15px 0 0 20px;
 }
