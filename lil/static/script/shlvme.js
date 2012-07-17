@@ -29,8 +29,10 @@ var BASE_URL = '/';
 			$('#active-stack .active-item').removeClass('active-item');
 			$item.addClass('active-item');
 			
-			data.creation_date = new Date(data.creation_date).toDateString();
-
+			var parts = data.creation_date.match(/(\d+)/g);
+  			d = new Date(parts[0], parts[1]-1, parts[2]);
+  			data.creation_date = d.toDateString();
+  			
 			$('#active-item').html(tmpl($('#item-details').html(), data));
 			bindConfirmations('#active-item');
 		}
