@@ -1,8 +1,10 @@
+from django.contrib.sites.models import Site
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django.conf import settings
 import json
 import random
 from lil.shlvme.views.shelf import api_shelf
@@ -12,9 +14,12 @@ def welcome(request):
     """The application-wide welcome page."""
     
     if request.user.is_authenticated():
-        # If no referrer or a referrer outside of shlvme or if user just logge din, send user to user page
-        # TODO: clean up this logic. it's nasty.
-        if 'HTTP_REFERER' not in request.META or request.META['HTTP_REFERER'].find('shlv') == -1 or request.META['HTTP_REFERER'].find('login') >= 0:
+        # If no referrer or a referrer outside of shlvme or if user just logged in, send user to user page
+        # TODO: clean up this logic and the sites business. it's nasty.
+        
+        site_name = str(Site.objects.get_current())
+        
+        if 'HTTP_REFERER' not in request.META or request.META['HTTP_REFERER'].find(site_name) == -1 or request.META['HTTP_REFERER'].find(settings.LOGIN_URL) >= 0:
             return HttpResponseRedirect(reverse('user_home', args=[request.user.username]))
         else:
             context = _create_full_welcome_context(request)
