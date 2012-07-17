@@ -884,7 +884,7 @@ p.profile-text {
   font-size: 16px; }
 
 #welcome-notes {
-  background-color: #e3b0f7;
+  background-color: #e4bef7;
   margin-bottom: 70px; }
 
 #welcome-notes p {
@@ -895,7 +895,7 @@ p.profile-text {
   color: #004e7d; }
 
 #welcome-notes header {
-  background-color: #e3b0f7;
+  background-color: #e4bef7;
   border: none;
   margin: 8px 0 8px 0; }
 
@@ -1054,15 +1054,13 @@ select {
 /* Component containers
 ----------------------------------*/
 .ui-widget {
-  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-  font-size: 1.1em; }
+  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; }
 
 .ui-widget .ui-widget {
   font-size: 1em; }
 
 .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button {
-  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-  font-size: 1em; }
+  font-family: Trebuchet MS, Tahoma, Verdana, Arial, sans-serif; }
 
 .ui-widget-content {
   border: 1px solid #dddddd;
