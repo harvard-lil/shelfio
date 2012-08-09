@@ -4,7 +4,7 @@ var BASE_URL = '/';
 	$(function() {
 		var $b = $('body');
 		/*
-		   /shlvme/:user/:shelf
+		   /shelfio/:user/:shelf
 
 		   Show item information on item click in shelf.
 		*/
@@ -15,7 +15,7 @@ var BASE_URL = '/';
 		});
 		
 		/*
-		   /shlvme/:user/:shelf
+		   /shelfio/:user/:shelf
 
 		   Show first item in right panel upon load.
 		*/
@@ -38,7 +38,7 @@ var BASE_URL = '/';
 		}
 		
 		/*
-		   /shlvme/:user/:shelf
+		   /shelfio/:user/:shelf
 
 		   Show embed code
 		*/
@@ -48,7 +48,7 @@ var BASE_URL = '/';
 		});
 
 		/*
-		   /shlvme/:user/:shelf
+		   /shelfio/:user/:shelf
 
 		   Delete an item. Requires confirmation first.
 		*/
@@ -76,7 +76,7 @@ var BASE_URL = '/';
 		});
 
 		/*
-		   /shlvme/:user/:shelf
+		   /shelfio/:user/:shelf
 
 		   Sort shelf items.
 		*/
@@ -132,7 +132,7 @@ var BASE_URL = '/';
 		});
 
 		/*
-		   /shlvme/:user
+		   /shelfio/:user
 
 		   Show/hide edit profile form
 		*/
@@ -146,7 +146,7 @@ var BASE_URL = '/';
 		});
 
 		/*
-		   /shlvme/:user
+		   /shelfio/:user
 
 		   Edit shelf modal
 		*/

@@ -7,14 +7,14 @@ from django.db.models import Count
 from django.conf import settings
 import json
 import random
-from lil.shlvme.views.shelf import api_shelf
-from lil.shlvme.models import Shelf
+from lil.shelfio.views.shelf import api_shelf
+from lil.shelfio.models import Shelf
 
 def welcome(request):
     """The application-wide welcome page."""
     
     if request.user.is_authenticated():
-        # If no referrer or a referrer outside of shlvme or if user just logged in, send user to user page
+        # If no referrer or a referrer outside of shelfio or if user just logged in, send user to user page
         # TODO: clean up this logic and the sites business. it's nasty.
         
         site_name = str(Site.objects.get_current())

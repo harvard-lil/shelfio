@@ -3,14 +3,14 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from lil.shlvme.models import Shelf, Item, Creator, NewShelfForm, AddItemForm
+from lil.shelfio.models import Shelf, Item, Creator, NewShelfForm, AddItemForm
 import json
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.context_processors import csrf
 from django.contrib.sites.models import Site
-from lil.shlvme.views.item import serialize_item
+from lil.shelfio.views.item import serialize_item
 
 @csrf_exempt
 def api_shelf_create(request):

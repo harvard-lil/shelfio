@@ -1,6 +1,6 @@
 *.pyc
 lil/settings.py
-lil/shlvme/local_settings.py
+lil/shelfio/local_settings.py
 .project
 .pydevproject
 .DS_Store

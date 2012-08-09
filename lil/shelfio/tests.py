@@ -11,7 +11,7 @@ from django.contrib.auth.models import User
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
-from lil.shlvme.models import Shelf, Item, Creator 
+from lil.shelfio.models import Shelf, Item, Creator 
 
 class MacroTestCase(unittest.TestCase):
     def setUp(self):

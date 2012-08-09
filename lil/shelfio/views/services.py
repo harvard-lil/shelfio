@@ -12,12 +12,12 @@ from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
 import bottlenose
 from lxml import objectify
-from lil.shlvme.utils import get_year_from_raw_date, get_numeric_page_count
+from lil.shelfio.utils import get_year_from_raw_date, get_numeric_page_count
 
 logger = logging.getLogger(__name__)
 
 try:
-    from lil.shlvme.local_settings import *
+    from lil.shelfio.local_settings import *
 except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 

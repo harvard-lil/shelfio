@@ -11,7 +11,7 @@
     	}
 	},
 	{
-		"model": "shlvme.shelf",
+		"model": "shelfio.shelf",
 		"pk": 1,
 		"fields": {
 			"user": 2,
@@ -23,7 +23,7 @@
     	}
 	},
 	{
-		"model": "shlvme.item",
+		"model": "shelfio.item",
 		"pk": 1,
 		"fields": {
 			"shelf": 1,
@@ -36,7 +36,7 @@
     	}
 	},
 	{
-		"model": "shlvme.creator",
+		"model": "shelfio.creator",
 		"pk": 1,
 		"fields": {
 			"item": 1,
@@ -45,7 +45,7 @@
     	}
 	},
 	{
-		"model": "shlvme.creator",
+		"model": "shelfio.creator",
 		"pk": 2,
 		"fields": {
 			"item": 1,

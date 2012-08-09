@@ -5,8 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib import auth
 import random, math
-from lil.shlvme import utils
-from lil.shlvme.fields import UUIDField
+from lil.shelfio import utils
+from lil.shelfio.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
 from django.template.defaultfilters import slugify
 from django.utils import simplejson

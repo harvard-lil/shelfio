@@ -5,7 +5,7 @@ from django.contrib.auth import views as auth_views
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('lil.shlvme.views',
+urlpatterns = patterns('lil.shelfio.views',
                           
     # API
     url(r'^api/user/(?P<url_user_name>[a-zA-Z0-9\-]*)/$', 'user.api_user', name='api_user'), # http://shlv.me/api/user/matt/

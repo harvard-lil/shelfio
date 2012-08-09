@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
-from lil.shlvme.models import Shelf, EditProfileForm, NewShelfForm
+from lil.shelfio.models import Shelf, EditProfileForm, NewShelfForm
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User

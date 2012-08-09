@@ -5,7 +5,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
-from lil.shlvme.models import Shelf, Item, Creator, AddItemForm, CreatorForm
+from lil.shelfio.models import Shelf, Item, Creator, AddItemForm, CreatorForm
 from django.contrib.auth.views import redirect_to_login
 import json
 import urllib
@@ -16,7 +16,7 @@ from django.views.decorators.http import require_POST
 from django.forms.models import model_to_dict
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory
-from lil.shlvme.utils import fill_with_get
+from lil.shelfio.utils import fill_with_get
 from django.db.models import F
 import logging
 

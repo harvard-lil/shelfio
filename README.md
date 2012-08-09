@@ -48,14 +48,14 @@ Install Beautiful Soup:
 If you're using MySQL your database creation process might look something like this (these DB credentials should match what you have in settings.py):
 
     mysql -u root -psomepasshere
-    mysql> create database shlvme_dev; grant all on shlvme_dev.* to shlvme_dev@'%' identified by 'shlvme_dev';
-    mysql -u shlvme_dev -psomepasshere shlvme_dev
+    mysql> create database shelfio_dev; grant all on shelfio_dev.* to shelfio_dev@'%' identified by 'shelfio_dev';
+    mysql -u shelfio_dev -psomepasshere shelfio_dev
 
 Create your tables:
     python manage.py syncdb
 
 Load some data:
-    python manage.py loaddata shlvme/fixtures/bootstrap.json
+    python manage.py loaddata shelfio/fixtures/bootstrap.json
 
 (this should create a user with the username of 'willy' and the password of 'pass')
 
@@ -72,7 +72,7 @@ Be sure you mail options are pointing to the right place in settings.py
 
 Clone the repo:
 
-    git clone git://github.com/harvard-lil/shlvme.git
+    git clone git://github.com/harvard-lil/shelfio.git
 
 Get the develop branch:
 
@@ -88,7 +88,7 @@ Config your Django project settings:
 
 Configure your Django app (local settings):
 
-    cd shlvme
+    cd shelfio
     cp local_settings.example.py local_settings.py
 
 Start the Django web server:
@@ -98,7 +98,7 @@ Start the Django web server:
 ###Update site name
 Set the Django site name in the database by updating the django_site table:
 
-    mysql -u shlvme_dev -psomepasshere shlvme_dev
+    mysql -u shelfio_dev -psomepasshere shelfio_dev
     update django_site set domain = 'shlv.me'; update django_site set name = 'shlv.me';
 
 ## License
