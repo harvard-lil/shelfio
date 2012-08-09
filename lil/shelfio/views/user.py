@@ -13,7 +13,7 @@ from django.contrib import messages
 @csrf_exempt
 def api_user(request, url_user_name):
     """API for users
-     Accessed using something like shlv.me/api/user/obama
+     Accessed using something like shelf.io/api/user/obama
      TODO: we need to validate/clean/urldecode the GET/POST values ?
     """
     if request.method == 'GET':                

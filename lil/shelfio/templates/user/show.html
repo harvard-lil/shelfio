@@ -21,8 +21,8 @@
 			
 					<section>
 						<p>It's easy to get started, just drag the following button to your bookmarks bar</p>
-						<a class="button neutral" href="javascript:(function(){%20window.open(%22http://shlv.me/services/incoming?loc=%22+encodeURIComponent(%20location.href));%20})();">Shlv.me+</a>
-						<p>When you find something out on the web you want to add to Shlv.me, just click on the Shlv.me+ bookmark.</p>
+						<a class="button neutral" href="javascript:(function(){%20window.open(%22http://shelf.io/services/incoming?loc=%22+encodeURIComponent(%20location.href));%20})();">Shelf.io+</a>
+						<p>When you find something out on the web you want to add to Shelf.io, just click on the Shelf.io+ bookmark.</p>
 						<p>Happy shelving.</p>
 					</section>
 	
@@ -56,7 +56,7 @@
 		
 		var shelfname = $(this).val()
 		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
-    	$('#input_preview').html(' -- http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+    	$('#input_preview').html(' -- http://shelf.io/' + $('.icon-user').html() + '/' + slugged_shelfname);
  	});
  	
 </script>

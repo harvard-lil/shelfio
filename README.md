@@ -1,8 +1,8 @@
-#Shlv.me
+#Shelf.io
 
 Build and share shelves of books, movies, albums, and most anything on the web
 
-##Developing shlv.me -- Setting up your Django environment
+##Developing shelf.io -- Setting up your Django environment
 
 ###Install Django
 
@@ -16,7 +16,7 @@ Django should be ready to roll, but give it a test (no errors == good):
     python
     import django
 
-###Install required shlv.me packages and Django
+###Install required shelf.io packages and Django
 
 Install the MySQL driver
 
@@ -68,7 +68,7 @@ If you're running an ubuntu system and want to run mail locally:
 
 Be sure you mail options are pointing to the right place in settings.py 
 
-###Install shlv.me
+###Install shelf.io
 
 Clone the repo:
 
@@ -99,7 +99,7 @@ Start the Django web server:
 Set the Django site name in the database by updating the django_site table:
 
     mysql -u shelfio_dev -psomepasshere shelfio_dev
-    update django_site set domain = 'shlv.me'; update django_site set name = 'shlv.me';
+    update django_site set domain = 'shelf.io'; update django_site set name = 'shelf.io';
 
 ## License
 

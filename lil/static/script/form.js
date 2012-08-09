@@ -168,7 +168,7 @@ $(function () {
 		// Show the user what the url of the shelfname will be
 		var shelfname = $(this).val()
 		var slugged_shelfname = shelfname.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
-    	$(this).prev().html('http://shlv.me/' + $('.icon-user').html() + '/' + slugged_shelfname);
+    	$(this).prev().html('http://shelf.io/' + $('.icon-user').html() + '/' + slugged_shelfname);
  	});
       
 });

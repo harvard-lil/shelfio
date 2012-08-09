@@ -45,13 +45,13 @@ def api_shelf_create(request):
 
 @csrf_exempt
 def api_shelf_by_uuid(request, url_shelf_uuid):
-    # /shlv.me/api/shelf/5138a693-7ea9-4f3a-8e4f-40ad3b847ef9
+    # /shelf.io/api/shelf/5138a693-7ea9-4f3a-8e4f-40ad3b847ef9
     shelf = get_object_or_404(Shelf, shelf_uuid=url_shelf_uuid)
     return api_shelf(request, shelf)
 
 @csrf_exempt
 def api_shelf_by_name(request, url_user_name, url_shelf_slug):
-    # /shlv.me/api/shelf/some-username/some-shelf-slug
+    # /shelf.io/api/shelf/some-username/some-shelf-slug
     target_user = get_object_or_404(User, username=url_user_name)
     shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
 

@@ -1,8 +1,8 @@
 {% extends "layouts/base.html" %}
 
 {% block extrahead %}
-  <meta content="{{ shelf_name }} on Shlv.me" property="og:title">
-  <meta content="{{ shelf_name }} on Shlv.me" property="og:description">
+  <meta content="{{ shelf_name }} on Shelf.io" property="og:title">
+  <meta content="{{ shelf_name }} on Shelf.io" property="og:description">
 {% endblock %}
 
 {% block content %}
@@ -12,7 +12,7 @@
 			<div class="share">
 			  <p>Share this shelf: <a class="button neutral icon-twitter" href="" target="_blank"></a> <a class="button neutral embed" href=""><> Embed</a>
         </p>
-        <!--<textarea style="display:none;"><iframe width="400" height="400" src="http://shlv.me/{{ shelf_user.username }}/embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>-->
+        <!--<textarea style="display:none;"><iframe width="400" height="400" src="http://shelf.io/{{ shelf_user.username }}/embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>-->
         <textarea style="display:none;"><iframe width="400" height="400" src="http://{{shelf_domain}}{% url user_home shelf_user.username %}embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>
       </div>
 		</section>
@@ -39,10 +39,10 @@
 		    ribbon: '{{ shelf_name }}'
 			});
 			
-			var status = "http://twitter.com/home?status=Look at my shelf on Shlv.me " + encodeURIComponent('{{ shelf_name }}') + " " +  document.location;
+			var status = "http://twitter.com/home?status=Look at my shelf on Shelf.io " + encodeURIComponent('{{ shelf_name }}') + " " +  document.location;
 			$('.icon-twitter').attr("href", status);
 			
-			var wall = "https://www.facebook.com/dialog/feed?app_id=123050457758183&link=https://developers.facebook.com/docs/reference/dialogs/&picture=http://images.amazon.com/images/P/0375422307.01.ZTZZZZZZ.jpg&name=" + encodeURIComponent('{{ shelf_name }}') + " &caption=Shlv.me&%20description=Check out this shelf on Shlv.me&redirect_uri=http://www.example.com/response";
+			var wall = "https://www.facebook.com/dialog/feed?app_id=123050457758183&link=https://developers.facebook.com/docs/reference/dialogs/&picture=http://images.amazon.com/images/P/0375422307.01.ZTZZZZZZ.jpg&name=" + encodeURIComponent('{{ shelf_name }}') + " &caption=Shelf.io&%20description=Check out this shelf on Shelf.io&redirect_uri=http://www.example.com/response";
 			$('.icon-facebook').attr("href", wall);
 		});
 	</script>	
