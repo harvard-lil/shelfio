@@ -1,3 +1,4 @@
+from django.db.models.signals import post_save
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django import forms
@@ -6,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 import random, math
 from lil.shelfio import utils
+from lil.shelfio import indexer
 from lil.shelfio.fields import UUIDField
 from django.forms.widgets import TextInput, Textarea
 from django.template.defaultfilters import slugify
@@ -36,6 +38,14 @@ class Shelf(models.Model):
         else:
             self.slug = slugify(self.name)
             super(Shelf, self).save(*args, **kwargs)
+            
+        # We want items to be searchable through elastic search, pass the data off to our indexer
+        if not self.is_private:
+            indexer.index_shelf(self)
+            
+    def delete(self, *args, **kwargs):
+        super(Shelf, self).delete(*args, **kwargs)
+        indexer.unindex_shelf(self)
 
 class Item(models.Model):
     shelf = models.ForeignKey(Shelf)
@@ -64,6 +74,10 @@ class Item(models.Model):
                 self.sort_order = 1
         super(Item, self).save(*args, **kwargs)
 
+    def delete(self, *args, **kwargs):
+        super(Item, self).delete(*args, **kwargs)
+        indexer.unindex_item(self)
+        
     class Meta:
         ordering = ['-sort_order']
         models.CharField(max_length=200)   
@@ -72,6 +86,14 @@ class Creator(models.Model):
     item = models.ForeignKey(Item)
     creator_uuid = UUIDField(auto=True)
     name = models.CharField(max_length=200)
+    
+    def save(self, *args, **kwargs):
+        super(Creator, self).save(*args, **kwargs)
+    
+        # We want items to be searchable through elastic search, pass the data off to our indexer
+        if not self.item.shelf.is_private:
+            indexer.index_item(self.item)
+
     
     def __unicode__(self):
         return self.name
@@ -85,11 +107,6 @@ class AddToShelfConfirmForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)
-    
-"""class UserRegForm(forms.Form):
-    username = forms.CharField(max_length=100)
-    email = forms.CharField(max_length=300)
-    password = forms.CharField(widget=forms.PasswordInput(render_value=False), max_length=100)"""
     
 class UserRegForm(forms.ModelForm):
     """

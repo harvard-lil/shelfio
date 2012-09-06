@@ -1,4 +1,5 @@
 from django.http import  HttpResponseRedirect
+from lil.shelfio import indexer
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
@@ -22,6 +23,9 @@ def process_register(request):
                     is_private=False,
                 )
             shelf.save()
+             
+            # Index the user
+            indexer.index_user(new_user)
             
             # Log the user in
             supplied_username = request.POST.get('username', '')

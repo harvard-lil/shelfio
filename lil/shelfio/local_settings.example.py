@@ -11,3 +11,9 @@ GOODREADS = {
 LIBRARYTHING = {
     'KEY': 'yourlibrarythingkey'
 }
+
+# elasticsearch location
+
+ELASTICSEARCH = {
+    'HOST': 'http://eshost.yourorg.com:9200/shelfio/'
+}

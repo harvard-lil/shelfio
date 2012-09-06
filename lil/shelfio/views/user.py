@@ -1,4 +1,5 @@
 from django.views.decorators.csrf import csrf_exempt
+from lil.shelfio import indexer
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render_to_response, get_object_or_404
@@ -144,3 +145,6 @@ def _update_user_data(user_name, updates):
             setattr(target_user, key, val)    
     target_user.full_clean()
     target_user.save()
+    
+    # Index when a user updates their first or last name
+    indexer.index_user(target_user)

@@ -15,6 +15,7 @@ urlpatterns = patterns('lil.shelfio.views',
     url(r'^api/item/$', 'item.api_item_create', name='api_item_create'), # http://shelf.io/api/item
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/$', 'item.api_item_by_uuid', name='api_item_by_uuid'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/reorder/$', 'item.api_item_reorder', name='api_item_reorder'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66/reorder
+    url(r'^api/search/$', 'search.api_search', name='api_search'), # http://shelf.io/api/search/
 
     # Services
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),
