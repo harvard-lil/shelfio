@@ -68,6 +68,9 @@ If you're running an ubuntu system and want to run mail locally:
 
 Be sure you mail options are pointing to the right place in settings.py 
 
+###Install elasticsearch
+If you're on centos, something like this will get you close: https://gist.github.com/1756877
+
 ###Install shelf.io
 
 Clone the repo:

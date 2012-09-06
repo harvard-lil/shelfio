@@ -34,14 +34,23 @@ def api_search(request, target_type):
     headers = {'Content-Type': 'application/json'}
     
     query = '*'
-    
     if request.GET['q']:
         query = request.GET['q']
+    
+    start = 0
+    if 'start' in request.GET:
+        start = request.GET['start']
+
+    limit = 10
+    if 'limit' in request.GET:
+        limit = request.GET['limit']
     
     query_string = {"query": query,
                     "default_operator": "AND"
                     }
-    data = {"query": {"query_string": query_string}}
+    data = {"query": {"query_string": query_string},
+            "from": start,
+            "size": limit}
         
     req = urllib2.Request(url, json.dumps(data), headers)
     
@@ -70,7 +79,10 @@ def api_search(request, target_type):
     if target_type == 'user':
         packaged_hits = package_users(hits['hits'])
         
-        
+    packaged_hits['start'] = start
+    packaged_hits['limit'] = limit
+    packaged_hits['num_found'] = len(hits['hits'])
+    
     return HttpResponse(json.dumps(packaged_hits, cls=DjangoJSONEncoder), mimetype='application/json')    
 
 def package_items(hits):
@@ -114,7 +126,7 @@ def package_users(hits):
     for hit in hits:
         shaped_hit = {}
         
-        shaped_hit['id'] = hit['_id']
+        shaped_hit['id'] = hit['_source']['username']
         shaped_hit['username'] = hit['_source']['username']
         
         if 'first_name' in hit['_source']:
