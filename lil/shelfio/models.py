@@ -46,6 +46,7 @@ class Shelf(models.Model):
     def delete(self, *args, **kwargs):
         super(Shelf, self).delete(*args, **kwargs)
         indexer.unindex_shelf(self)
+        #TODO: Delete items on the shelf if shelf is deleted 
 
 class Item(models.Model):
     shelf = models.ForeignKey(Shelf)

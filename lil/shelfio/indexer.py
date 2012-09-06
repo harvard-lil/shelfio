@@ -4,8 +4,6 @@ import httplib
 import urllib
 import urllib2
 import logging
-from lil.shelfio.fields import UUIDField
-#from lil.shelfio.models import Creator
 
 logger = logging.getLogger(__name__)
 
@@ -20,18 +18,22 @@ def index_user(user):
     """
     
     #Usernames are unique, so use them instead of a UUID to avoid a DB call    
-    data = {
-            '_id': user.username,
-            'username': user.username,
-            'first_name': user.first_name,
-            'last_name': user.last_name
-            }
+    data = {'_id': user.username,
+            'username': user.username}
+    
+    if user.first_name:        
+        data['first_name'] = user.first_name
+        
+    if user.last_name:        
+        data['last_name'] = user.last_name            
     
     expand_the_waistband('user', data)
 
 def index_shelf(shelf):
     """Receive a shelf model, pass it off to the elasticsearch indexer
     """
+    
+    #TODO: if user changes a shelf from private to public, index the shelf and items
 
     data = {'_id': smart_unicode(shelf.shelf_uuid),
             'name': shelf.name,
@@ -49,20 +51,21 @@ def index_item(item):
     creators = Creator.objects.filter(item=item.id)
     creators_list = [creator.name for creator in creators]
 
-    data = {'_id': smart_unicode(item.item_uuid),
-            'title': item.title,
-            'creator': creators_list,
-            'link': item.link,
-            'format': item.format,
-            'pub_date': item.pub_date,
-            'isbn': item.isbn,
-            'notes': item.notes
-            }
+    data = {'_id': smart_unicode(item.item_uuid)}
+    data['title'] = item.title
+    data['creator'] = creators_list
+    data['link'] = item.link
+    data['format'] = item.format
+    data['pub_date'] = item.pub_date
+    data['shelf'] = item.shelf.user.username + '/' + item.shelf.slug
     
+    if item.isbn:
+        data['isbn'] = item.isbn
+    if item.notes:
+        data['notes'] = item.notes
+        
     expand_the_waistband('item', data)
     
-    
-
 def expand_the_waistband(index_name, data):
     """Send to elasticsearch. Expand that elastic waistband"""
     
