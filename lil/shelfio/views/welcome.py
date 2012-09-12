@@ -1,14 +1,14 @@
+import json
+
+from lil.shelfio.views.roulette import api_shelf
+
 from django.contrib.sites.models import Site
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core.urlresolvers import reverse
-from django.db.models import Count
 from django.conf import settings
-import json
-import random
-from lil.shelfio.views.shelf import api_shelf
-from lil.shelfio.models import Shelf
+
 
 def welcome(request):
     """The application-wide welcome page."""
@@ -24,24 +24,24 @@ def welcome(request):
         else:
             context = _create_full_welcome_context(request)
             return render_to_response('index.html',  context)
-    else:
-        context = _create_full_welcome_context(request)
-        return render_to_response('index.html',  context)
+
+
+    context = _create_full_welcome_context(request)
+    return render_to_response('index.html',  context)
         
         
 def _create_full_welcome_context(request):
-    # TODO: this is a temporary method for getting a shelf from the front page. implement a better approach 
-    num_public_shelves = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1).count()
-    random_shelf = Shelf.objects.annotate(num_items=Count('item')).filter(num_items__gt=1)[random.randint(0, num_public_shelves - 1)]
-            
-    api_response = api_shelf(request, random_shelf)
-        
-    shelf = json.loads(api_response.content)
-
+    """Get the random shelf from the Shelf Roulette API. Return the context."""
+    
+    api_response = api_shelf(request)
+    random_shelf = json.loads(api_response.content)
+    
     context = {
         'user': request.user,
-        'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
-        'shelf_name': random_shelf.user.username + '\'s ' + random_shelf.name,
+        'shelf_user': random_shelf['user_name'],
+        'shelf_items': json.dumps(random_shelf['docs'], cls=DjangoJSONEncoder),
+        'shelf_name': random_shelf['name'],
+        'shelf_slug': random_shelf['slug'],
     }
 
     return context

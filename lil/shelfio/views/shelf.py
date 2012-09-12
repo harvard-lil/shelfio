@@ -31,7 +31,7 @@ def api_shelf_create(request):
             return HttpResponse('Shelf name is required.', status=400)
         
 
-        serialized = _serialize_shelf(shelf)
+        serialized = serialize_shelf(shelf)
         
         return HttpResponse(json.dumps(serialized, cls=DjangoJSONEncoder), mimetype='application/json', status=201,)
 
@@ -64,7 +64,7 @@ def api_shelf(request, shelf):
     # Edit shelf
     elif request.rfc5789_method in ['PUT', 'POST'] and request.user.is_authenticated():
         try:
-            serialized = _serialize_shelf(_update_shelf_data(shelf, request.POST))
+            serialized = serialize_shelf(_update_shelf_data(shelf, request.POST))
         except ValidationError, e:
             return HttpResponse('You already have a shelf by that name.', status=400)
         return HttpResponse(
@@ -79,7 +79,7 @@ def api_shelf(request, shelf):
         return HttpResponse(status=204)
 
     elif request.method == 'GET':
-        serialized_shelf = _serialize_shelf(shelf)
+        serialized_shelf = serialize_shelf(shelf)
         return HttpResponse(
             json.dumps(serialized_shelf, cls=DjangoJSONEncoder),
             mimetype='application/json',
@@ -151,9 +151,6 @@ def embed_shelf(request, url_user_name, url_shelf_slug):
 
     return render_to_response('shelf/embed.html', context)
 
-def _serialize_shelves_with_items(shelves):
-    return [_serialize_shelf(shelf) for shelf in shelves]
-
 def _update_shelf_data(shelf, updates):
     form = NewShelfForm(updates)
     if form.is_valid():
@@ -169,7 +166,7 @@ def _update_shelf_data(shelf, updates):
     else:
         raise ValidationError('Shelf name is required')
 
-def _serialize_shelf(shelf):
+def serialize_shelf(shelf):
     items = Item.objects.filter(shelf=shelf)
     item_list = [serialize_item(item) for item in items]
 
