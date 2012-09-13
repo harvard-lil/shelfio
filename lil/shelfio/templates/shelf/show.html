@@ -9,7 +9,9 @@
 	<article class="half-half shelf">
 		<section class="left-column">
 		
-	  		<a class="button neutral {% if is_favorite  %}icon-star{% else %}icon-unstar{% endif %}" href=""></a>
+			{% if user.is_authenticated and not is_owner %}
+	  			<a class="button neutral {% if is_favorite  %}icon-star{% else %}icon-unstar{% endif %}" href=""></a>
+			{% endif %}
 
 			<div id="active-stack"></div>
 			<div class="share">
@@ -21,7 +23,8 @@
 		</section>
 
 		<section class="right-column">
-			<h1>{{ shelf_name }} <a href="{% url user_item_create %}?shelf={{ shelf_name }}" title="Add Item" class="button positive immediate">+</a></h1>
+			<h1>{{ shelf_name }} {% if is_owner %}<a href="{% url user_item_create %}?shelf={{ shelf_name }}" title="Add Item" class="button positive immediate">+</a>{% endif %}</h1>
+			
 			<h2>by <a href="{% url user_home shelf_user.username %}">{{ shelf_user.username }}</a></h2>
 			<p>{{ shelf_description }}</p>
 			<div id="active-item"></div>

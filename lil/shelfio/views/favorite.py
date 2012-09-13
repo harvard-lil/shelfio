@@ -1,14 +1,12 @@
 import json
 import logging
 
-from lil.shelfio.views.shelf import serialize_shelf
 from lil.shelfio.models import Shelf, FavoriteShelf, User
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
-from django.db import connection
 from django.core.exceptions import ValidationError
 
 

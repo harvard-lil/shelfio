@@ -8,7 +8,9 @@
 
 		<div class="content">
 			<h1>Shelves
-				<a href="#new-shelf" title="New Shelf" class="button positive immediate">+</a>
+				{% if is_owner %}
+					<a href="#new-shelf" title="New Shelf" class="button positive immediate">+</a>
+				{% endif %}
 			</h1>
 			
 			{% if is_owner and not user.is_staff %}
@@ -25,7 +27,6 @@
 						<p>When you find something out on the web you want to add to Shelf.io, just click on the Shelf.io+ bookmark.</p>
 						<p>Happy shelving.</p>
 					</section>
-	
 				</article>
 			{% endif %}
 			

@@ -115,13 +115,17 @@ def user_shelf(request, url_user_name, url_shelf_slug):
 
     shelf = json.loads(api_response.content)
     
-    favorite_shelf = FavoriteShelf.objects.filter(shelf=target_shelf).filter(user=request.user)
+    favorite_shelf_flag = False
     
+    if request.user.is_authenticated():
+        favorite_shelf = FavoriteShelf.objects.filter(shelf=target_shelf).filter(user=request.user)
+        favorite_shelf_flag = len(favorite_shelf) == 1
+        
     context = {
         'user': request.user,
         'shelf_user': target_user,
         'is_owner': request.user == target_user,
-        'is_favorite': len(favorite_shelf) == 1,
+        'is_favorite': favorite_shelf_flag,
         'shelf_uuid': shelf['shelf_uuid'],
         'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
         'shelf_name': shelf_name,
