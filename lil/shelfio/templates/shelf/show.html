@@ -8,6 +8,9 @@
 {% block content %}
 	<article class="half-half shelf">
 		<section class="left-column">
+		
+	  		<a class="button neutral {% if is_favorite  %}icon-star{% else %}icon-unstar{% endif %}" href=""></a>
+
 			<div id="active-stack"></div>
 			<div class="share">
 			  <p>Share this shelf: <a class="button neutral icon-twitter" href="" target="_blank"></a> <a class="button neutral embed" href=""><> Embed</a>
@@ -44,6 +47,68 @@
 			
 			var wall = "https://www.facebook.com/dialog/feed?app_id=123050457758183&link=https://developers.facebook.com/docs/reference/dialogs/&picture=http://images.amazon.com/images/P/0375422307.01.ZTZZZZZZ.jpg&name=" + encodeURIComponent('{{ shelf_name }}') + " &caption=Shelf.io&%20description=Check out this shelf on Shelf.io&redirect_uri=http://www.example.com/response";
 			$('.icon-facebook').attr("href", wall);
+			
+			
+			$('html').ajaxSend(function(event, xhr, settings) {
+			    function getCookie(name) {
+			        var cookieValue = null;
+			        if (document.cookie && document.cookie != '') {
+			            var cookies = document.cookie.split(';');
+			            for (var i = 0; i < cookies.length; i++) {
+			                var cookie = jQuery.trim(cookies[i]);
+			                // Does this cookie string begin with the name we want?
+			                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+			                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+			                    break;
+			                }
+			            }
+			        }
+			        return cookieValue;
+			    }
+			    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+			        // Only send the token to relative URLs i.e. locally.
+			        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+			    }
+			});
+						
+
+			$(".left-column .button").click(function() {				
+				event.preventDefault();
+				
+				if ($(this).hasClass('icon-unstar')) {
+					$.ajax({
+						url: '/api/favorite/shelf/',
+						type: 'POST',
+						data: {
+							'_method': 'POST',
+							'shelf_id': '{{ shelf_uuid}}'
+						},
+						statusCode: {
+							201: function() {
+								$(".left-column .button:first").toggleClass("icon-star icon-unstar");
+							}
+						}
+					});
+				
+				} else if ($(this).hasClass('icon-star')) {
+					$.ajax({
+						url: '/api/favorite/shelf/',
+						type: 'POST',
+						data: {
+							'_method': 'DELETE',
+							'shelf_id': '{{ shelf_uuid}}'
+						},
+						statusCode: {
+							204: function() {
+								$(".left-column .button:first").toggleClass("icon-star icon-unstar");
+							}
+						}
+					});
+				
+				}
+				
+				
+			});
 		});
 	</script>	
 {% endblock extrascripts %}

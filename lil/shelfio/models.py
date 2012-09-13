@@ -99,6 +99,24 @@ class Creator(models.Model):
     def __unicode__(self):
         return self.name
     
+class FavoriteUser(models.Model):
+    """Users can favorite (or follow or star) another user"""
+    user = models.ForeignKey(User)
+    shelf = models.ForeignKey(Shelf)
+    
+class FavoriteShelf(models.Model):
+    """Users can favorite (or follow or star) a shelf"""
+    
+    user = models.ForeignKey(User)
+    shelf = models.ForeignKey(Shelf)
+    
+    def save(self, *args, **kwargs):
+        if FavoriteShelf.objects.filter(user=self.user, shelf=self.shelf).exclude(pk=self.pk).exists():
+            raise ValidationError('You already have already favorited that shelf.')
+        else:
+            super(FavoriteShelf, self).save(*args, **kwargs)    
+
+    
 #Forms:
 class AddToShelfConfirmForm(forms.Form):
     shelf = forms.ModelChoiceField(queryset=Shelf.objects.all())

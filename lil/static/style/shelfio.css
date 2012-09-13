@@ -839,6 +839,12 @@ p.profile-text {
 .icon-remove:after {
   content: "\f00d"; }
 
+.icon-unstar:after {
+  content: "\f006"; }
+
+.icon-star:after {
+  content: "\f005"; }
+
 .ui-dialog-titlebar {
   display: none; }
 

@@ -3,7 +3,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, Http404, HttpResponseNotAllowed
 from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from lil.shelfio.models import Shelf, Item, Creator, NewShelfForm, AddItemForm
+from lil.shelfio.models import Shelf, Item, Creator, FavoriteShelf, NewShelfForm, AddItemForm
 import json
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -115,10 +115,14 @@ def user_shelf(request, url_user_name, url_shelf_slug):
 
     shelf = json.loads(api_response.content)
     
+    favorite_shelf = FavoriteShelf.objects.filter(shelf=target_shelf).filter(user=request.user)
+    
     context = {
         'user': request.user,
         'shelf_user': target_user,
         'is_owner': request.user == target_user,
+        'is_favorite': len(favorite_shelf) == 1,
+        'shelf_uuid': shelf['shelf_uuid'],
         'shelf_items': json.dumps(shelf['docs'], cls=DjangoJSONEncoder),
         'shelf_name': shelf_name,
         'shelf_slug': shelf['slug'],
