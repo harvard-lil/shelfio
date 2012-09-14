@@ -34,7 +34,7 @@ def api_search(request, target_type):
     headers = {'Content-Type': 'application/json'}
     
     query = '*'
-    if request.GET['q']:
+    if 'q' in request.GET:
         query = request.GET['q']
     
     start = 0
