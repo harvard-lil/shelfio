@@ -1,8 +1,8 @@
 from django.conf.urls.defaults import patterns, url
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth import views as auth_views
-
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('lil.shelfio.views',

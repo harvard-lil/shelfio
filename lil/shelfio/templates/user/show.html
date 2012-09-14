@@ -13,8 +13,7 @@
 				{% endif %}
 			</h1>
 			
-			{% if is_owner and not user.is_staff %}
-				{% comment %} NOTE: We're reappropriating is_staff. We use it to indicate if we should display welcome stuff. {% endcomment %}
+			{% if is_owner and user.get_profile.display_welcome %}
 				<article class="shelf-overview island"  id="welcome-notes">
 					<header>
 						<h2>Welcome aboard, grab the bookmark</h2>

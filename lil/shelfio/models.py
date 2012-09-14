@@ -1,23 +1,34 @@
-from django.db.models.signals import post_save
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.contrib import auth
-import random, math
+import random
+
 from lil.shelfio import utils
 from lil.shelfio import indexer
 from lil.shelfio.fields import UUIDField
-from django.forms.widgets import TextInput, Textarea
+
+from django.db import models
+from django import forms
+from django.contrib.auth.models import User
+from django.forms.widgets import TextInput
 from django.template.defaultfilters import slugify
-from django.utils import simplejson
 from django.core.exceptions import ValidationError
+from django.db.models.signals import post_save
+
 
 FORMAT_CHOICES = (('book', 'Book'),
                             ('Video/Film', 'Video'),
                             ('Sound Recording', 'Music'),
                             ('webpage', 'Webpage'))
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+
+    display_welcome = models.BooleanField(default=True)
+    favorites_are_private = models.BooleanField(default=False)
+    
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
