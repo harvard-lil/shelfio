@@ -77,9 +77,65 @@
 					}
 				}
 			})
-		
-		
  	});
+ 	
+ 	$('html').ajaxSend(function(event, xhr, settings) {
+	    function getCookie(name) {
+	        var cookieValue = null;
+	        if (document.cookie && document.cookie != '') {
+	            var cookies = document.cookie.split(';');
+	            for (var i = 0; i < cookies.length; i++) {
+	                var cookie = jQuery.trim(cookies[i]);
+	                // Does this cookie string begin with the name we want?
+	                if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                    break;
+	                }
+	            }
+	        }
+	        return cookieValue;
+	    }
+	    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+	        // Only send the token to relative URLs i.e. locally.
+	        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+	    }
+	});
+				
+
+	$(".user .button:first").click(function() {		
+		event.preventDefault();
+		
+		if ($(this).hasClass('icon-unstar')) {
+			$.ajax({
+				url: '/api/favorite/user/',
+				type: 'POST',
+				data: {
+					'_method': 'POST',
+					'user_name': '{{ user_name}}'
+				},
+				statusCode: {
+					201: function() {
+						$(".user .button:first").toggleClass("icon-star icon-unstar");
+					}
+				}
+			});
+		
+		} else if ($(this).hasClass('icon-star')) {
+			$.ajax({
+				url: '/api/favorite/user/',
+				type: 'POST',
+				data: {
+					'_method': 'DELETE',
+					'user_name': '{{ user_name}}'
+				},
+				statusCode: {
+					204: function() {
+						$(".user .button:first").toggleClass("icon-star icon-unstar");
+					}
+				}
+			});
+		}
+	});
 </script>
 {% endblock scripts %}
 {% block extrascripts %}

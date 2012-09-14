@@ -101,8 +101,14 @@ class Creator(models.Model):
     
 class FavoriteUser(models.Model):
     """Users can favorite (or follow or star) another user"""
-    user = models.ForeignKey(User)
-    shelf = models.ForeignKey(Shelf)
+    follower = models.ForeignKey(User, related_name='user_follower')
+    leader = models.ForeignKey(User, related_name='user_leader    ')
+    
+    def save(self, *args, **kwargs):
+        if FavoriteUser.objects.filter(follower=self.follower, leader=self.leader).exclude(pk=self.pk).exists():
+            raise ValidationError('You have already favorited that user.')
+        else:
+            super(FavoriteUser, self).save(*args, **kwargs)
     
 class FavoriteShelf(models.Model):
     """Users can favorite (or follow or star) a shelf"""
@@ -112,7 +118,7 @@ class FavoriteShelf(models.Model):
     
     def save(self, *args, **kwargs):
         if FavoriteShelf.objects.filter(user=self.user, shelf=self.shelf).exclude(pk=self.pk).exists():
-            raise ValidationError('You already have already favorited that shelf.')
+            raise ValidationError('You have already favorited that shelf.')
         else:
             super(FavoriteShelf, self).save(*args, **kwargs)    
 

@@ -5,6 +5,10 @@
 	<figcaption>{{ user_name }}</figcaption>
 </figure>
 
+{% if user.is_authenticated and not is_owner %}
+	<a class="button neutral {% if is_favorite  %}icon-star{% else %}icon-unstar{% endif %}" href=""></a>
+{% endif %}
+
 {% if is_owner %}
 	<ul class="profile-info">
 		{% if first_name or last_name %}

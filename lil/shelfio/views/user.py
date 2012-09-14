@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
-from lil.shelfio.models import Shelf, EditProfileForm, NewShelfForm
+from lil.shelfio.models import Shelf, FavoriteUser, EditProfileForm, NewShelfForm
 import json
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
@@ -127,9 +127,16 @@ def _get_user_data(request, user_name):
             'is_private': shelf.is_private
         }
         shelves.append(shelf_to_serialize)
+        
+    favorite_user_flag = False
+        
+    if request.user.is_authenticated():
+        favorite_user = FavoriteUser.objects.filter(leader=target_user).filter(follower=request.user)
+        favorite_user_flag = len(favorite_user) == 1
 
     context.update({
         'is_owner': is_owner,
+        'is_favorite': favorite_user_flag,
         'user_name': target_user.username,
         'email': target_user.email,
         'docs': shelves
