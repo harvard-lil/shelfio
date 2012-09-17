@@ -65,21 +65,23 @@ def api_shelf(request, user_name):
 def _bundle_user_shelves(target_user):
     context = {}
     
-    fav_shelves = FavoriteShelf.objects.filter(user=target_user)
-
     shelves = []
     
-    #TODO: Are we hitting the DB for each of these shelves?
-    for q_shelf in fav_shelves:
-        shelf_to_serialize = {
-            'shelf_uuid': str(q_shelf.shelf.shelf_uuid),
-            'name': q_shelf.shelf.name,
-            'slug': q_shelf.shelf.slug,
-            'description': q_shelf.shelf.description,
-            'creation_date': q_shelf.shelf.creation_date
-        }
-        shelves.append(shelf_to_serialize)
-
+    if not target_user.get_profile().favorites_are_private:
+        fav_shelves = FavoriteShelf.objects.filter(user=target_user)
+        
+        #TODO: Are we hitting the DB for each of these shelves?
+        for q_shelf in fav_shelves:
+            shelf_to_serialize = {
+                'shelf_uuid': str(q_shelf.shelf.shelf_uuid),
+                'name': q_shelf.shelf.name,
+                'slug': q_shelf.shelf.slug,
+                'description': q_shelf.shelf.description,
+                'creation_date': q_shelf.shelf.creation_date
+            }
+            shelves.append(shelf_to_serialize)
+    
+        
     context.update({
         'user_name': target_user.username,
         'docs': shelves
@@ -137,18 +139,19 @@ def api_user(request, user_name):
     
 def _bundle_users(target_user):
     context = {}
-    
-    fav_users = FavoriteUser.objects.filter(follower=target_user)
 
     users = []
     
-    #TODO: Are we hitting the DB for each of these shelves?
-    for q_user in fav_users:
-        user_to_serialize = {
-            'user_name': q_user.leader.username,
-            'id': q_user.leader.username,
-        }
-        users.append(user_to_serialize)
+    if not target_user.get_profile().favorites_are_private:
+        fav_users = FavoriteUser.objects.filter(follower=target_user)
+            
+        #TODO: Are we hitting the DB for each of these shelves?
+        for q_user in fav_users:
+            user_to_serialize = {
+                'user_name': q_user.leader.username,
+                'id': q_user.leader.username,
+            }
+            users.append(user_to_serialize)
 
     context.update({
         'docs': users,
