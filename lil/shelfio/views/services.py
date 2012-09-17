@@ -1,18 +1,23 @@
-from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
-from django.contrib import messages
-from django.template import RequestContext
+from urlparse import urlparse, parse_qs
 import re
 import logging
 import urllib
 import urllib2
 import json
-from xml.etree.ElementTree import fromstring, ElementTree
-from BeautifulSoup import BeautifulSoup
-from urlparse import urlparse
+
 import bottlenose
 from lxml import objectify
+from xml.etree.ElementTree import fromstring, ElementTree
+from BeautifulSoup import BeautifulSoup
+
 from lil.shelfio.utils import get_year_from_raw_date, get_numeric_page_count
+
+
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+from django.contrib import messages
+from django.template import RequestContext
+
 
 logger = logging.getLogger(__name__)
 
@@ -50,6 +55,13 @@ def incoming(request):
         except:
             details = get_web_resource(url)
             messages.warning(request, get_processing_message('MusicBrainz'))
+    
+    elif re.search(r'books\.google\.com', url):
+        try:
+            details = get_google_books_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, get_processing_message('Google Books'))
         
     elif re.search(r'goodreads\.com', url):
         try:
@@ -189,6 +201,55 @@ def get_musicbrainz_details(url):
     details['pub_date'] = get_year_from_raw_date(date_element.text)
     
     return details
+
+def get_google_books_details(url):
+    """Given a Google Books URL, get title, creator, etc.
+    """
+    
+    # Look for something like http://books.google.com/books?id=Gd_mGRCwW1QC
+
+    details = {}
+    
+    # Get our google books id
+    params = parse_qs(urlparse(url).query)
+    
+    # Get the JSON representation of the web resource
+    url_to_fetch = 'https://www.googleapis.com/books/v1/volumes/' + params['id'][0] 
+    
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    to_open = opener.open(url_to_fetch)
+    response = to_open.read()
+
+    serialized_response = json.loads(response)
+    volume_info = serialized_response['volumeInfo']
+    
+    if 'title' in volume_info:
+        details['title'] = volume_info['title']
+        
+    if 'publishedDate' in volume_info:
+        details['pub_date'] = volume_info['publishedDate'][0:4]
+
+    if 'dimensions' in volume_info:
+        if 'height' in volume_info['dimensions']:
+            
+            matches = re.search(r'^([0-9]+)', volume_info['dimensions']['height'])
+            details['measurement_height_numeric'] = matches.group(1)
+        
+    if 'pageCount' in volume_info:
+        details['measurement_page_numeric'] = volume_info['pageCount']
+        
+    if 'industryIdentifiers' in volume_info:
+        if 'type' in volume_info['industryIdentifiers'][0] and volume_info['industryIdentifiers'][0]['type'] == 'ISBN_10':
+            details['isbn'] = volume_info['industryIdentifiers'][0]['identifier']
+        elif 'type' in volume_info['industryIdentifiers'][0] and volume_info['industryIdentifiers'][0]['type'] == 'ISBN_13':
+            details['isbn'] = volume_info['industryIdentifiers'][0]['identifier']
+
+    if 'authors' in volume_info:
+        details['creator'] = volume_info['authors'][0]
+
+    return details
+
 
 def get_goodreads_details(url):
     """Given a goodreads URL, get title, creator, etc.
