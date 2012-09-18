@@ -4,7 +4,9 @@ import logging
 import urllib
 import urllib2
 import json
+from cStringIO import StringIO
 
+import pymarc
 import bottlenose
 from lxml import objectify
 from xml.etree.ElementTree import fromstring, ElementTree
@@ -69,6 +71,13 @@ def incoming(request):
         except:
             details = get_web_resource(url)
             messages.warning(request, get_processing_message('Goodreads'))
+            
+    elif re.search(r'worldcat\.org', url):
+        try:
+            details = get_worldcat_details(url)
+        except:
+            details = get_web_resource(url)
+            messages.warning(request, get_processing_message('WorldCat'))
         
     elif re.search(r'openlibrary\.org', url):
         try:
@@ -282,6 +291,66 @@ def get_goodreads_details(url):
         details['isbn'] = root.book.isbn
     if hasattr(root.book, 'num_pages') and len(root.book.num_pages.text) > 0:
         details['measurement_page_numeric'] = root.book.num_pages
+
+    return details
+
+
+def get_worldcat_details(url):
+    """Given a WorldCat URL, get title, creator, etc.
+    """
+    # Look for something like http://www.worldcat.org/title/american-psycho/oclc/59824438
+
+    details = {}
+    
+    # Get the JSON representation of the web resource
+    matches = re.search(r'oclc\/([0-9]+)', url)
+    oclc_id = matches.group(1)
+    
+    #We hope it looks something like this: #http://www.worldcat.org/webservices/catalog/content/607975727?wskey=somekeyhere
+    api_url = "http://www.worldcat.org/webservices/catalog/content/" + oclc_id + "?wskey=" + WORLDCAT['KEY']
+        
+    opener = urllib2.build_opener()
+    opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+    to_open = opener.open(api_url)
+    response = to_open.read()
+    
+    # The response is MarcXML, let's extract the relevant info
+    record = pymarc.parse_xml_to_array(StringIO(response))[0]
+    
+    details['title'] = record.title()
+        
+    details['creator'] = record.author()
+
+    # This is the wild west, but let's try to get a year that can be converted to an int
+    raw_pub_date = record.pubyear()
+    if raw_pub_date:
+        matches = re.search(r'([0-9]{1,4})', raw_pub_date)
+        details['pub_date'] = matches.group(1)
+
+    # 245b holds our format
+    details['format'] = 'book'
+    
+    if record['245']['h']:
+        if re.search(r'sound', record['245']['h'], re.IGNORECASE):
+            details['format'] = 'Sound Recording'
+        elif re.search(r'video', record['245']['h'], re.IGNORECASE):
+            details['format'] = 'Video/Film'
+    
+    # If it's still a book, let's get book specific metadata
+    if details['format'] == 'book':
+        # This is the wild west, so let's look for some numbers for page count
+        if '300' in record and 'a' in record['300']:
+            matches = re.search(r'([0-9]{1,5})', record['300']['a'])
+            details['measurement_page_numeric'] = matches.group(1)
+        
+        
+        # This is the wild west, so let's look for some numbers for page count
+        if '300' in record and 'c' in record['300']:
+            matches = re.search(r'([0-9.]{1,6})', record['300']['c'])
+            details['measurement_height_numeric'] = matches.group(1)
+        
+        details['isbn'] = record.isbn()
+        
 
     return details
 

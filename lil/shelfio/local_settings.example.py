@@ -12,6 +12,10 @@ LIBRARYTHING = {
     'KEY': 'yourlibrarythingkey'
 }
 
+WORLDCAT = {
+    'KEY': 'yourlibrarythingkey'
+}
+
 # elasticsearch location
 
 ELASTICSEARCH = {

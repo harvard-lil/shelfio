@@ -42,6 +42,12 @@ http://lxml.de/installation.html
 Install Beautiful Soup:
 
     easy_install BeautifulSoup
+    
+Install PyMARC:
+
+https://github.com/edsu/pymarc
+
+	easy_install pymarc
 
 ###Create your database and load some data to get started
 
