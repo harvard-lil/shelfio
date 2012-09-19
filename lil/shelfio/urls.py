@@ -24,6 +24,7 @@ urlpatterns = patterns('lil.shelfio.views',
 
     # Services
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),
+    url(r'^services/export/(?P<shelf_uuid>[a-zA-Z0-9\-]+)/$', 'export.export_shelf_as_csv', name='export_shelf'),
     
     # Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
