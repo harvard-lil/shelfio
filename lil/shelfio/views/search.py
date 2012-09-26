@@ -1,22 +1,15 @@
-from django.views.decorators.csrf import csrf_exempt
-from django.core.serializers.json import DjangoJSONEncoder
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render_to_response, get_object_or_404
-from django.core.serializers.json import DjangoJSONEncoder
-from django.core.urlresolvers import reverse
-from django.core.exceptions import ValidationError
-from lil.shelfio.models import Shelf, EditProfileForm, NewShelfForm
-from django.utils.encoding import smart_unicode
 import json
 import httplib
-import urllib
 import urllib2
 import logging
+import hashlib
 
+from lil.shelfio.models import User, Shelf, Item
 
-from django.core.context_processors import csrf
-from django.contrib.auth.models import User
-from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +27,7 @@ def api_search(request, target_type):
     headers = {'Content-Type': 'application/json'}
     
     query = '*'
-    if 'q' in request.GET:
+    if 'q' in request.GET and request.GET['q']:
         query = request.GET['q']
     
     start = 0
@@ -81,13 +74,13 @@ def api_search(request, target_type):
         
     packaged_hits['start'] = start
     packaged_hits['limit'] = limit
-    packaged_hits['num_found'] = len(hits['hits'])
+    packaged_hits['num_found'] = jsoned_response['hits']['total']
     
     return HttpResponse(json.dumps(packaged_hits, cls=DjangoJSONEncoder), mimetype='application/json')    
 
 def package_items(hits):
     shaped_hits = []
-    
+
     for hit in hits:
         shaped_hit = {}
         shaped_hit['id'] = hit['_id']
@@ -96,12 +89,24 @@ def package_items(hits):
         shaped_hit['pub_date'] = hit['_source']['pub_date']
         shaped_hit['creator'] = hit['_source']['creator']
         shaped_hit['shelf'] = hit['_source']['shelf']
+        shaped_hit['username'] = hit['_source']['username']
         
         if 'isbn' in hit['_source']:
             shaped_hit['isbn'] = hit['_source']['isbn']
         if 'notes' in hit['_source']:
             shaped_hit['notes'] = hit['_source']['notes']
 
+        # TODO: This seems costly, should we just index it and update the index when these things change?
+        user = User.objects.get(username = hit['_source']['username'])
+        if user.get_profile().gravatar_enabled:
+            shaped_hit['gravatar_hash'] = hashlib.md5(user.email).hexdigest()
+
+
+        # Get number of items on parent shelf
+        item = Item.objects.get(item_uuid=hit['_id'])
+        shaped_hit['num_items_on_shelf'] =  Item.objects.filter(shelf=item.shelf).count()
+            
+            
         shaped_hits.append(shaped_hit)
 
     return {"docs": shaped_hits}
@@ -116,6 +121,16 @@ def package_shelves(hits):
         shaped_hit['name'] = hit['_source']['name']
         shaped_hit['slug'] = hit['_source']['slug']
         shaped_hit['description'] = hit['_source']['description']
+        
+        # TODO: This seems costly, should we just index it and update the index when the user updates their email?
+        user = User.objects.get(username = hit['_source']['username'])
+        if user.get_profile().gravatar_enabled:
+            shaped_hit['gravatar_hash'] = hashlib.md5(user.email).hexdigest()
+            
+        # Get number of items on shelf
+        shelf = Shelf.objects.get(shelf_uuid=hit['_id'])
+        shaped_hit['num_items_on_shelf'] =  Item.objects.filter(shelf=shelf).count()
+            
         shaped_hits.append(shaped_hit)
 
     return {"docs": shaped_hits}
@@ -133,7 +148,16 @@ def package_users(hits):
             shaped_hit['first_name'] = hit['_source']['first_name']
         if 'last_name' in hit['_source']:
             shaped_hit['last_name'] = hit['_source']['last_name']
-            
+        
+        # TODO: This seems costly, should we just index it and update the index when things change?
+        user = User.objects.get(username = hit['_source']['username'])
+        if user.get_profile().gravatar_enabled:
+            shaped_hit['gravatar_hash'] = hashlib.md5(user.email).hexdigest()
+        
+        # Get number of public shelves owned by user
+        user = User.objects.get(username=hit['_id'])
+        shaped_hit['num_public_shelves'] =  Shelf.objects.filter(user=user).filter(is_private=False).count()
+        
         shaped_hits.append(shaped_hit)
 
     return {"docs": shaped_hits}

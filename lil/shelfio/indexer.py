@@ -1,7 +1,6 @@
 from django.utils.encoding import smart_unicode
 import json
 import httplib
-import urllib
 import urllib2
 import logging
 
@@ -38,7 +37,8 @@ def index_shelf(shelf):
     data = {'_id': smart_unicode(shelf.shelf_uuid),
             'name': shelf.name,
             'slug': shelf.slug,
-            'description': shelf.description
+            'description': shelf.description,
+            'username': shelf.user.username
             }
     
     expand_the_waistband('shelf', data)
@@ -58,6 +58,7 @@ def index_item(item):
     data['format'] = item.format
     data['pub_date'] = item.pub_date
     data['shelf'] = item.shelf.user.username + '/' + item.shelf.slug
+    data['username'] = item.shelf.user.username
     
     if item.isbn:
         data['isbn'] = item.isbn
@@ -125,4 +126,3 @@ def shrink_the_waistband(index_name, data):
     conn.request('DELETE', url) 
     resp = conn.getresponse()
     content = resp.read()
-        

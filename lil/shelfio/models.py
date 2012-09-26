@@ -24,6 +24,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     display_welcome = models.BooleanField(default=True)
     favorites_are_private = models.BooleanField(default=False)
+    gravatar_enabled = models.BooleanField(default=False)
     
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
