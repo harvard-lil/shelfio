@@ -6,5 +6,7 @@ admin.autodiscover()
 handler404 = 'lil.shelfio.views.commons.not_found'
 
 urlpatterns = patterns('',
-    url(r'^', include('lil.shelfio.urls'))
+    url(r'^api/v1/', include('lil.shelfio.api_urls')),
+    url(r'^', include('lil.shelfio.urls')),
+    
 )

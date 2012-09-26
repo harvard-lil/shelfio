@@ -1,4 +1,6 @@
 import random
+import string
+import hashlib
 
 from lil.shelfio import utils
 from lil.shelfio import indexer
@@ -20,15 +22,24 @@ FORMAT_CHOICES = (('book', 'Book'),
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-
     display_welcome = models.BooleanField(default=True)
     favorites_are_private = models.BooleanField(default=False)
     
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+        
+        # We want an auth token for each user. Seems like a handy spot, so lets do that here.
+        auth_token = AuthTokens(user=instance)
+        auth_token.save()
 
 post_save.connect(create_user_profile, sender=User)
+
+class AuthTokens(models.Model):
+    user = models.ForeignKey(User)
+    token = UUIDField(auto=True)
+    notes = models.CharField(max_length=400)
+    is_active = models.BooleanField(default=True)
 
 class Shelf(models.Model):
     user = models.ForeignKey(User)
