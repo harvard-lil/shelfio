@@ -845,6 +845,9 @@ p.profile-text {
 .icon-star:after {
   content: "\f005"; }
 
+.icon-search:after {
+  content: "\f002"; }
+
 .ui-dialog-titlebar {
   display: none; }
 
@@ -1225,3 +1228,33 @@ select {
 
 .ui-slider-horizontal .ui-slider-range-max {
   right: 0; }
+
+#search-results {
+  margin-top: 35px; }
+  #search-results p {
+    margin: 5px 0px;
+    font-size: 14px; }
+  #search-results h4 {
+    margin: 0px;
+    line-height: 1.2em; }
+  #search-results .highlight {
+    background-color: #c6d8ee; }
+
+.result-shelf {
+  margin-top: 25px;
+  clear: both; }
+
+.result-thumb {
+  width: 48px;
+  height: 48px;
+  border: 2px;
+  float: left;
+  margin: 0 10px 35px 0;
+  border: 1px solid;
+  padding: 2px; }
+
+.next-prev {
+  clear: both;
+  text-align: center; }
+  .next-prev a {
+    cursor: pointer; }

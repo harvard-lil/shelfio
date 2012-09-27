@@ -27,6 +27,10 @@ except ImportError, e:
 
 
 @csrf_exempt
+def search(request):
+    """The application-wide search page."""
+    return render_to_response('search.html', {'user': request.user})
+    
 def api_search(request, target_type):
     """API to item search interface.
     """

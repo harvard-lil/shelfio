@@ -1,0 +1,37 @@
+#search-results {
+  margin-top: 35px;
+  p {
+    margin:5px 0px;
+    font-size:14px;
+  }
+  h4 {
+    margin: 0px;
+    line-height:1.2em;
+  }
+  .highlight {
+    background-color:$selectColor;
+  }
+}
+
+.result-shelf {
+  margin-top:25px;
+  clear:both;
+}
+
+.result-thumb {
+  width:48px;
+  height:48px;
+  border:2px;
+  float:left;
+  margin:0 10px 35px 0;
+  border:1px solid;
+  padding: 2px;
+}
+
+.next-prev {
+  clear:both;
+  text-align: center;
+  a {
+      cursor:pointer;
+  }
+}
