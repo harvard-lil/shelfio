@@ -9,6 +9,7 @@ from lil.shelfio.models import User, Shelf, Item
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.shortcuts import render_to_response
 
 
 logger = logging.getLogger(__name__)
@@ -20,6 +21,10 @@ except ImportError, e:
 
 
 @csrf_exempt
+def search(request):
+    """The application-wide search page."""
+    return render_to_response('search.html', {'user': request.user})
+    
 def api_search(request, target_type):
     """API to item search interface.
     """

@@ -7,6 +7,18 @@
 	}
 }
 
+.header-icon-search {
+  font-family:'FontAwesome', serif;
+  position:relative;
+  top:-2px;
+  line-height:1.8;
+  background-color: #fff;
+  &:hover, &:focus, &.immediate {
+		background-color:#fff;
+		color:#666;
+	}
+}
+
 .icon-view:after {
 	content:"\f06e";
 }
@@ -83,4 +95,8 @@
 
 .icon-star:after {
 	content:"\f005";
+}
+
+.icon-search:after, .header-icon-search:after {
+  content:"\f002";
 }

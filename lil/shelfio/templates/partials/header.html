@@ -4,6 +4,11 @@
 			<a href="{% url welcome %}">Shelf.io</a>
 		</h1>
 		<ul>
+		  <li><form id="search-form" action="{% url search %}" method="get">
+		    <input type="hidden" name="type" value="item">
+			  <input placeholder="search" name="q">
+			  <button class="button header-icon-search" type="submit"></button>
+			</form>
 			{% if user.is_authenticated %}
 				<li><a class="icon-user" href="{% url welcome %}{{ user.username }}">{{ user.username }}</a></li>
 				<li><a class="icon-logout" href="{% url auth_logout %}">Logout</a></li>

@@ -1,0 +1,31 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Search Shelf.io{% endblock %}
+
+{% block content %}
+	<article>
+		<section>
+			<h1>Search</h1>
+			<form id="search-form" action="{% url search %}" method="get">
+			  <select id="type" name="type">
+			    <option value="item">Everything</option>
+			    <option value="user">People</option>
+			  </select>
+			  <input id="q" name="q">
+			  <button class="button positive immediate icon-search" type="submit">Search</button>
+			</form>
+			<div id="search-results">
+			</div>
+			<nav class="next-prev">
+				<a class="prev" data-start="0">Prev</a>
+				<a class="next" data-start="10">Next</a>
+			</nav>
+		</section>
+	</article>
+{% endblock content %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script type="text/javascript" src="{{ STATIC_PREFIX }}script/jquery.highlight.js"></script>	
+	<script type="text/javascript" src="{{ STATIC_PREFIX }}script/search.js"></script>	
+{% endblock scripts %}
