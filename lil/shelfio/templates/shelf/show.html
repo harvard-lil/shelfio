@@ -80,7 +80,7 @@
 				
 				if ($(this).hasClass('icon-unstar')) {
 					$.ajax({
-						url: '/api/favorite/shelf/',
+						url: '{{ SHELFIO_API_LOCATION }}/favorites/shelf/',
 						type: 'POST',
 						data: {
 							'_method': 'POST',
@@ -95,7 +95,7 @@
 				
 				} else if ($(this).hasClass('icon-star')) {
 					$.ajax({
-						url: '/api/favorite/shelf/',
+						url: '{{ SHELFIO_API_LOCATION }}/favorites/shelf/',
 						type: 'POST',
 						data: {
 							'_method': 'DELETE',

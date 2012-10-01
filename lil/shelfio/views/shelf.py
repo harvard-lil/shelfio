@@ -5,12 +5,20 @@ from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.core.urlresolvers import reverse
 from lil.shelfio.models import Shelf, Item, Creator, FavoriteShelf, NewShelfForm, AddItemForm
 import json
+import logging
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.context_processors import csrf
 from django.contrib.sites.models import Site
 from lil.shelfio.views.item import serialize_item
+
+logger = logging.getLogger(__name__)
+
+try:
+    from lil.shelfio.local_settings import *
+except ImportError, e:
+    logger.error('Unable to load local_settings.py:', e)
 
 @csrf_exempt
 def api_shelf_create(request):
@@ -132,6 +140,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'shelf_slug': shelf['slug'],
         'shelf_domain' : Site.objects.get_current().domain,
         'shelf_description': shelf['description'],
+        'SHELFIO_API_LOCATION': SHELFIO_API['LOCATION'],
     }
     context.update(csrf(request))
 

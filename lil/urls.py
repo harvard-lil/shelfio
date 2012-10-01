@@ -1,12 +1,11 @@
-from django.conf.urls.defaults import *
-
+from django.conf.urls.defaults import patterns, url, include
 from django.contrib import admin
+
 admin.autodiscover()
 
 handler404 = 'lil.shelfio.views.commons.not_found'
 
 urlpatterns = patterns('',
-    url(r'^api/v1/', include('lil.shelfio.api_urls')),
+    url(r'^api/v1/', include('lil.shelfio.urls_api')),
     url(r'^', include('lil.shelfio.urls')),
-    
 )

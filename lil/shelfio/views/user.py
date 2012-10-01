@@ -1,4 +1,5 @@
 import json
+import logging
 
 from lil.shelfio import indexer
 from lil.shelfio.models import Shelf, FavoriteUser, EditProfileForm, NewShelfForm
@@ -12,6 +13,13 @@ from django.core.exceptions import ValidationError
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 from django.contrib import messages
+
+logger = logging.getLogger(__name__)
+
+try:
+    from lil.shelfio.local_settings import *
+except ImportError, e:
+    logger.error('Unable to load local_settings.py:', e)
 
 @csrf_exempt
 def api_user(request, url_user_name):
@@ -111,7 +119,6 @@ def _get_user_data(request, user_name):
             'first_name': target_user.first_name,
             'last_name': target_user.last_name,
             'date_joined': target_user.date_joined,
-            #'email': target_user.email
         })
     else:
         shelf_query.exclude(is_private=True)
@@ -138,7 +145,9 @@ def _get_user_data(request, user_name):
         'is_favorite': favorite_user_flag,
         'user_name': target_user.username,
         'email': target_user.email,
-        'docs': shelves
+        'docs': shelves,
+        'SHELFIO_API_LOCATION': SHELFIO_API['LOCATION'],
+
     })
 
     return context

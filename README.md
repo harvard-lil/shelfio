@@ -77,6 +77,8 @@ Be sure you mail options are pointing to the right place in settings.py
 ###Install elasticsearch
 If you're on centos, something like this will get you close: https://gist.github.com/1756877
 
+Oh, and you'll probably want to bump the open files limit up: http://www.elasticsearch.org/guide/reference/setup/configuration.html
+
 ###Install shelf.io
 
 Clone the repo:

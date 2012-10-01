@@ -15,13 +15,9 @@ urlpatterns = patterns('lil.shelfio.views',
     url(r'^api/item/$', 'item.api_item_create', name='api_item_create'), # http://shelf.io/api/item
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/$', 'item.api_item_by_uuid', name='api_item_by_uuid'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
     url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/reorder/$', 'item.api_item_reorder', name='api_item_reorder'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66/reorder
-    url(r'^api/search/(?P<target_type>[a-zA-Z0-9\-]+)/$', 'search.api_search', name='api_search'), # http://shelf.io/api/search/
-    url(r'^api/shelfroulette/$', 'roulette.api_shelf', name='api_shelfroulette'), # http://shelf.io/api/search/
-    url(r'^api/favorite/user/$', 'favorite.api_user_create', name='api_favorite_user_create'), # http://shelf.io/api/favorite/user/
-    url(r'^api/favorite/user/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorite.api_user', name='api_favorite_user'), # http://shelf.io/api/favorite/user/
-    url(r'^api/favorite/shelf/$', 'favorite.api_shelf_create', name='api_favorite_shelf_create'), # http://shelf.io/api/favorite/shelf/
-    url(r'^api/favorite/shelf/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorite.api_shelf', name='api_favorite_shelf'), # http://shelf.io/api/favorite/shelf/obama/
 
+
+    
     # Services
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),
     url(r'^services/export/(?P<shelf_uuid>[a-zA-Z0-9\-]+)/$', 'export.export_shelf_as_csv', name='export_shelf'),
