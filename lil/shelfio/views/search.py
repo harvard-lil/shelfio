@@ -9,6 +9,7 @@ from lil.shelfio.models import User, Shelf, Item
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.shortcuts import render_to_response
 
 
 logger = logging.getLogger(__name__)

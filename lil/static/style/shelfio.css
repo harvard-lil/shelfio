@@ -512,6 +512,8 @@ input[type="text"], textarea, input[type="password"], input[type="email"] {
       padding: 0 16px; }
       .global-header > nav > ul a:hover, .global-header > nav > ul a:focus {
         background: rgba(255, 255, 255, 0.3); }
+    .global-header > nav > ul input {
+      margin-top: 10px; }
   .global-header a {
     /* color:rgba(0,0,0,.5); */
     color: #FFF;
@@ -786,6 +788,16 @@ p.profile-text {
   position: relative;
   top: 1px; }
 
+.header-icon-search {
+  font-family: 'FontAwesome', serif;
+  position: relative;
+  top: -2px;
+  line-height: 1.8;
+  background-color: #fff; }
+  .header-icon-search:hover, .header-icon-search:focus, .header-icon-search.immediate {
+    background-color: #fff;
+    color: #666; }
+
 .icon-view:after {
   content: "\f06e"; }
 
@@ -845,7 +857,7 @@ p.profile-text {
 .icon-star:after {
   content: "\f005"; }
 
-.icon-search:after {
+.icon-search:after, .header-icon-search:after {
   content: "\f002"; }
 
 .ui-dialog-titlebar {
@@ -1232,8 +1244,11 @@ select {
 #search-results {
   margin-top: 35px; }
   #search-results p {
-    margin: 5px 0px;
+    margin: 5px 0 0 0;
     font-size: 14px; }
+  #search-results p.result-author, #search-results p.result-shelf-data {
+    margin: 0;
+    line-height: 1; }
   #search-results h4 {
     margin: 0px;
     line-height: 1.2em; }
@@ -1241,17 +1256,27 @@ select {
     background-color: #c6d8ee; }
 
 .result-shelf {
-  margin-top: 25px;
-  clear: both; }
+  margin-top: 15px;
+  clear: both;
+  border-bottom: 1px solid #e4f4ff;
+  padding-bottom: 15px; }
 
 .result-thumb {
-  width: 48px;
-  height: 48px;
+  width: 42px;
+  height: 42px;
   border: 2px;
   float: left;
   margin: 0 10px 35px 0;
   border: 1px solid;
   padding: 2px; }
+
+.result-shelf-details {
+  float: left;
+  width: 25%;
+  height: 50px; }
+
+.result-shelf-item {
+  float: left; }
 
 .next-prev {
   clear: both;

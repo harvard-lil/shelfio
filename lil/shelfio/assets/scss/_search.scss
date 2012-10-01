@@ -1,8 +1,12 @@
 #search-results {
   margin-top: 35px;
   p {
-    margin:5px 0px;
+    margin:5px 0 0 0;
     font-size:14px;
+  }
+  p.result-author, p.result-shelf-data {
+    margin: 0;
+    line-height:1;
   }
   h4 {
     margin: 0px;
@@ -14,18 +18,30 @@
 }
 
 .result-shelf {
-  margin-top:25px;
+  margin-top:15px;
   clear:both;
+  border-bottom: 1px solid $barelyBlue;
+  padding-bottom: 15px;
 }
 
 .result-thumb {
-  width:48px;
-  height:48px;
+  width:42px;
+  height:42px;
   border:2px;
   float:left;
   margin:0 10px 35px 0;
   border:1px solid;
   padding: 2px;
+}
+
+.result-shelf-details {
+  float:left;
+  width:25%;
+  height:50px;
+}
+
+.result-shelf-item {
+  float:left;
 }
 
 .next-prev {
