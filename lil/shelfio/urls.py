@@ -6,30 +6,16 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('lil.shelfio.views',
-                          
-    # API
-    url(r'^api/user/(?P<url_user_name>[a-zA-Z0-9\-]*)/$', 'user.api_user', name='api_user'), # http://shelf.io/api/user/matt/
-    url(r'^api/shelf/$', 'shelf.api_shelf_create', name='api_shelf_create'), # http://shelf.io/api/shelf/
-    url(r'^api/shelf/(?P<url_shelf_uuid>[a-zA-Z0-9\-]+)/$', 'shelf.api_shelf_by_uuid', name='api_shelf_by_uuid'), # http://shelf.io/api/shelf/09404850-6c65-11e1-b0c4-0800200c9a66
-    url(r'^api/shelf/(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_slug>[a-zA-Z0-9\-]+)/$', 'shelf.api_shelf_by_name', name='api_shelf_by_name'), # http://shelf.io/api/shelf/obama/best-novels
-    url(r'^api/item/$', 'item.api_item_create', name='api_item_create'), # http://shelf.io/api/item
-    url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/$', 'item.api_item_by_uuid', name='api_item_by_uuid'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66
-    url(r'^api/item/(?P<url_item_uuid>[a-zA-Z0-9\-]+)/reorder/$', 'item.api_item_reorder', name='api_item_reorder'), # http://shelf.io/api/shelf/30bc5090-6c65-11e1-b0c4-0800200c9a66/reorder
 
-
-    
-    # Services
-    url(r'^services/incoming/$', 'services.incoming', name='incoming'),
-    url(r'^services/export/(?P<shelf_uuid>[a-zA-Z0-9\-]+)/$', 'export.export_shelf_as_csv', name='export_shelf'),
-    
-    # Pages
+    # Common Pages
     url(r'^$', 'welcome.welcome', name='welcome'),
-    url(r'^about/$', 'about.about', name='about'),
-    url(r'^faq/$', 'faq.faq', name='faq'),
-    url(r'^search/$', 'search.search', name='search'),
+    url(r'^about/$', 'simple.about', name='about'),
+    url(r'^faq/$', 'simple.faq', name='faq'),
+    url(r'^search/$', 'simple.search', name='search'),
     url(r'^privacy/$', 'simple.privacy', name='privacy'),
     url(r'^bookmark/$', 'simple.bookmark', name='bookmark'),
-    url(r'^add-item/$', 'item.user_create', name='user_item_create'),
+    
+    # Session/account management
     url(r'^password/change/$', auth_views.password_change, {'template_name': 'registration/password_change_form.html'}, name='auth_password_change'),
     url(r'^login/$', auth_views.login, {'template_name': 'registration/login.html'}, name='auth_login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'registration/logout.html'}, name='auth_logout'),
@@ -40,10 +26,17 @@ urlpatterns = patterns('lil.shelfio.views',
     url(r'^password/reset/confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'template_name': 'registration/password_reset_confirm.html'}, name='auth_password_reset_confirm'),
     url(r'^password/reset/complete/$', auth_views.password_reset_complete, {'template_name': 'registration/password_reset_complete.html'}, name='auth_password_reset_complete'),
     url(r'^password/reset/done/$', auth_views.password_reset_done, {'template_name': 'registration/password_reset_done.html'}, name='auth_password_reset_done'),
+
+    # Add item page
+    url(r'^add-item/$', 'item.user_create', name='user_item_create'), # user can create new shelf on item page
     
+    # User page
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/$', 'user.user_home', name='user_home'),
     url(r'^(?P<user_name>[a-zA-Z0-9\-]+)/helpers/$', 'user.helpers', name='user_helpers'),
+    
+    #  Shelf page
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.user_shelf', name='user_shelf'),
     url(r'^(?P<url_user_name>[a-zA-Z0-9\-]+)/embed/(?P<url_shelf_slug>[a-zA-Z0-9\-_]+)/$', 'shelf.embed_shelf', name='embed_shelf'),
+    
 )
 urlpatterns += staticfiles_urlpatterns()

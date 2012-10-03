@@ -1,9 +1,11 @@
+import json
 import logging
 
 from lil.shelfio import indexer
 from lil.shelfio.models import Shelf, FavoriteUser, EditProfileForm, NewShelfForm
 
 from django.views.decorators.csrf import csrf_exempt
+from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -19,6 +21,31 @@ try:
 except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 
+@csrf_exempt
+def api_user(request, url_user_name):
+    """API for users
+     Accessed using something like shelf.io/api/user/obama
+     TODO: we need to validate/clean/urldecode the GET/POST values ?
+    """
+    if request.method == 'GET':                
+        context = _get_user_data(request, url_user_name)
+        return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), mimetype='application/json')
+    
+    # If the user updates her profile, handle it here
+    if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
+        if not request.user.is_authenticated():
+            return HttpResponse(status=401)
+        elif request.user.username != url_user_name:
+            return HttpResponse(status=403)
+
+        try:
+            _update_user_data(url_user_name, request.POST)
+        except ValidationError, e:
+            # Should an invalid update be a 400 (Bad Request) response?
+            return HttpResponse(status=400)
+        _get_user_data(request, url_user_name)
+        return HttpResponse(json.dumps(context, cls=DjangoJSONEncoder), mimetype='application/json')
+
 def user_home(request, user_name):
     """A user's home. Includes profile and list of shelves."""
     context = _get_user_data(request, user_name)
@@ -28,7 +55,6 @@ def user_home(request, user_name):
 
     # Modify user profile
     if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
-        print 'editing user profile'
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():
@@ -63,22 +89,6 @@ def user_home(request, user_name):
         
     context['messages'] = messages.get_messages(request);
     return render_to_response('user/show.html', context)
-
-@csrf_exempt
-def helpers(request, user_name):
-    """Some user helpers"""
-    
-    if not request.user.is_authenticated():
-        return HttpResponse(status=401)
-    
-    # If the user kills the "welcome, here's the bookmarklet" box on their home page:        
-    if request.POST['show-welcome'] == 'False':
-        profile = request.user.get_profile()
-        profile.display_welcome = False
-        profile.save()
-
-        #user.save()
-        return HttpResponse(status=204)
 
 def _get_user_data(request, user_name):
     context = {}

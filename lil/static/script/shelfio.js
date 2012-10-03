@@ -114,7 +114,7 @@ var BASE_URL = '/';
 						});
 					}
 
-					$.post(BASE_URL + 'api/item/' + uuid + '/reorder/', {
+					$.post(BASE_URL + 'api/v1/services/reorder/item/' + uuid + '/', {
 						'sort_order': $item.data('stackviewItem').sort_order
 					}, function() {
 						$si.sortable('enable');

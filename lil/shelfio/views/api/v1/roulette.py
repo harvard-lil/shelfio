@@ -2,7 +2,7 @@ import random
 import json
 import logging
 
-from lil.shelfio.views.shelf import serialize_shelf
+from lil.shelfio.views.api.v1.shelf import serialize_shelf
 from lil.shelfio.models import Shelf
 
 from django.db.models import Count

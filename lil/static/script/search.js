@@ -6,7 +6,7 @@ $(function () {
 
   getParameters();
 
-  var searchUrl = "http://hlsl7.law.harvard.edu:8000/api/search/" + type + "/?limit=10&q=";
+  var searchUrl = "/api/v1/" + type + "/search/?limit=10&q=";
 
   $('#q').val(q);
   $('#type').val(type);
