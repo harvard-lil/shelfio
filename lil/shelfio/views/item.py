@@ -1,20 +1,26 @@
 import logging
 import urllib
+import json
 
 from lil.shelfio.utils import fill_with_get
+from lil.shelfio.models import Shelf, Creator, AddItemForm, CreatorForm
+from lil.shelfio.views.api.v1.item import serialize_item
 
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.shortcuts import redirect, render_to_response
-from lil.shelfio.models import Shelf, Creator, AddItemForm, CreatorForm
 from django.contrib.auth.views import redirect_to_login
 from django.contrib import messages
 from django.core.context_processors import csrf
+from django.http import HttpResponse
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 
 logger = logging.getLogger(__name__)
 
 def user_create(request):
+    """When a user adds an item using the add item form. (The bookmarklet populates the add item form"""
         
     if not request.user.is_authenticated():
         messages.warning(request, 'You need to sign in to add items.')
@@ -70,6 +76,20 @@ def user_create(request):
         'creator_form': creator_form
     })
     return render_to_response('item/create.html', context)
+
+def add_item(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+
+    form = AddItemForm(request.user, request.POST)
+    creator_form = CreatorForm(request.POST)
+    if form.is_valid() and creator_form.is_valid():
+        item = form.save()
+        _save_creators(creator_form, item)
+        return HttpResponse(json.dumps(serialize_item(item), cls=DjangoJSONEncoder), mimetype='application/json')
+    else:
+        return HttpResponse(status=400)
+
 
 def _save_creators(creator_form, item):
     creators = [c.strip() for c in creator_form.cleaned_data['creator'].split(',')]

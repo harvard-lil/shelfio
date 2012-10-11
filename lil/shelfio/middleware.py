@@ -15,23 +15,21 @@ class OAuthMiddleware(object):
         """Look for an OAuth token in the header and then in the params. HTTP params take priority over headers.
         If we find it, attach it to the request object"""
 
-        token = ''
+        request.oauth_token = ''
                
         # Check the header
         if 'HTTP_AUTHORIZATION' in request.META:
             token_in_header = request.META['HTTP_AUTHORIZATION']
             auth_type, auth_value = token_in_header.split(' ')
-            if auth_type == 'token':
-                token = auth_value
+            
+            if auth_type.lower() == 'token':
+                request.oauth_token = auth_value
+
         
         # Check the params  
         if 'access_token' in request.GET.keys():
-            token = request.GET['access_token'].upper()
+            request.oauth_token = request.GET['access_token'].upper()
         elif 'access_token' in request.POST.keys():
-            token = request.POST['access_token'].upper()
-        
-        
-        if token:
-            request.oauth_token = token
-        
+            request.oauth_token = request.POST['access_token'].upper()
+               
         return None

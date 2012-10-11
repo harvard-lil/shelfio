@@ -28,7 +28,6 @@ def user_home(request, user_name):
 
     # Modify user profile
     if request.rfc5789_method in ['PUT', 'PATCH', 'POST']:
-        print 'editing user profile'
         profileform = EditProfileForm(request.POST)
 
         if not request.user.is_authenticated():
