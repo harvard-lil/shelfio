@@ -41,7 +41,6 @@ def api_shelf_create(request):
     return HttpResponse(new_shelf.shelf_uuid, status=201)
 
 
-#TODO: this method should be replaced/removed    
 @csrf_exempt
 def api_shelf_by_uuid(request, url_shelf_uuid):
     """Operate on one shelf. The one associated with the passed-in uuid. The bulk of the item CRUD logic lives here"""
