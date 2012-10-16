@@ -42,7 +42,7 @@ class UserAPITestCase(unittest.TestCase):
     def test_patch_item(self):
         """Update one field in an existing user (PATCH)"""
                 
-        self.client.post(reverse('api_user', kwargs={'url_user_name': self.user.username}), {'_method': 'PATCH', 'first_name': 'ben', 'access_token': 'self.auth_tokens.token'})
+        self.client.post(reverse('api_user', kwargs={'url_user_name': self.user.username}), {'_method': 'PATCH', 'first_name': 'ben', 'access_token': self.auth_tokens.token})
         
         new_user = User.objects.get(username=self.user.username)
         
