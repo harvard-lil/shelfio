@@ -6,7 +6,7 @@ from django.test.client import Client
 from django.core.urlresolvers import reverse
 from lil.shelfio.models import Shelf, AuthTokens, FavoriteShelf 
 
-class FavoritesAPITestCase(unittest.TestCase):
+class FavoritesShelfAPITestCase(unittest.TestCase):
     """Test the Shelf API
     """
     def setUp(self):
@@ -81,7 +81,7 @@ class FavoritesAPITestCase(unittest.TestCase):
         self.assertEqual(fav_shelf_from_get_api['docs'][0]['shelf_uuid'], str(user_2_test_shelf.shelf_uuid))
 
     def test_delete_fav_shelf(self):
-        """Delete a favorite_user using the item api"""
+        """Delete a favorite_shelf using the item api"""
         
         # create a new shelf for user 2 so that we can delete it
         user_2_test_shelf= Shelf(user=self.user_2, name='another Test shelf', description='another test shelf for the get fav shelf test')

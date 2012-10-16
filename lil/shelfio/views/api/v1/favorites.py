@@ -150,29 +150,46 @@ def _bundle_user_shelves(target_user):
 
 
 
-def api_user(request):
-    """create/delete favorited users
+def api_user(request, user_name, favorite_user_uuid):
+    """get, delete one favorited users
     """
-    
-    # Add shelf to user's favorite users
-    if request.rfc5789_method in ['PUT', 'POST'] and request.user.is_authenticated():
-        user = User.objects.get(username=request.POST['user_name'])
-                
-        try:
-            favorite_user = FavoriteUser(
-                follower=request.user,
-                leader=user
-            )
-            favorite_user.save()
-        except ValidationError, e:
-            return HttpResponse('You already have already favorited that user.', status=409)
-                    
-        return HttpResponse(status=201)
 
-    # Remove a favorited user from list
+    favorite_user = get_object_or_404(FavoriteUser, favorite_user_uuid=favorite_user_uuid)
+    
+    include_private = False
+        
+    if not favorite_user.follower.get_profile().favorites_are_private:
+        include_private = True
+            
+    elif request.oauth_token:
+        auth_token = AuthTokens.objects.filter(token=request.oauth_token)
+            
+        # Did we find that token in the DB and is it owned by the owner of the requested shelf?
+        if len(auth_token) == 1 and favorite_user.user == auth_token.user:
+            include_private = True
+    
+    if not include_private:
+        return HttpResponse('Not authorized', status=401)
+
+
+    if request.method == 'GET':
+       # Get one user
+
+        # Build our response
+        serialized_user = {}
+        users = []
+        
+        users.append(_serialize_users(favorite_user.leader))
+    
+        serialized_user.update({
+            'docs': users,
+            'num': len(users)
+        })
+        
+        return HttpResponse(json.dumps(serialized_user, cls=DjangoJSONEncoder), mimetype='application/json')
+                    
+    # Remove a favorited user
     elif request.rfc5789_method == 'DELETE' and request.user.is_authenticated():
-        user = User.objects.get(username=request.POST['user_name'])
-        favorite_user = FavoriteUser.objects.filter(follower=request.user).filter(leader=user)
         favorite_user.delete()
         return HttpResponse(status=204)
     
@@ -182,7 +199,62 @@ def api_user(request):
 def api_users(request, user_name):
     """Get user_name's favorite users"""
     
-    if request.method == 'GET':
+    if request.method == 'GET': 
+        # Get all of user's favorite users
+        user = User.objects.get(username = user_name)
+        
+        # Build our response
+        serialized_users = {}
+        users = []
+        
+        include_private = False
+        
+        if not user.get_profile().favorites_are_private:
+            include_private = True
+        
+        elif request.oauth_token:
+            auth_token = AuthTokens.objects.filter(token=request.oauth_token)
+            
+            # Did we find that token in the DB and is it owned by the owner of the requested shelf?
+            if len(auth_token) == 1 and user == auth_token.user:
+                include_private = True
+        
+        if include_private:
+            fav_users = FavoriteUser.objects.filter(follower=user)
+                
+            #TODO: Are we hitting the DB for each of these shelves?
+            for fav_user in fav_users:
+                users.append(_serialize_users(fav_user.leader))
+    
+        serialized_users.update({
+            'docs': users,
+            'num': len(users)
+        })
+        
+        return HttpResponse(json.dumps(serialized_users, cls=DjangoJSONEncoder), mimetype='application/json')
+    
+    elif request.method == 'POST':
+        # Add shelf to user's favorite shelf
+
+        if request.oauth_token:
+            auth_token = get_object_or_404(AuthTokens, token=request.oauth_token)
+            
+        leader = get_object_or_404(User, username=request.POST['user_name'])
+            
+        try:
+            favorite_user = FavoriteUser(
+                follower=auth_token.user,
+                leader=leader,
+            )
+            favorite_user.save()
+        except ValidationError, e:
+            return HttpResponse('You have already favorited that user.', status=409)
+                    
+        return HttpResponse(favorite_user.favorite_user_uuid, status=201)
+
+    
+    
+    """if request.method == 'GET':
         target_user = get_object_or_404(User, username=user_name)
         
         bundled_response = _serialize_users(target_user)
@@ -193,30 +265,15 @@ def api_users(request, user_name):
         )
 
     else:
-        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
+        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])"""
     
 def _serialize_users(target_user):
-    serialized_users = {}
+    #TODO: Are we hitting the DB for each of these shelves?
+    user_to_serialize = {
+        'user_name': target_user.username,
+    }
 
-    users = []
-    
-    if not target_user.get_profile().favorites_are_private:
-        fav_users = FavoriteUser.objects.filter(follower=target_user)
-            
-        #TODO: Are we hitting the DB for each of these shelves?
-        for q_user in fav_users:
-            user_to_serialize = {
-                'user_name': q_user.leader.username,
-                'id': q_user.leader.username,
-            }
-            users.append(user_to_serialize)
-
-    serialized_users.update({
-        'docs': users,
-        'num': len(users)
-    })
-
-    return serialized_users
+    return user_to_serialize
 
 def _serialize_shelf(shelf):
     """Turn a shelf from a model object to something that can be jsonized"""
