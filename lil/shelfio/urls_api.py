@@ -26,10 +26,14 @@ urlpatterns = patterns('lil.shelfio.views.api.v1',
     url(r'^authorizations/(?P<token>[a-zA-Z0-9\-]+)/$', 'authorizations.api_one_token', name='api_one_token'), # http://shelf.io/api/v1/authorizations/7daace3a-0734-11e2-9946-c42c033233c6/
     
     # Favorites
-    url(r'^favorites/user/$', 'favorites.api_user_create', name='api_favorite_user_create'), # http://shelf.io/api/favorite/user/
-    url(r'^favorites/user/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorites.api_user', name='api_favorite_user'), # http://shelf.io/api/favorite/user/
-    url(r'^favorites/shelf/$', 'favorites.api_shelf_create', name='api_favorite_shelf_create'), # http://shelf.io/api/favorite/shelf/
-    url(r'^favorites/shelf/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorites.api_shelf', name='api_favorite_shelf'), # http://shelf.io/api/favorite/shelf/obama/
+    url(r'^users/(?P<user_name>[a-zA-Z0-9\-]+)/favorites/$', 'favorites.api_users', name='favorites_api_users'), # http://shelf.io/api/favorite/user/, username's favorites
+    url(r'^users/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/(?P<favorite_user_uuid>[a-zA-Z0-9\-]+)/$', 'favorites.api_user', name='favorites_api_user'), # http://shelf.io/api/favorite/user/
+    
+
+    url(r'^shelves/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorites.api_shelves', name='favorites_api_shelves'), # http://shelf.io/api/favorite/shelf/
+    url(r'^shelves/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/(?P<favorite_shelf_uuid>[a-zA-Z0-9\-]+)/$', 'favorites.api_shelf', name='favorites_api_shelf'), # http://shelf.io/api/favorite/shelf/obama/
+
+
 
     # Misc services (these are more of "do something over/with the data" than "CRUD the data")
     url(r'^services/incoming/$', 'services.incoming', name='incoming'),

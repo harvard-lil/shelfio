@@ -1,13 +1,13 @@
 import json
 import logging
 
-from lil.shelfio.models import Shelf, FavoriteShelf, FavoriteUser, User
+from lil.shelfio.models import Shelf, FavoriteShelf, FavoriteUser, User, AuthTokens, Item
+from lil.shelfio.views.api.v1.shelf import serialize_item
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
-
 
 logger = logging.getLogger(__name__)
 
@@ -16,50 +16,109 @@ try:
 except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 
-def api_shelf_create(request):
-    """create/delete favorited shelves
+def api_shelves(request, user_name):
+    """get all of user's favorited shelves or create a new favorite shelf
     """
     
-    # Add shelf to user's favorite shelf
-    if request.rfc5789_method in ['PUT', 'POST'] and request.user.is_authenticated():
-        shelf = Shelf.objects.get(shelf_uuid=request.POST['shelf_id'])
+    if request.method == 'GET': 
+        # Get all of user's favorite shelves
+        user = User.objects.get(username = user_name)
+        
+        # Build our response
+        serialized_shelves = {}
+        shelves = []
+        
+        include_private = False
+        
+        if not user.get_profile().favorites_are_private:
+            include_private = True
+        
+        elif request.oauth_token:
+            auth_token = AuthTokens.objects.filter(token=request.oauth_token)
+            
+            # Did we find that token in the DB and is it owned by the owner of the requested shelf?
+            if len(auth_token) == 1 and user == auth_token.user:
+                include_private = True
+        
+        if include_private:
+            fav_shelves = FavoriteShelf.objects.filter(user=user)
                 
+            #TODO: Are we hitting the DB for each of these shelves?
+            for fav_shelf in fav_shelves:
+                shelves.append(_serialize_shelf(fav_shelf.shelf))
+    
+        serialized_shelves.update({
+            'docs': shelves,
+            'num': len(shelves)
+        })
+        
+        return HttpResponse(json.dumps(serialized_shelves, cls=DjangoJSONEncoder), mimetype='application/json')
+    
+    if request.method == 'POST': 
+        # Add shelf to user's favorite shelf
+
+        shelf = get_object_or_404(Shelf, shelf_uuid=request.POST['shelf_id'])
+
+        if request.oauth_token:
+            auth_token = get_object_or_404(AuthTokens, token=request.oauth_token)
+               
         try:
             favorite_shelf = FavoriteShelf(
-                user=request.user,
-                shelf=shelf
+                user=auth_token.user,
+                shelf=shelf,
             )
             favorite_shelf.save()
         except ValidationError, e:
             return HttpResponse('You have already favorited that shelf.', status=409)
                     
-        return HttpResponse(status=201)
-
-    # Remove a favorited shelf from list
-    elif request.rfc5789_method == 'DELETE' and request.user.is_authenticated():
-        shelf = Shelf.objects.get(shelf_uuid=request.POST['shelf_id'])
-        favorite_shelf = FavoriteShelf.objects.get(shelf=shelf, user=request.user)
-        favorite_shelf.delete()
-        return HttpResponse(status=204)
+        return HttpResponse(favorite_shelf.favorite_shelf_uuid, status=201)
     
     else:
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
 
-def api_shelf(request, user_name):
-    """Get user_name's favorite shelve"""
+def api_shelf(request, user_name, favorite_shelf_uuid):
+    """get or delete one favorite shelf"""
+    
+    favorite_shelf = get_object_or_404(FavoriteShelf, favorite_shelf_uuid=favorite_shelf_uuid)
+    
+    include_private = False
+        
+    if not favorite_shelf.user.get_profile().favorites_are_private:
+        include_private = True
+            
+    elif request.oauth_token:
+        auth_token = AuthTokens.objects.filter(token=request.oauth_token)
+            
+        # Did we find that token in the DB and is it owned by the owner of the requested shelf?
+        if len(auth_token) == 1 and favorite_shelf.user == auth_token.user:
+            include_private = True
+    
+    if not include_private:
+        return HttpResponse('Not authorized', status=401)
+    
     
     if request.method == 'GET':
-        target_user = get_object_or_404(User, username=user_name)
+        # Build our response
+        serialized_shelves = {}
+        shelves = []
         
-        bundled_response = _bundle_user_shelves(target_user)
+        shelves.append(_serialize_shelf(favorite_shelf.shelf))
+    
+        serialized_shelves.update({
+            'docs': shelves,
+            'num': len(shelves)
+        })
         
-        return HttpResponse(
-            json.dumps(bundled_response, cls=DjangoJSONEncoder),
-            mimetype='application/json',
-        )
+        return HttpResponse(json.dumps(serialized_shelves, cls=DjangoJSONEncoder), mimetype='application/json')
+            
+    elif request.rfc5789_method == 'DELETE':
+        # Remove a favorited shelf from list
+        
+        favorite_shelf.delete()
+        return HttpResponse(status=204)
 
     else:
-        return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
+        return HttpResponseNotAllowed(['DELETE', 'GET'])
     
     
 def _bundle_user_shelves(target_user):
@@ -91,7 +150,7 @@ def _bundle_user_shelves(target_user):
 
 
 
-def api_user_create(request):
+def api_user(request):
     """create/delete favorited users
     """
     
@@ -120,13 +179,13 @@ def api_user_create(request):
     else:
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
 
-def api_user(request, user_name):
+def api_users(request, user_name):
     """Get user_name's favorite users"""
     
     if request.method == 'GET':
         target_user = get_object_or_404(User, username=user_name)
         
-        bundled_response = _bundle_users(target_user)
+        bundled_response = _serialize_users(target_user)
         
         return HttpResponse(
             json.dumps(bundled_response, cls=DjangoJSONEncoder),
@@ -136,9 +195,8 @@ def api_user(request, user_name):
     else:
         return HttpResponseNotAllowed(['POST', 'PUT', 'DELETE', 'GET'])
     
-    
-def _bundle_users(target_user):
-    context = {}
+def _serialize_users(target_user):
+    serialized_users = {}
 
     users = []
     
@@ -153,9 +211,25 @@ def _bundle_users(target_user):
             }
             users.append(user_to_serialize)
 
-    context.update({
+    serialized_users.update({
         'docs': users,
         'num': len(users)
     })
 
-    return context
+    return serialized_users
+
+def _serialize_shelf(shelf):
+    """Turn a shelf from a model object to something that can be jsonized"""
+    items = Item.objects.filter(shelf=shelf)
+    item_list = [serialize_item(item) for item in items]
+
+    return {
+        'shelf_uuid': str(shelf.shelf_uuid),
+        'shelf_id': str(shelf.id),
+        'user_name': shelf.user.username,
+        'name': shelf.name,
+        'description': shelf.description,
+        'creation_date': shelf.creation_date,
+        'is_private': shelf.is_private,
+        'slug': shelf.slug,
+    }

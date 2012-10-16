@@ -124,6 +124,8 @@ class Creator(models.Model):
     
 class FavoriteUser(models.Model):
     """Users can favorite (or follow or star) another user"""
+    
+    favorite_user_uuid = UUIDField(auto=True)
     follower = models.ForeignKey(User, related_name='user_follower')
     leader = models.ForeignKey(User, related_name='user_leader    ')
     
@@ -136,6 +138,7 @@ class FavoriteUser(models.Model):
 class FavoriteShelf(models.Model):
     """Users can favorite (or follow or star) a shelf"""
     
+    favorite_shelf_uuid = UUIDField(auto=True)
     user = models.ForeignKey(User)
     shelf = models.ForeignKey(Shelf)
     

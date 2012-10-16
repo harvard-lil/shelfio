@@ -52,7 +52,7 @@ def api_shelf_by_uuid(request, url_shelf_uuid):
             return HttpResponse(status=404)
 
         serialized_shelf = serialize_shelf(shelf)
-        return HttpResponse(json.dumps(serialized_shelf, cls=DjangoJSONEncoder), mimetype='application/json')    
+        return HttpResponse(json.dumps(serialized_shelf, cls=DjangoJSONEncoder), mimetype='application/json')
 
     if request.rfc5789_method == 'DELETE':
         shelf = get_object_or_404(Shelf, shelf_uuid=url_shelf_uuid)
