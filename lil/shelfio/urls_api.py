@@ -6,6 +6,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('lil.shelfio.views.api.v1',
 
+    #Docs
+    url(r'^developer/$', 'developer.simple.intro_and_common', name='developer_docs_intro'), # http://shelf.io/api/search/
+
     # Search
     url(r'^(?P<target_type>[item|user]+)/search/$', 'search.api_search', name='api_search'), # http://shelf.io/api/search/
 
@@ -28,8 +31,6 @@ urlpatterns = patterns('lil.shelfio.views.api.v1',
     # Favorites
     url(r'^users/(?P<user_name>[a-zA-Z0-9\-]+)/favorites/$', 'favorites.api_users', name='favorites_api_users'), # http://shelf.io/api/favorite/user/, username's favorites
     url(r'^users/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/(?P<favorite_user_uuid>[a-zA-Z0-9\-]+)/$', 'favorites.api_user', name='favorites_api_user'), # http://shelf.io/api/favorite/user/
-    
-
     url(r'^shelves/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/$', 'favorites.api_shelves', name='favorites_api_shelves'), # http://shelf.io/api/favorite/shelf/
     url(r'^shelves/favorites/(?P<user_name>[a-zA-Z0-9\-]+)/(?P<favorite_shelf_uuid>[a-zA-Z0-9\-]+)/$', 'favorites.api_shelf', name='favorites_api_shelf'), # http://shelf.io/api/favorite/shelf/obama/
 

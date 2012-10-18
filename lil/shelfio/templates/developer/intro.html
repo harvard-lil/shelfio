@@ -1,0 +1,42 @@
+{% extends "layouts/base.html" %}
+
+{% block content %}
+	<article class="two-thirds user">
+		<aside>
+			{% include "developer/api_menu.html" %}
+		</aside>
+
+		<div class="content">
+			<article class="shelf-overview island">
+				<header>
+					<p>Common Pieces</p>
+				</header>		
+				<section>
+					<p>The Shelf.io API allows developers to interact with Shelf.io without using the Shelf.io web interface. Have a look at some of the common API pieces below and reference the Item, Shelf, User, Authorizations, and Favorites for details.</p>
+					<p>The latest (and only) version of the API is version one, or V1. Its base URL is http://api.shelf.io/v1/. It is a REST-like API. It responds to HTTP verbs; GET, PUT, PATCH, POST, DELETE, and responds in JSON.</p>
+					<h2>Use an auth token</h2>
+					<p>Some resources in Shelf.io are protected in order to provide some privacy. To access these protected resources, you'll need to supply an OAuth token. You can supply the token by placing it in the HTTP header or by tacking it on the parameter list:</p>
+					<p>In HTTP header</p>
+					<code>
+						curl -v --header "Authorization: Token 63fd57ca-your-auth-token-c42c033233c6" "http://api.shelf.io/v1/path/to/your/resource/"
+					</code>
+					<p>In parameter list</p>
+					<code>
+						curl -v "http://api.shelf.io/v1/path/to/your/resource/?access_token=63fd57ca-your-auth-token-c42c033233c6"
+					</code>
+					<h2>Use HTTPS</h2>
+					<p>Both http://api.shelf.io/v1/ and https://api.shelf.io/v1/ are available. You should use https when possible. You don't want to just put your token out in the open.</p>
+					<h2>JSONP Support</h2>
+					<p>JSONP is a technique that can be used to sidestep the Same Origin Policy found in most browsers (link to http://en.wikipedia.org/wiki/Same_origin_policy). To use the JSONP technique, simply append a parameter called callback, with a value, to your request.</p>
+					<code>
+						https://api.shelf.io/v1/path/to/your/resource/?callback=foo
+						
+						foo({
+							"your_response": {"wrapped": "up in a method call"}
+							})
+					</code>
+				</section>
+			</article>
+		</div>
+	</article>
+{% endblock content %}
