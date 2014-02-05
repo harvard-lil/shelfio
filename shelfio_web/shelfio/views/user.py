@@ -4,7 +4,6 @@ from shelfio import indexer
 from shelfio.models import Shelf, FavoriteUser, EditProfileForm, NewShelfForm
 from django.conf import settings
 
-
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.shortcuts import redirect, render_to_response, get_object_or_404
@@ -116,7 +115,7 @@ def _get_user_data(request, user_name):
         'user_name': target_user.username,
         'email': target_user.email,
         'docs': shelves,
-        'SHELFIO_API_LOCATION': SHELFIO_API['LOCATION'],
+        'SHELFIO_API_LOCATION': settings.SHELFIO_API['LOCATION'],
 
     })
 
