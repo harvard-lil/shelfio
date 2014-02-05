@@ -21,7 +21,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
     target_user = get_object_or_404(User, username=url_user_name)
     target_shelf = get_object_or_404(Shelf, user=target_user, slug=url_shelf_slug)
     shelf_name = target_shelf.name
-    api_response = api.api_shelf(request, target_shelf)
+    api_response = api.api_shelf_by_uuid(request, target_shelf.shelf_uuid)
     
     if request.user.is_authenticated():
         referer_fallback = reverse('user_home', args=[request.user.username])
@@ -60,7 +60,7 @@ def user_shelf(request, url_user_name, url_shelf_slug):
         'shelf_slug': shelf['slug'],
         'shelf_domain' : Site.objects.get_current().domain,
         'shelf_description': shelf['description'],
-        'SHELFIO_API_LOCATION': SHELFIO_API['LOCATION'],
+        'SHELFIO_API_LOCATION': settings.SHELFIO_API['LOCATION'],
     }
     context.update(csrf(request))
 

@@ -18,14 +18,14 @@
 			  <p>Share this shelf: <a class="button neutral icon-twitter" href="" target="_blank"></a> <a class="button neutral embed" href=""><> Embed</a>
         </p>
         <!--<textarea style="display:none;"><iframe width="400" height="400" src="http://shelf.io/{{ shelf_user.username }}/embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>-->
-        <textarea style="display:none;"><iframe width="400" height="400" src="http://{{shelf_domain}}{% url user_home shelf_user.username %}embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>
+        <textarea style="display:none;"><iframe width="400" height="400" src="http://{{shelf_domain}}{% url 'user_home' shelf_user.username %}embed/{{ shelf_slug }}/" frameborder="0" allowfullscreen></iframe></textarea>
       </div>
 		</section>
 
 		<section class="right-column">
-			<h1>{{ shelf_name }} {% if is_owner %}<a href="{% url user_item_create %}?shelf={{ shelf_name }}" title="Add Item" class="button positive immediate">+</a>{% endif %}</h1>
+			<h1>{{ shelf_name }} {% if is_owner %}<a href="{% url 'user_item_create' %}?shelf={{ shelf_name }}" title="Add Item" class="button positive immediate">+</a>{% endif %}</h1>
 			
-			<h2>by <a href="{% url user_home shelf_user.username %}">{{ shelf_user.username }}</a></h2>
+			<h2>by <a href="{% url 'user_home' shelf_user.username %}">{{ shelf_user.username }}</a></h2>
 			<p>{{ shelf_description }}</p>
 			<div id="active-item"></div>
 		</section>
