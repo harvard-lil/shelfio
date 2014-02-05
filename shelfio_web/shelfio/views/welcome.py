@@ -1,6 +1,6 @@
 import json
 
-from lil.shelfio.views.api.v1.roulette import api_shelf
+from shelfio.views.api.v1.roulette import api_shelf
 
 from django.contrib.sites.models import Site
 from django.http import HttpResponseRedirect

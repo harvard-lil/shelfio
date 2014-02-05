@@ -2,9 +2,9 @@ import random
 import string
 import hashlib
 
-from lil.shelfio import utils
-from lil.shelfio import indexer
-from lil.shelfio.fields import UUIDField
+from shelfio import utils
+from shelfio import indexer
+from shelfio.fields import UUIDField
 
 from django.db import models
 from django import forms

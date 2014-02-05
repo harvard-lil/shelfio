@@ -54,7 +54,7 @@ https://github.com/edsu/pymarc
 If you're using MySQL your database creation process might look something like this (these DB credentials should match what you have in settings.py):
 
     mysql -u root -psomepasshere
-    mysql> create database shelfio_dev; grant all on shelfio_dev.* to shelfio_dev@'%' identified by 'shelfio_dev';
+    mysql> create database shelfio_dev character set utf8; grant all on shelfio_dev.* to shelfio_dev@'%' identified by 'shelfio_dev';
     mysql -u shelfio_dev -psomepasshere shelfio_dev
 
 Create your tables:

@@ -5,7 +5,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('lil.shelfio.views',
+urlpatterns = patterns('shelfio.views',
 
     # Common Pages
     url(r'^$', 'welcome.welcome', name='welcome'),

@@ -1,8 +1,8 @@
 import logging
 import json
 
-from lil.shelfio.models import Shelf, Item, Creator, AuthTokens
-from lil.shelfio.views.api.v1.item import serialize_item
+from shelfio.models import Shelf, Item, Creator, AuthTokens
+from shelfio.views.api.v1.item import serialize_item
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder

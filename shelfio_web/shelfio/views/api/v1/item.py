@@ -1,7 +1,7 @@
 import logging
 import json
 
-from lil.shelfio.models import Shelf, Item, Creator, AuthTokens
+from shelfio.models import Shelf, Item, Creator, AuthTokens
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
