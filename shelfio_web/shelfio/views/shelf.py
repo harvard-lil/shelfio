@@ -1,8 +1,8 @@
 import json
 import logging
 
-from lil.shelfio.models import Shelf, FavoriteShelf
-from lil.shelfio.views.api.v1 import shelf as api
+from shelfio.models import Shelf, FavoriteShelf
+from shelfio.views.api.v1 import shelf as api
 
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import Http404
@@ -16,7 +16,7 @@ from django.contrib.sites.models import Site
 logger = logging.getLogger(__name__)
 
 try:
-    from lil.shelfio.local_settings import *
+    from shelfio.local_settings import *
 except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 

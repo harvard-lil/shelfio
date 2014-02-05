@@ -1,10 +1,10 @@
 from django.http import  HttpResponseRedirect
-from lil.shelfio import indexer
+from shelfio import indexer
 from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.core.context_processors import csrf
 from django.contrib import auth
-from lil.shelfio.models import Shelf, UserRegForm
+from shelfio.models import Shelf, UserRegForm
 
 def process_register(request):
     """Register a new user"""

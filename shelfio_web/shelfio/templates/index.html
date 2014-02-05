@@ -7,11 +7,11 @@
 			<h2>Build and share shelves of books, movies, albums, and most anything on the Web</h2>
 			<p id="call-to-action">
 				{% if not user.is_authenticated %}
-				<a href="{% url process_register %}" class="button positive icon-ok immediate">Get Started</a>
+				<a href="{% url 'process_register' %}" class="button positive icon-ok immediate">Get Started</a>
 				{% endif %}
 			</p>
 			<h3>Easy in</h3>
-			<p class="selling-desc">Send things to Shelf.io using a simple <a href="{% url bookmark %}">bookmark</a></p>
+			<p class="selling-desc">Send things to Shelf.io using a simple <a href="{% url 'bookmark' %}">bookmark</a></p>
 			<h3>From anywhere</h3>
 			<p class="selling-desc">When you add an item to a shelf we extract the details for you, saving your fingers some typing</p>
 			<h3>You are not a commodity</h3>

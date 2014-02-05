@@ -1,8 +1,8 @@
 import json
 import logging
 
-from lil.shelfio import indexer
-from lil.shelfio.models import Shelf, FavoriteUser, AuthTokens, EditProfileForm, NewShelfForm
+from shelfio import indexer
+from shelfio.models import Shelf, FavoriteUser, AuthTokens, EditProfileForm, NewShelfForm
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
@@ -18,7 +18,7 @@ from django.contrib import messages
 logger = logging.getLogger(__name__)
 
 try:
-    from lil.shelfio.local_settings import *
+    from shelfio.local_settings import *
 except ImportError, e:
     logger.error('Unable to load local_settings.py:', e)
 

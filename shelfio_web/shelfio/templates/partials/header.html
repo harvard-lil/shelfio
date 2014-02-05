@@ -1,20 +1,20 @@
 <header class="global-header">
 	<nav>
 		<h1>
-			<a href="{% url welcome %}">Shelf.io</a>
+			<a href="{% url 'welcome' %}">Shelf.io</a>
 		</h1>
 		<ul>
-		  <li><form id="search-form" action="{% url search %}" method="get">
+		  <li><form id="search-form" action="{% url 'search' %}" method="get">
 		    <input type="hidden" name="type" value="item">
 			  <input placeholder="search" name="q">
 			  <button class="button header-icon-search" type="submit"></button>
 			</form>
 			{% if user.is_authenticated %}
-				<li><a class="icon-user" href="{% url welcome %}{{ user.username }}">{{ user.username }}</a></li>
-				<li><a class="icon-logout" href="{% url auth_logout %}">Logout</a></li>
+				<li><a class="icon-user" href="{% url 'welcome' %}{{ user.username }}">{{ user.username }}</a></li>
+				<li><a class="icon-logout" href="{% url 'auth_logout' %}">Logout</a></li>
 			{% else %}
-				<li><a class="icon-login" href="{% url auth_login %}">Login</a></li>
-				<li><a class="icon-register" href="{% url process_register %}">Register</a></li>
+				<li><a class="icon-login" href="{% url 'auth_login' %}">Login</a></li>
+				<li><a class="icon-register" href="{% url 'process_register' %}">Register</a></li>
 			{% endif %}
 		</ul>
 	</nav>

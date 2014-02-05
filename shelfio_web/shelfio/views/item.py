@@ -2,9 +2,9 @@ import logging
 import urllib
 import json
 
-from lil.shelfio.utils import fill_with_get
-from lil.shelfio.models import Shelf, Creator, AddItemForm, CreatorForm
-from lil.shelfio.views.api.v1.item import serialize_item
+from shelfio.utils import fill_with_get
+from shelfio.models import Shelf, Creator, AddItemForm, CreatorForm
+from shelfio.views.api.v1.item import serialize_item
 
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
