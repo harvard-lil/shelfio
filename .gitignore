@@ -1,6 +1,5 @@
 *.pyc
-lil/settings.py
-lil/shelfio/local_settings.py
+shelfio_web/settings.py
 .project
 .pydevproject
 .DS_Store
