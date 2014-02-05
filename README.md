@@ -95,12 +95,7 @@ Config your Django project settings:
     cd lil
     cp settings.py.example settings.py
 
-(At a minimum, youll probably update LOGGING, DATABASES and SECRET_KEY)
-
-Configure your Django app (local settings):
-
-    cd shelfio
-    cp local_settings.example.py local_settings.py
+(At a minimum, you'll probably update LOGGING, DATABASES and SECRET_KEY)
 
 Start the Django web server:
 

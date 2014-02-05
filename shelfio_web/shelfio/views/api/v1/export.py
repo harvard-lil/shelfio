@@ -1,18 +1,13 @@
 import csv
 import logging
 
-from lil.shelfio.models import Item, Shelf
+from shelfio.models import Item, Shelf
 
+from django.conf import settings
 from django.shortcuts import get_object_or_404, HttpResponse
 from django.forms.models import model_to_dict
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
-
 
 def export_shelf_as_csv(reqeust, shelf_uuid):
     """Receive a shelf uuid, return a csv of the serialized shelf

@@ -4,7 +4,7 @@ from django.utils import unittest
 from django.contrib.auth.models import User
 from django.test.client import Client
 from django.core.urlresolvers import reverse
-from lil.shelfio.models import Shelf, AuthTokens, FavoriteUser
+from shelfio.models import Shelf, AuthTokens, FavoriteUser
 
 class FavoritesUserAPITestCase(unittest.TestCase):
     """Test the Shelf API

@@ -12,9 +12,9 @@ from lxml import objectify
 from xml.etree.ElementTree import fromstring, ElementTree
 from BeautifulSoup import BeautifulSoup
 
-from lil.shelfio.utils import get_year_from_raw_date, get_numeric_page_count
+from shelfio.utils import get_year_from_raw_date, get_numeric_page_count
 
-
+from django.conf import settings
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from django.contrib import messages
@@ -22,11 +22,6 @@ from django.template import RequestContext
 
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
 
 def incoming(request):
     """Regex the url and if we find something we support, pass it off to that

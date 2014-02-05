@@ -2,6 +2,8 @@ import logging
 
 from shelfio import indexer
 from shelfio.models import Shelf, FavoriteUser, EditProfileForm, NewShelfForm
+from django.conf import settings
+
 
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
@@ -13,11 +15,6 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 logger = logging.getLogger(__name__)
-
-try:
-    from shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
 
 def user_home(request, user_name):
     """A user's home. Includes profile and list of shelves."""

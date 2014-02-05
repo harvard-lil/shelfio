@@ -12,14 +12,10 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.context_processors import csrf
 from django.contrib.sites.models import Site
+from django.conf import settings
+
 
 logger = logging.getLogger(__name__)
-
-try:
-    from shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
-
 
 def user_shelf(request, url_user_name, url_shelf_slug):
     """A user's shelf."""

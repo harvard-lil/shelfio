@@ -13,7 +13,7 @@ from django.contrib.auth.models import User
 from django.test.client import Client
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
-from lil.shelfio.models import Shelf, Item, Creator, AuthTokens 
+from shelfio.models import Shelf, Item, Creator, AuthTokens 
 
 """
 class MacroTestCase(unittest.TestCase):

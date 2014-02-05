@@ -12,16 +12,10 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
-
+from django.conf import settings
 from django.contrib import messages
 
 logger = logging.getLogger(__name__)
-
-try:
-    from shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
-
 
 @csrf_exempt
 def api_user(request, url_user_name):

@@ -1,15 +1,12 @@
 from django.utils.encoding import smart_unicode
+from django.conf import settings
+
 import json
 import httplib
 import urllib2
 import logging
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
 
 
 def index_user(user):
@@ -47,7 +44,7 @@ def index_item(item):
     """Receive an item model, pass it off to the elasticsearch indexer
     """
     
-    from lil.shelfio.models import Creator
+    from shelfio.models import Creator
     creators = Creator.objects.filter(item=item.id)
     creators_list = [creator.name for creator in creators]
 

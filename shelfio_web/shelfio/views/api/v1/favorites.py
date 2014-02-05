@@ -1,20 +1,16 @@
 import json
 import logging
 
-from lil.shelfio.models import Shelf, FavoriteShelf, FavoriteUser, User, AuthTokens, Item
-from lil.shelfio.views.api.v1.shelf import serialize_item
+from shelfio.models import Shelf, FavoriteShelf, FavoriteUser, User, AuthTokens, Item
+from shelfio.views.api.v1.shelf import serialize_item
 
+from django.conf import settings
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import ValidationError
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
 
 def api_shelves(request, user_name):
     """get all of user's favorited shelves or create a new favorite shelf

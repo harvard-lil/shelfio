@@ -1,8 +1,9 @@
 import json
 import logging
 import base64
+from django.conf import settings
 
-from lil.shelfio.models import AuthTokens
+from shelfio.models import AuthTokens
 
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_exempt
@@ -12,11 +13,6 @@ from django.shortcuts import get_object_or_404
 
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
 
 @csrf_exempt
 def api_tokens(request):

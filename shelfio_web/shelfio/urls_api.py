@@ -4,7 +4,7 @@ from django.contrib import admin
 
 admin.autodiscover()
 
-urlpatterns = patterns('lil.shelfio.views.api.v1',
+urlpatterns = patterns('shelfio.views.api.v1',
 
     #Docs
     url(r'^developer/$', 'developer.simple.intro_and_common', name='developer_docs_intro'), # http://shelf.io/api/search/

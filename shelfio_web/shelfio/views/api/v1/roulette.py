@@ -5,18 +5,13 @@ import logging
 from shelfio.views.api.v1.shelf import serialize_shelf
 from shelfio.models import Shelf
 
+from django.conf import settings
 from django.db.models import Count
 from django.views.decorators.csrf import csrf_exempt
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
-
-try:
-    from shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
-
 
 def get_shelf():
     """get a random shelf. 

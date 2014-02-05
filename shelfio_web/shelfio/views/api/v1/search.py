@@ -4,18 +4,14 @@ import urllib2
 import logging
 import hashlib
 
-from lil.shelfio.models import User, Shelf, Item
+from shelfio.models import User, Shelf, Item
 
+from django.conf import settings
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 
 
 logger = logging.getLogger(__name__)
-
-try:
-    from lil.shelfio.local_settings import *
-except ImportError, e:
-    logger.error('Unable to load local_settings.py:', e)
     
 def api_search(request, target_type):
     """API to item search interface.
