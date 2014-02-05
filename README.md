@@ -27,8 +27,6 @@ If you're using MySQL to power Django, you'll need the driver:
     cd MySQL-python-1.2.3
     sudo python setup.py install
 
-If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
-
 Install Bottlenose so that we can get  Amazon Product API data, https://github.com/dlo/bottlenose
 
     sudo easy_install bottlenose
@@ -57,14 +55,6 @@ If you're using MySQL your database creation process might look something like t
     mysql> create database shelfio_dev character set utf8; grant all on shelfio_dev.* to shelfio_dev@'%' identified by 'shelfio_dev';
     mysql -u shelfio_dev -psomepasshere shelfio_dev
 
-Create your tables:
-    python manage.py syncdb
-
-Load some data:
-    python manage.py loaddata shelfio/fixtures/bootstrap.json
-
-(this should create a user with the username of 'willy' and the password of 'pass')
-
 ###Setup mail
 If you want the "reset password" functionality to work, you'll need a mail server.
 
@@ -79,7 +69,7 @@ If you're on centos, something like this will get you close: https://gist.github
 
 Oh, and you'll probably want to bump the open files limit up: http://www.elasticsearch.org/guide/reference/setup/configuration.html
 
-###Install shelf.io
+###Install shelf.io and load some data
 
 Clone the repo:
 
@@ -96,6 +86,16 @@ Config your Django project settings:
     cp settings.example.py settings.py
 
 (At a minimum, you'll probably update LOGGING, DATABASES and SECRET_KEY)
+
+Create your tables:
+    python manage.py syncdb
+
+If you get an error after the Django syncdb, have a look at http://stackoverflow.com/questions/6383310/python-mysqldb-library-not-loaded-libmysqlclient-18-dylib
+
+Load some data:
+    python manage.py loaddata shelfio/fixtures/bootstrap.json
+
+(this should create a user with the username of 'willy' and the password of 'pass')
 
 Start the Django web server:
 
