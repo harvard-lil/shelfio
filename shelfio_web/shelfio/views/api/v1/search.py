@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 def api_search(request, target_type):
     """API to item search interface.
     """
-    url = ELASTICSEARCH['HOST'] + target_type + '/_search'
+    url = settings.ELASTICSEARCH['HOST'] + target_type + '/_search'
     headers = {'Content-Type': 'application/json'}
     
     query = '*'

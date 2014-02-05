@@ -256,3 +256,16 @@ ELASTICSEARCH = {
 SHELFIO_API = {
     'LOCATION': '/api/v1',
 }
+
+# Email business
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = "help@shelf.io"
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'

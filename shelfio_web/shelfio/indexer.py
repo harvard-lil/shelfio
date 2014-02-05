@@ -67,7 +67,7 @@ def index_item(item):
 def expand_the_waistband(index_name, data):
     """Send to elasticsearch. Expand that elastic waistband"""
     
-    url = 'http://' + ELASTICSEARCH['HOST'] + '/' + index_name + '/' + data['_id']
+    url = 'http://' + settings.ELASTICSEARCH['HOST'] + '/' + index_name + '/' + data['_id']
     
     headers = {'Content-Type': 'application/json'}
     
@@ -122,7 +122,7 @@ def shrink_the_waistband(index_name, data):
     
     #url = 'http://hlsl7.law.harvard.edu:9200/shelfio_matt/'+index_name + '/' + data['_id']
     
-    conn = httplib.HTTPConnection(ELASTICSEARCH['HOST'])
-    conn.request('DELETE', ELASTICSEARCH['COLLECTION'] + data['_id'])
+    conn = httplib.HTTPConnection(settings.ELASTICSEARCH['HOST'])
+    conn.request('DELETE', settings.ELASTICSEARCH['COLLECTION'] + data['_id'])
     resp = conn.getresponse()
     content = resp.read()

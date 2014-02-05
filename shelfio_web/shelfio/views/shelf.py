@@ -14,7 +14,6 @@ from django.core.context_processors import csrf
 from django.contrib.sites.models import Site
 from django.conf import settings
 
-
 logger = logging.getLogger(__name__)
 
 def user_shelf(request, url_user_name, url_shelf_slug):
