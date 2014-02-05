@@ -93,7 +93,7 @@ Get the develop branch:
 Config your Django project settings:
 
     cd lil
-    cp settings.py.example settings.py
+    cp settings.example.py settings.py
 
 (At a minimum, you'll probably update LOGGING, DATABASES and SECRET_KEY)
 
